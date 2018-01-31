@@ -6,6 +6,8 @@ const app = require("../server.js");
 
 chai.should();
 
+should = chai.should();
+
 chai.use(chaiHttp);
 
 describe("index page", function() {

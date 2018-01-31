@@ -4,6 +4,6 @@ deploy:
   provider: heroku
   api_key:
     secure: TIFIri+PMEni5PFsUkeZN3Tk3RLfQz8O+E5HD5Pr5T7vWbuVB0myt1nfey8AKwuRG4nUA29pX6tWUZgeMVZNzoGs5q+rsJXx9iihOXtpVWlJrkZeFBBq6oJJiltw0WsBMc3UFWW9wjTl1mZot/orJ64p6BvhlDGRAZmLFhwgh0rXr9yixeVI1/oPdo1NS9+VRNm7wrkYPPJDjEgEjcwpC9ZsHRAmAWtEoJs3MlX+sndDdqKCQoyhtme3MsHVMPsHSp6OuQN26ANJveTR5non+wHTnR4Dr1J7xo5Js1RqgWP5ZIC268/OKyL1wzTz4gp709k4kj/JnZj7ASjEfMjmMCUsPP77WcSsoXb3r/K+Qv0jLfHcp5YQGEUjJ24FhNCo4SWYa+Wxk2yeL///4nJWlub0YZVIC6jKuvvFjwjIheya0O1sxhVdKb53+DMFswqPbZo+jWnliLocW/f/Kag718i8Vc5J/ORC8K7yp1w7D6z6nBeKGCgsOEAuSM24c+3cLJS06y9TKMJQxrBbivHNEWb3WSn5jWNBLF4Bc9J/2hCimnmdUa57f79EILfkI3q4WBWjm2/OS73hE3l7svmidW6De1o+FXFzJ+NkHHNBjvhsgoCJHGWzmdnmW5ANiD5GLOm94GUiG+LLBAOpI5z/rd33xUFXfnT+2oRE41Nlckg=
-  app: stark-ridge-37927
+  app: nosemap
   on:
     repo: MollyJeanB/NoseMap
