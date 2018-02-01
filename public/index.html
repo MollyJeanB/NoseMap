@@ -3,9 +3,51 @@
   <head>
     <meta charset="utf-8">
     <title>Nose Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+       <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
     <h1>Nose Map</h1>
     <p>Inspired by Kate McLean's Smell Maps</p>
+    <div id="map"></div>
+    <button class="show-new-smell-form">Add New Smell</button>
+    <div class="new-smell hidden">
+      <form class="smell-form">
+        <div>
+          <p>To record location, click on map or use current location.</p>
+          <label for="location">Use my location</label>
+          <input type="radio" id="location">
+        </div>
+        <label for="title">Smell Title</label>
+        <input type="text" id="title" class="smell-title">
+        <label for="description">Description</label>
+        <input type="text" id="description" class="smell-description">
+        <label for="intensity">Intensity</label>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
+        </div>
+        <fieldset>
+          <p>Category</p>
+          <label for="food">Food and Drink</label>
+          <input type="radio" id="food">
+          <label for="waste">Waste</label>
+          <input type="radio" id="waste">
+          <label for="nature">Nature and Environment</label>
+          <input type="radio" id="nature">
+          <label for="exhaust">Exhaust and Industrial</label>
+          <input type="radio" id="exhaust">
+          <label for="body">Body Odor</label>
+          <input type="radio" id="body">
+          <label for="other">Other</label>
+          <input type="radio" id="other">
+          <input type="text" id="otherfill">
+        </fieldset>
+        <button type="submit" class="create-smell-button">Create Smell</button>
+      </form>
+    </div>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="client.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480&callback=initMap">
+</script>
   </body>
 </html>

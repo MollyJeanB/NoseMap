@@ -1,0 +1,9 @@
+#map {
+  width: 95%;
+  height: 400px;
+  background-color: grey;
+}
+
+input {
+  display: block;
+}
