@@ -64,7 +64,7 @@ function displayMapData(data) {
     let smellPosition = data.mySmells[index].smellLocation;
 
     let smellText = `<div id="content" class="smell-box">
-          <h1 class="smell-title">${smellTitle}</h1>
+          <h2 class="smell-title">${smellTitle}</h2>
           <p>${smellDescription}</p>
           <p>${smellCategory}</p>
           <p>${smellCreated}</p>
