@@ -11,43 +11,56 @@
     <header class="page-header">
       <h1>Nose Map</h1>
       <p class="subhead">Inspired by Kate McLean's Smell Maps</p>
-      <button class="show-new-smell-form">Add New Smell</button>
+      <button class="show-new-smell-form" id="showform">Add New Smell</button>
     </header>
     <main class="content-container">
-    <div id="map"></div>
     <div class="new-smell hidden">
-      <form class="smell-form">
-        <!-- <div>
-          <p>To record location, click on map or use current location.</p>
-          <label for="location">Use my location</label>
-          <input type="radio" id="location">
-        </div> -->
-        <label for="title">Smell Title</label>
-        <input type="text" id="title" class="smell-title" required>
-        <label for="description">Description</label>
-        <input type="text" id="description" class="smell-description">
-        <label for="intensity">Intensity</label>
+      <form class="smell-form" id="smellsubmit">
+        <label for="title" class="text-field-title">Smell Title</label>
+        <input type="text" id="title" class="smell-title" maxlength="30" required>
+        <label for="description" maxlength="200" class="text-field-title">Description</label>
+        <textarea wrap="hard" id="description" class="smell-description"></textarea>
+        <label for="intensity" class="text-field-title">Intensity</label>
         <div class="slidecontainer">
           <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
         </div>
-        <fieldset id="smell-category">
-          <p>Category</p>
-          <label for="food">Food and Drink</label>
-          <input type="radio" name="category" id="food">
-          <label for="waste">Waste</label>
-          <input type="radio" name="category" id="waste">
-          <label for="nature">Nature and Environment</label>
-          <input type="radio" name="category" id="nature">
-          <label for="exhaust">Exhaust and Industrial</label>
-          <input type="radio" name="category" id="exhaust">
-          <label for="body">Body Odor</label>
-          <input type="radio" name="category" id="body">
-          <label for="other">Other</label>
-          <input type="radio" name="category" id="other">
+        <p class="category-title">Category</p>
+        <fieldset id="smell-category" class="smell-category-box">
+          <div class="radio-category first">
+            <input type="radio" name="category" id="food" value="food">
+            <label for="food">Food & Drink</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="waste" value="waste">
+            <label for="waste">Waste</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="nature" value="nature">
+            <label for="nature">Nature & Environment</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="exhaust" value="exhaust">
+            <label for="exhaust">Exhaust & Industrial</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="body" value="body">
+            <label for="body">Body Odor</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="other" value="other">
+            <label for="other">Other</label>
+          </div>
         </fieldset>
         <button type="submit" class="create-smell-button">Create Smell</button>
       </form>
     </div>
+    <div class="mapcontain">
+      <div class="bullseye hidden"></div>
+      <div id="map"></div>
+    </div>
+    <!-- <div id="content" class="bubble">
+      New Smell!
+    </div> -->
   </main>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script src="client.js"></script>
