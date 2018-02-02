@@ -52,6 +52,7 @@ function getCurrentPositionSuccess(position) {
   });
 
   displayMapData(MOCK_SMELLS);
+  listenNewSmell(myPosition);
 }
 
 function displayMapData(data) {
@@ -67,6 +68,8 @@ function displayMapData(data) {
           <p>${smellDescription}</p>
           <p>${smellCategory}</p>
           <p>${smellCreated}</p>
+          <button type="submit">Edit Smell</button>
+          <button>Delete Smell</button>
           </div>`;
 
     const infowindow = new google.maps.InfoWindow({
@@ -94,4 +97,35 @@ function initMap() {
   });
 }
 
-$(initMap);
+function addDataToMap(newSmellData) {
+  MOCK_SMELLS.mySmells.push(newSmellData);
+}
+
+function listenNewSmell(smellPosition) {
+  $(".smell-form").submit(function(event) {
+    event.preventDefault();
+    console.log("new smell submitted");
+    const smellData = {
+      title: $(".smell-title").val(),
+      description: $(".smell-description").val(),
+      category: $("#smell-category :radio:checked").val(),
+      intensity: $(".intensity-slider").val(),
+      // publishedAt: ,
+      smellLocation: smellPosition
+    };
+    addDataToMap(smellData);
+    initMap();
+  });
+}
+
+// function listenUpdate() {}
+//
+// function listenDelete() {}
+
+function handleApp() {
+  initMap();
+  // listenUpdate();
+  // listenDelete();
+}
+
+$(handleApp);

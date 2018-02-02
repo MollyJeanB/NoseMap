@@ -5,42 +5,44 @@
     <title>Nose Map</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
+       <link href="https://fonts.googleapis.com/css?family=Biryani:900|Quattrocento+Sans" rel="stylesheet">
   </head>
   <body>
-    <h1>Nose Map</h1>
-    <p>Inspired by Kate McLean's Smell Maps</p>
+    <header class="page-header">
+      <h1>Nose Map</h1>
+      <p class="subhead">Inspired by Kate McLean's Smell Maps</p>
+      <button class="show-new-smell-form">Add New Smell</button>
+    </header>
     <div id="map"></div>
-    <button class="show-new-smell-form">Add New Smell</button>
     <div class="new-smell hidden">
       <form class="smell-form">
-        <div>
+        <!-- <div>
           <p>To record location, click on map or use current location.</p>
           <label for="location">Use my location</label>
           <input type="radio" id="location">
-        </div>
+        </div> -->
         <label for="title">Smell Title</label>
-        <input type="text" id="title" class="smell-title">
+        <input type="text" id="title" class="smell-title" required>
         <label for="description">Description</label>
         <input type="text" id="description" class="smell-description">
         <label for="intensity">Intensity</label>
         <div class="slidecontainer">
           <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
         </div>
-        <fieldset>
+        <fieldset id="smell-category">
           <p>Category</p>
           <label for="food">Food and Drink</label>
-          <input type="radio" id="food">
+          <input type="radio" name="category" id="food">
           <label for="waste">Waste</label>
-          <input type="radio" id="waste">
+          <input type="radio" name="category" id="waste">
           <label for="nature">Nature and Environment</label>
-          <input type="radio" id="nature">
+          <input type="radio" name="category" id="nature">
           <label for="exhaust">Exhaust and Industrial</label>
-          <input type="radio" id="exhaust">
+          <input type="radio" name="category" id="exhaust">
           <label for="body">Body Odor</label>
-          <input type="radio" id="body">
+          <input type="radio" name="category" id="body">
           <label for="other">Other</label>
-          <input type="radio" id="other">
-          <input type="text" id="otherfill">
+          <input type="radio" name="category" id="other">
         </fieldset>
         <button type="submit" class="create-smell-button">Create Smell</button>
       </form>
