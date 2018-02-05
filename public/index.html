@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nose Map</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
@@ -10,7 +11,6 @@
   <body>
     <header class="page-header">
       <h1>Nose Map</h1>
-      <p class="subhead">Inspired by Kate McLean's Smell Maps</p>
       <button class="show-new-smell-form" id="showform">Add New Smell</button>
     </header>
     <main class="content-container">
@@ -20,10 +20,10 @@
         <input type="text" id="title" class="smell-title" maxlength="30" required>
         <label for="description" maxlength="200" class="text-field-title">Description</label>
         <textarea wrap="hard" id="description" class="smell-description"></textarea>
-        <label for="intensity" class="text-field-title">Intensity</label>
+        <!-- <label for="intensity" class="text-field-title">Intensity</label>
         <div class="slidecontainer">
           <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
-        </div>
+        </div> -->
         <p class="category-title">Category</p>
         <fieldset id="smell-category" class="smell-category-box">
           <div class="radio-category first">
@@ -52,15 +52,18 @@
           </div>
         </fieldset>
         <button type="submit" class="create-smell-button">Create Smell</button>
+        <button type="button" class="close" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
       </form>
     </div>
     <div class="mapcontain">
-      <div class="bullseye hidden"></div>
+      <div class="location hidden">
+        <div class="location-explain">Drag map to set smell location</div>
+        <div class="bullseye"></div>
+      </div>
       <div id="map"></div>
     </div>
-    <!-- <div id="content" class="bubble">
-      New Smell!
-    </div> -->
   </main>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script src="client.js"></script>

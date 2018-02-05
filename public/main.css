@@ -4,28 +4,42 @@
 
 .mapcontain {
   width: 100%;
-  height: 800px;
-  position: absolute;
-  margin: auto;
-  margin-right: auto;
+  height: 900px;
+  position: relative;
 }
 
-.bullseye {
-  width: 20px;
-  height: 20px;
-  border: 3px solid red;
-  border-radius: 100%;
+.location {
   z-index: 2;
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-top: -10px;
-  margin-left: -10px;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+
+.bullseye {
+  width: 70px;
+  height: 70px;
+  border: 25px solid rgba(243, 98, 66, 0.4);
+  border-radius: 100%;
+}
+
+.location-explain {
+  width: 220px;
+  padding: 4px;
+  border-radius: 25px;
+  z-index: 3;
+  position: absolute;
+  margin-top: -26px;
+  margin-left: -72px;
+  text-align: center;
+  background: rgba(243, 98, 66, 0.4);
+  color: white;
 }
 
 #map {
   width: 100%;
-  height: 800px;
+  height: 900px;
   position: absolute;
   background-color: grey;
   margin: auto;
@@ -36,6 +50,7 @@ h1 {
   font-family: "Biryani", sans-serif;
   text-align: center;
   font-size: 40px;
+  margin-bottom: 5px;
 }
 
 .hidden {
@@ -48,11 +63,6 @@ button {
   font-family: "Quattrocento Sans", sans-serif;
 }
 
-.subhead {
-  text-align: center;
-  margin-top: -25px;
-}
-
 .show-new-smell-form {
   width: 150px;
   padding: 2px;
@@ -61,7 +71,7 @@ button {
 }
 
 .page-header {
-  width: 95%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -71,14 +81,14 @@ button {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 378px;
+  height: 370px;
   background-color: rgba(191, 191, 193, 0.85);
   z-index: 1;
 }
 
 .content-container {
   position: relative;
-  width: 98%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -108,12 +118,6 @@ button {
   margin: 3px;
 }
 
-.intensity-slider {
-  display: block;
-  width: 267px;
-  margin: 8px auto 0 3px;
-}
-
 .smell-title {
   width: 267px;
   margin-left: 3px;
@@ -125,7 +129,21 @@ button {
   margin-left: 3px;
 }
 
-@media only screen and (min-width: 700px) {
+.close {
+  border: none;
+  /* background: #F5F5F5; */
+  font-size: 150%;
+  position: absolute;
+  /* color: #d75c37; */
+  right: 0;
+  bottom: 0;
+}
+
+.smell-form {
+  padding-top: 30px;
+}
+
+@media only screen and (min-width: 800px) {
   .new-smell {
     left: 0;
     top: 0;
@@ -139,5 +157,7 @@ button {
 
   #map {
     height: 450px;
+    bottom: 0;
+    left: 0;
   }
 }
