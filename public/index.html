@@ -2,10 +2,74 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Nose Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoseMap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+       <link rel="stylesheet" type="text/css" href="main.css">
+       <link href="https://fonts.googleapis.com/css?family=Biryani:900|Quattrocento+Sans" rel="stylesheet">
   </head>
   <body>
-    <h1>Nose Map</h1>
-    <p>Inspired by Kate McLean's Smell Maps</p>
+    <header class="page-header">
+      <h1>NoseMap</h1>
+      <button class="show-new-smell-form" id="showform">Add New Smell</button>
+    </header>
+    <main class="content-container">
+    <div class="new-smell hidden">
+      <form class="smell-form" id="smellsubmit">
+        <label for="title" class="text-field-title">Smell Title</label>
+        <input type="text" id="title" class="smell-title" maxlength="30" required>
+        <label for="description" maxlength="200" class="text-field-title">Description</label>
+        <textarea wrap="hard" id="description" class="smell-description" required></textarea>
+        <!-- <label for="intensity" class="text-field-title">Intensity</label>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
+        </div> -->
+        <fieldset id="smell-category" class="smell-category-box">
+          <legend class="category-title">Category</legend>
+          <div class="radio-category first">
+            <input type="radio" name="category" id="food" value="food" required>
+            <label for="food">Food & Drink</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="waste" value="waste" required>
+            <label for="waste">Waste</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="nature" value="nature" required>
+            <label for="nature">Nature & Environment</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="exhaust" value="exhaust" required>
+            <label for="exhaust">Exhaust & Industrial</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="body" value="body" required>
+            <label for="body">Body Odor</label>
+          </div>
+          <div class="radio-category">
+            <input type="radio" name="category" id="other" value="other" required>
+            <label for="other">Other</label>
+          </div>
+        </fieldset>
+        <button type="submit" class="create-smell-button" id="createbutton">Create Smell</button>
+        <button class="update-smell-button" id="updatebutton">Update Smell</button>
+        <button type="button" class="close" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+      </form>
+    </div>
+    <div class="mapcontain">
+      <div class="location hidden">
+        <div class="location-explain">Drag map to set smell location</div>
+        <div class="bullseye"></div>
+      </div>
+      <div id="map"></div>
+    </div>
+  </main>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="client.js"></script>
+<script src="mapstyle.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480&callback=initMap">
+</script>
   </body>
 </html>
