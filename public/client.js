@@ -1,229 +1,7 @@
 let map;
 let myPosition;
-let smellId = 2;
+let smellId = 3;
 // let popup, Popup;
-
-let mapStyle = [
-  {
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#242f3e"
-      }
-    ]
-  },
-  {
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#746855"
-      }
-    ]
-  },
-  {
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#242f3e"
-      }
-    ]
-  },
-  {
-    featureType: "administrative.locality",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#d59563"
-      }
-    ]
-  },
-  {
-    featureType: "administrative.neighborhood",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#d59563"
-      }
-    ]
-  },
-  {
-    featureType: "poi.business",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#263c3f"
-      }
-    ]
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#6b9a76"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#38414e"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#212a37"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels.icon",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#9ca5b3"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#746855"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#1f2835"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#f3d19c"
-      }
-    ]
-  },
-  {
-    featureType: "transit",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "transit",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#2f3948"
-      }
-    ]
-  },
-  {
-    featureType: "transit.station",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#d59563"
-      }
-    ]
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#17263c"
-      }
-    ]
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#515c6d"
-      }
-    ]
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#17263c"
-      }
-    ]
-  }
-];
 
 let MOCK_SMELLS = {
   mySmells: [
@@ -232,7 +10,6 @@ let MOCK_SMELLS = {
       title: "poopy garbage",
       description: "diaper and yard waste smells from dumpster",
       category: "waste",
-      intensity: 8,
       publishedAt: "Wed Jan 31 2018 09:26:10 GMT-0800 (PST)",
       smellLocation: {
         lat: 45.5376723,
@@ -244,7 +21,6 @@ let MOCK_SMELLS = {
       title: "herbs and spices",
       description: "very calming, various kinds of tea and baked goods",
       category: "food",
-      intensity: 6,
       publishedAt: "Fri Feb 02 2018 09:26:10 GMT-0800 (PST)",
       smellLocation: {
         lat: 45.5050628,
@@ -252,11 +28,10 @@ let MOCK_SMELLS = {
       }
     },
     {
-      id: 4,
+      id: 3,
       title: "rain on pines",
-      description: "the parl after a storm",
+      description: "the park after a storm",
       category: "nature",
-      intensity: 6,
       publishedAt: "Sun Feb 04 2018 08:26:10 GMT-0800 (PST)",
       smellLocation: {
         lat: 45.52087156,
@@ -298,14 +73,15 @@ function displayMapData(data) {
           <p>${smellDescription}</p>
           <p>${smellCategory}</p>
           <p>${smellCreated}</p>
-          <button type="submit" onlick="listenUpdate(${thisSmellId})" class="edit-smell">Edit Smell</button>
-          <button>Delete Smell</button>
+          <button onclick="listenUpdate(${thisSmellId})"
+class="edit-smell">Edit Smell</button>
+          <button onclick="listenDelete(${thisSmellId})"
+class="delete-smell">Delete Smell</button>
           </div>`;
 
     const infowindow = new google.maps.InfoWindow({
       content: smellText
     });
-
     const markerImage = "https://i.imgur.com/FVQb1CP.png";
 
     const marker = new google.maps.Marker({
@@ -314,13 +90,6 @@ function displayMapData(data) {
       title: smellTitle,
       icon: markerImage
     });
-
-    // popup = new Popup(
-    //   new google.maps.LatLng(myPosition.lat, myPosition.lng),
-    //   document.getElementById("content")
-    // );
-    //
-    // popup.setMap(map);
 
     marker.setMap(map);
 
@@ -341,6 +110,13 @@ function addDataToMap(newSmellData) {
   MOCK_SMELLS.mySmells.push(newSmellData);
 }
 
+// function updateMapData(newDataforId) {
+//   let thisDataId = newDataforId.id;
+//   let thisDataIndex = findIndexArray(thisDataId);
+//   MOCK_SMELLS.mySmells.splice(thisDataIndex, 1);
+//   MOCK_SMELLS.mySmells.push(newDataforId);
+// }
+
 function listenNewSmell() {
   $(".smell-form").submit(event => {
     event.preventDefault();
@@ -353,7 +129,6 @@ function listenNewSmell() {
       title: $(".smell-title").val(),
       description: $(".smell-description").val(),
       category: $("input[name=category]:checked", "#smellsubmit").val(),
-      intensity: $(".intensity-slider").val(),
       publishedAt: thisDate,
       smellLocation: smellPosition
     };
@@ -366,11 +141,65 @@ function listenNewSmell() {
   });
 }
 
-//add find array element in ID function here
+// function listenUpdateButton(updatedSmell) {
+//   $(".update-smell-button").on(click, event => {
+//     event.preventDefault();
+//     console.log("smell update submitted");
+//     let sameDate = updatedSmell.publishedAt;
+//     let sameLocation = updatedSmell.smellLocation;
+//     let sameId = updatedSmell.id;
+//     const updatedSmellData = {
+//       id: sameId,
+//       title: $(".smell-title").val(),
+//       description: $(".smell-description").val(),
+//       category: $("input[name=category]:checked", "#smellsubmit").val(),
+//       publishedAt: sameDate,
+//       smellLocation: sameLocation
+//     };
+//     updateMapData(updatedSmellData);
+//     initMap();
+//     $(".new-smell").addClass("hidden");
+//     document.getElementById("showform").disabled = false;
+//     $(".location").addClass("hidden");
+//   });
+// }
 
-// function listenUpdate(currentSmellId) {}
-//
-// function listenDelete() {}
+// function findInArray(someId) {
+//   return MOCK_SMELLS.mySmells.find(element => {
+//     return element.id == someId;
+//   });
+// }
+
+function findIndexArray(someId) {
+  return MOCK_SMELLS.mySmells.find(element => {
+    return element.id == someId;
+  });
+}
+
+//this function is not yet working as desired
+function listenUpdate(thisSmellId) {
+  console.log(thisSmellId);
+  let thisSmell = findIndexArray(thisSmellId);
+  console.log(thisSmell);
+  const thisTitle = thisSmell.title;
+  const thisDescription = thisSmell.description;
+  const thisCategory = thisSmell.category;
+  $(".new-smell").removeClass("hidden");
+  $(".smell-title").val(thisTitle);
+  $(".smell-description").val(thisDescription);
+  document.forms["smellsubmit"][thisCategory].checked = true;
+  document.getElementById("updatebutton").disabled = false;
+  document.getElementById("createbutton").disabled = true;
+  listenUpdateButton(thisSmell);
+}
+
+function listenDelete(thisSmellId) {
+  console.log(thisSmellId);
+  let thisSmellIndex = findIndexArray(thisSmellId);
+  console.log(thisSmellIndex);
+  MOCK_SMELLS.mySmells.splice(thisSmellIndex, 1);
+  initMap();
+}
 
 function listenShowNewSmell() {
   $(".show-new-smell-form").on("click", event => {
@@ -381,6 +210,7 @@ function listenShowNewSmell() {
     document.getElementById("smellsubmit").reset();
     document.getElementById("showform").disabled = true;
     $(".location").removeClass("hidden");
+    document.getElementById("updatebutton").disabled = true;
   });
 }
 
@@ -396,8 +226,6 @@ function handleApp() {
   initMap();
   listenShowNewSmell();
   listenInfoX();
-  // listenUpdate();
-  // listenDelete();
 }
 
 $(handleApp);

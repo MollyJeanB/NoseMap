@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #242f3e;
+}
+
 .mapcontain {
   width: 100%;
   height: 900px;
@@ -20,7 +24,7 @@
 .bullseye {
   width: 70px;
   height: 70px;
-  border: 25px solid rgba(243, 98, 66, 0.4);
+  border: 25px solid rgba(243, 98, 66, 0.6);
   border-radius: 100%;
 }
 
@@ -33,7 +37,7 @@
   margin-top: -26px;
   margin-left: -72px;
   text-align: center;
-  background: rgba(243, 98, 66, 0.4);
+  background: rgba(243, 98, 66, 0.6);
   color: white;
 }
 
@@ -51,6 +55,7 @@ h1 {
   text-align: center;
   font-size: 40px;
   margin-bottom: 5px;
+  color: #fcca46;
 }
 
 .hidden {
