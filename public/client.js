@@ -110,12 +110,12 @@ function addDataToMap(newSmellData) {
   MOCK_SMELLS.mySmells.push(newSmellData);
 }
 
-// function updateMapData(newDataforId) {
-//   let thisDataId = newDataforId.id;
-//   let thisDataIndex = findIndexArray(thisDataId);
-//   MOCK_SMELLS.mySmells.splice(thisDataIndex, 1);
-//   MOCK_SMELLS.mySmells.push(newDataforId);
-// }
+function updateMapData(newDataforId) {
+  let thisDataId = newDataforId.id;
+  let thisDataIndex = findIndexArray(thisDataId);
+  MOCK_SMELLS.mySmells.splice(thisDataIndex, 1);
+  MOCK_SMELLS.mySmells.push(newDataforId);
+}
 
 function listenNewSmell() {
   $(".smell-form").submit(event => {
@@ -141,34 +141,34 @@ function listenNewSmell() {
   });
 }
 
-// function listenUpdateButton(updatedSmell) {
-//   $(".update-smell-button").on(click, event => {
-//     event.preventDefault();
-//     console.log("smell update submitted");
-//     let sameDate = updatedSmell.publishedAt;
-//     let sameLocation = updatedSmell.smellLocation;
-//     let sameId = updatedSmell.id;
-//     const updatedSmellData = {
-//       id: sameId,
-//       title: $(".smell-title").val(),
-//       description: $(".smell-description").val(),
-//       category: $("input[name=category]:checked", "#smellsubmit").val(),
-//       publishedAt: sameDate,
-//       smellLocation: sameLocation
-//     };
-//     updateMapData(updatedSmellData);
-//     initMap();
-//     $(".new-smell").addClass("hidden");
-//     document.getElementById("showform").disabled = false;
-//     $(".location").addClass("hidden");
-//   });
-// }
+function listenUpdateButton(updatedSmell) {
+  $(".update-smell-button").on("click", event => {
+    event.preventDefault();
+    console.log("smell update submitted");
+    let sameDate = updatedSmell.publishedAt;
+    let sameLocation = updatedSmell.smellLocation;
+    let sameId = updatedSmell.id;
+    const updatedSmellData = {
+      id: sameId,
+      title: $(".smell-title").val(),
+      description: $(".smell-description").val(),
+      category: $("input[name=category]:checked", "#smellsubmit").val(),
+      publishedAt: sameDate,
+      smellLocation: sameLocation
+    };
+    updateMapData(updatedSmellData);
+    initMap();
+    $(".new-smell").addClass("hidden");
+    document.getElementById("showform").disabled = false;
+    $(".location").addClass("hidden");
+  });
+}
 
-// function findInArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
+function findInArray(someId) {
+  return MOCK_SMELLS.mySmells.find(element => {
+    return element.id == someId;
+  });
+}
 
 function findIndexArray(someId) {
   return MOCK_SMELLS.mySmells.find(element => {

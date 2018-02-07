@@ -1,9 +1,11 @@
 "use strict";
 
 const mongoose = require("mongoose");
-moongoose.Promise = global.Promise;
+const moment = require("moment");
 
-const smellSchema = moongoose.Schema({
+mongoose.Promise = global.Promise;
+
+const smellSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
@@ -21,7 +23,9 @@ smellSchema.methods.serialize = function() {
     description: this.description,
     category: this.category,
     smellLocation: this.smellLocation,
-    publishedAt: this.publishedAt
+    publishedAt: moment(this.publishedAt).format(
+      "dddd, MMMM Do YYYY, h:mm:ss a"
+    )
   };
 };
 
