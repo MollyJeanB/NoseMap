@@ -14,6 +14,7 @@ const app = express();
 
 app.use(morgan("common"));
 app.use(bodyParser.json());
+app.use(express.static("public"));
 
 app.get("/smells", (req, res) => {
   Smell.find()
