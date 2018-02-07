@@ -15,17 +15,6 @@ const { TEST_DATABASE_URL } = require("../config");
 
 chai.use(chaiHttp);
 
-// describe("index page", function() {
-//   it("should exist", function() {
-//     return chai
-//       .request(app)
-//       .get("/")
-//       .then(function(res) {
-//         res.should.have.status(200);
-//       });
-//   });
-// });
-
 function tearDownDb() {
   return new Promise((resolve, reject) => {
     console.warn("Deleting database");
@@ -60,8 +49,6 @@ describe("smell API resource", function() {
   });
 
   afterEach(function() {
-    // tear down database so we ensure no state from this test
-    // effects any coming after.
     return tearDownDb();
   });
 
@@ -86,7 +73,7 @@ describe("smell API resource", function() {
         });
     });
 
-    it("should return posts with the right fields", function() {
+    it("should return smells with the right fields", function() {
       let resSmell;
       return chai
         .request(app)
@@ -150,6 +137,54 @@ describe("smell API resource", function() {
           smell.description.should.equal(newSmell.description);
           smell.smellLocation.lat.should.equal(newSmell.smellLocation.lat);
           smell.smellLocation.lng.should.equal(newSmell.smellLocation.lng);
+        });
+    });
+  });
+
+  describe("DELETE endpoint", function() {
+    it("should delete smell by id", function() {
+      let smell;
+
+      return Smell.findOne()
+        .then(_smell => {
+          smell = _smell;
+          return chai.request(app).delete(`/smells/${smell.id}`);
+        })
+        .then(res => {
+          res.should.have.status(204);
+          return Smell.findById(smell.id);
+        })
+        .then(_smell => {
+          should.not.exist(_smell);
+        });
+    });
+  });
+
+  describe("PUT endpoint", function() {
+    it("should update fields you send over", function() {
+      const updateData = {
+        title: "wet dogs",
+        description: "happy dogs covered in mud at the park",
+        category: "other"
+      };
+
+      return Smell.findOne()
+        .then(smell => {
+          updateData.id = smell.id;
+
+          return chai
+            .request(app)
+            .put(`/smells/${smell.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          res.should.have.status(204);
+          return Smell.findById(updateData.id);
+        })
+        .then(smell => {
+          smell.title.should.equal(updateData.title);
+          smell.description.should.equal(updateData.description);
+          smell.category.should.equal(updateData.category);
         });
     });
   });
