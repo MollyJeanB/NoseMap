@@ -1,6 +1,7 @@
 "use strict";
 
 const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
@@ -27,10 +28,34 @@ app.get("/smells", (req, res) => {
 
 app.get("/smells/:id", (req, res) => {
   Smell.findById(req.params.id)
-    .then(post => res.json(post.serialize()))
+    .then(smell => res.json(smell.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: "something went horribly awry" });
+    });
+});
+
+app.post("/smells", jsonParser, (req, res) => {
+  const requiredFields = ["title", "description", "category", "smellLocation"];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Smell.create({
+    title: req.body.title,
+    description: req.body.description,
+    category: req.body.category,
+    smellLocation: req.body.smellLocation
+  })
+    .then(newSmell => res.status(201).json(newSmell.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "Something is altogether wrong" });
     });
 });
 

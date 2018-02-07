@@ -116,4 +116,41 @@ describe("smell API resource", function() {
         });
     });
   });
+
+  describe("POST endpoint", function() {
+    it("should add a new smell", function() {
+      const newSmell = {
+        title: faker.lorem.sentence(),
+        description: faker.lorem.sentence(),
+        category: "body",
+        smellLocation: { lat: 45.535536, lng: -122.620915 }
+      };
+
+      return chai
+        .request(app)
+        .post("/smells")
+        .send(newSmell)
+        .then(function(res) {
+          res.should.have.status(201);
+          res.should.be.json;
+          res.body.should.be.a("object");
+          res.body.should.include.keys(
+            "id",
+            "title",
+            "description",
+            "category",
+            "smellLocation",
+            "publishedAt"
+          );
+          res.body.title.should.equal(newSmell.title);
+          return Smell.findById(res.body.id);
+        })
+        .then(function(smell) {
+          smell.title.should.equal(newSmell.title);
+          smell.description.should.equal(newSmell.description);
+          smell.smellLocation.lat.should.equal(newSmell.smellLocation.lat);
+          smell.smellLocation.lng.should.equal(newSmell.smellLocation.lng);
+        });
+    });
+  });
 });
