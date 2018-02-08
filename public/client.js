@@ -17,10 +17,16 @@ function getCurrentPositionSuccess(position) {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
     center: myPosition,
-    styles: mapStyle
+    styles: mapStyle,
+    fullscreenControl: false,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.RIGHT_BOTTOM
+    }
   });
+
   getSmells(displayMapData);
-  listenNewSmell();
 }
 
 function displayMapData(response) {
@@ -74,6 +80,7 @@ function initMap() {
 function postSmell(newSmellData) {
   $.ajax({
     url: "../smells",
+    method: "POST",
     data: newSmellData,
     crossDomain: true,
     contentType: "application/json"
@@ -89,7 +96,7 @@ function postSmell(newSmellData) {
 // }
 //
 function listenNewSmell() {
-  $(".smell-form").submit(event => {
+  $(".smell-form").on("submit", event => {
     event.preventDefault();
     console.log("new smell submitted");
     // let thisDate = new Date();
@@ -175,6 +182,7 @@ function listenNewSmell() {
 //
 function listenShowNewSmell() {
   $(".show-new-smell-form").on("click", event => {
+    console.log("new smell form requested");
     $(".new-smell").removeClass("hidden");
     map.addListener("dragend", event => {
       console.log(event);
@@ -182,7 +190,6 @@ function listenShowNewSmell() {
     document.getElementById("smellsubmit").reset();
     document.getElementById("showform").disabled = true;
     $(".location").removeClass("hidden");
-    $(".update-smell-button").addClass("hidden");
   });
 }
 
@@ -198,6 +205,7 @@ function handleApp() {
   initMap();
   listenShowNewSmell();
   listenInfoX();
+  listenNewSmell();
 }
 
 $(handleApp);

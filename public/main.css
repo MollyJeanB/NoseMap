@@ -10,22 +10,28 @@ body {
   width: 100%;
   height: 900px;
   position: relative;
+  background: #242f3e;
 }
 
 .location {
   z-index: 2;
+  width: 220px;
+  height: 200px;
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-top: -40px;
-  margin-left: -40px;
+  margin: -100px 0 0 -110px;
 }
 
 .bullseye {
+  position: absolute;
   width: 70px;
   height: 70px;
   border: 25px solid rgba(243, 98, 66, 0.6);
+  left: 50%;
+  top: 50%;
   border-radius: 100%;
+  margin: -35px 0 0 -35px;
 }
 
 .location-explain {
@@ -33,21 +39,27 @@ body {
   padding: 4px;
   border-radius: 25px;
   z-index: 3;
-  position: absolute;
-  margin-top: -26px;
-  margin-left: -72px;
+  margin-top: 39px;
   text-align: center;
   background: rgba(243, 98, 66, 0.6);
-  color: white;
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
 }
 
 #map {
   width: 100%;
-  height: 900px;
+  height: 100%;
   position: absolute;
-  background-color: grey;
+  background-color: #242f3e;
   margin: auto;
   margin-right: auto;
+}
+
+.page-header {
+  width: 100%;
+  top: 0;
+  height: 40px;
+  background: #242f3e;
 }
 
 /* h1 {
@@ -76,22 +88,35 @@ button {
   border-radius: 25px;
   color: #303030;
   font-size: 110%;
-  background-color: #fcca46;
+  background-color: #f3f3f4;
+  border: 2px solid #d59562;
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  top: -45px;
 }
 
-.page-header {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+.show-new-smell-form:hover:enabled,
+.create-smell-button:hover {
+  background-color: #cdd1d6;
 }
+
+.show-new-smell-form:disabled {
+  color: #7b7d80;
+}
+
+/* .listenShowNewSmell:disabled:hover {
+  background-color: #f3f3f4;
+} */
 
 .new-smell {
   padding: 10px;
   position: absolute;
   top: 0;
   width: 100%;
-  height: 370px;
-  background-color: rgba(191, 191, 193, 0.85);
+  height: 383px;
+  background-color: rgba(64, 84, 110, 0.85);
   z-index: 1;
 }
 
@@ -110,21 +135,25 @@ button {
   padding-top: 5px;
 }
 
-.create-smell-button,
-.update-smell-button {
+.create-smell-button {
   width: 120px;
   padding: 2px;
-  margin: 8px auto 0 auto;
+  margin: 15px auto 0 auto;
   display: block;
+  border-radius: 25px;
+  color: #303030;
+  font-size: 110%;
+  background-color: #f3f3f4;
+  border: 2px solid #d59562;
 }
 
-.category-title {
+/* .category-title {
   margin: 3px auto 3px 3px;
-}
+} */
 
 .text-field-title {
   display: block;
-  margin: 3px;
+  margin: 18px 3px 3px 3px;
 }
 
 .smell-title {
@@ -136,36 +165,43 @@ button {
   width: 267px;
   height: 50px;
   margin-left: 3px;
+  margin-bottom: 13px;
 }
 
 .close {
   border: none;
-  /* background: #F5F5F5; */
-  font-size: 150%;
+  background-color: rgba(191, 191, 193, 0);
+  font-size: 200%;
   position: absolute;
   /* color: #d75c37; */
   right: 0;
   top: 0;
+  color: #f3f3f4;
 }
 
 .smell-form {
-  padding-top: 30px;
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
+  font-size: 103%;
 }
 
 @media only screen and (min-width: 800px) {
   .new-smell {
     left: 0;
-    top: 0;
+    height: 100%;
     width: 290px;
-    height: 450px;
   }
 
   .mapcontain {
-    height: 450px;
+    height: 550px;
+  }
+
+  .show-new-smell-form {
+    top: 10px;
   }
 
   #map {
-    height: 450px;
+    height: 100%;
     bottom: 0;
     left: 0;
   }

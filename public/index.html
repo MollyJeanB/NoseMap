@@ -6,15 +6,16 @@
     <title>NoseMap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
-       <link href="https://fonts.googleapis.com/css?family=Biryani:900|Quattrocento+Sans" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Biryani:600,700|Quattrocento+Sans:400,400i,700" rel="stylesheet">
        <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FVQb1CP.png"/>
   </head>
   <body>
-    <header class="page-header">
+    <header role="banner" class="page-header">
       <!-- <h1>NoseMap</h1> -->
-      <button class="show-new-smell-form" id="showform">Add New Smell</button>
     </header>
-    <main class="content-container">
+    <main role="main" class="content-container">
+        <button class="show-new-smell-form" id="showform">Add New Smell</button>
     <div class="new-smell hidden">
       <form class="smell-form" id="smellsubmit">
         <label for="title" class="text-field-title">Smell Title</label>
@@ -26,7 +27,7 @@
           <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
         </div> -->
         <fieldset id="smell-category" class="smell-category-box">
-          <legend class="category-title">Category</legend>
+          <legend class="text-field-title">Category</legend>
           <div class="radio-category first">
             <input type="radio" name="category" id="food" value="food" required>
             <label for="food">Food & Drink</label>
