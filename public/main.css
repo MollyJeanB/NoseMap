@@ -50,13 +50,13 @@ body {
   margin-right: auto;
 }
 
-h1 {
+/* h1 {
   font-family: "Biryani", sans-serif;
   text-align: center;
   font-size: 40px;
   margin-bottom: 5px;
   color: #fcca46;
-}
+} */
 
 .hidden {
   display: none;
@@ -69,10 +69,14 @@ button {
 }
 
 .show-new-smell-form {
-  width: 150px;
-  padding: 2px;
-  margin: -5px auto 10px auto;
+  width: 160px;
+  padding: 4px;
+  margin: 10px auto 10px auto;
   display: block;
+  border-radius: 25px;
+  color: #303030;
+  font-size: 110%;
+  background-color: #fcca46;
 }
 
 .page-header {
@@ -141,7 +145,7 @@ button {
   position: absolute;
   /* color: #d75c37; */
   right: 0;
-  bottom: 0;
+  top: 0;
 }
 
 .smell-form {

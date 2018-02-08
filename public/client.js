@@ -71,9 +71,15 @@ function initMap() {
   });
 }
 
-// function addDataToMap(newSmellData) {
-//   MOCK_SMELLS.mySmells.push(newSmellData);
-// }
+function postSmell(newSmellData) {
+  $.ajax({
+    url: "../smells",
+    data: newSmellData,
+    crossDomain: true,
+    contentType: "application/json"
+  });
+  initMap();
+}
 //
 // function updateMapData(newDataforId) {
 //   let thisDataId = newDataforId.id;
@@ -86,20 +92,21 @@ function listenNewSmell() {
   $(".smell-form").submit(event => {
     event.preventDefault();
     console.log("new smell submitted");
-    let thisDate = new Date();
-    let smellPosition = map.getCenter();
+    // let thisDate = new Date();
+    let mapCenter = map.getCenter();
+    let smellPosition = new google.maps.LatLng(
+      mapCenter.lat(),
+      mapCenter.lng()
+    );
     console.log(smellPosition);
     const smellData = {
-      id: smellId++,
       title: $(".smell-title").val(),
       description: $(".smell-description").val(),
       category: $("input[name=category]:checked", "#smellsubmit").val(),
-      publishedAt: thisDate,
       smellLocation: smellPosition
     };
     console.log(smellData);
-    addDataToMap(smellData);
-    initMap();
+    postSmell(smellData);
     $(".new-smell").addClass("hidden");
     document.getElementById("showform").disabled = false;
     $(".location").addClass("hidden");
@@ -175,7 +182,7 @@ function listenShowNewSmell() {
     document.getElementById("smellsubmit").reset();
     document.getElementById("showform").disabled = true;
     $(".location").removeClass("hidden");
-    document.getElementById("updatebutton").disabled = true;
+    $(".update-smell-button").addClass("hidden");
   });
 }
 

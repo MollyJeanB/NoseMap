@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
        <link href="https://fonts.googleapis.com/css?family=Biryani:900|Quattrocento+Sans" rel="stylesheet">
+       <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FVQb1CP.png"/>
   </head>
   <body>
     <header class="page-header">
-      <h1>NoseMap</h1>
+      <!-- <h1>NoseMap</h1> -->
       <button class="show-new-smell-form" id="showform">Add New Smell</button>
     </header>
     <main class="content-container">
@@ -51,8 +52,11 @@
             <label for="other">Other</label>
           </div>
         </fieldset>
-        <button type="submit" class="create-smell-button" id="createbutton">Create Smell</button>
-        <button class="update-smell-button" id="updatebutton">Update Smell</button>
+        <input type="text" class="id-input hidden">
+        <input type="text" class="date-input hidden">
+        <input type="text" class="latitude hidden">
+        <input type="text" class="longitude hidden">
+        <button type="submit" class="create-smell-button" id="createbutton">Enter Smell</button>
         <button type="button" class="close" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
