@@ -14,6 +14,20 @@ body {
   border-top: 3px solid rgba(64, 84, 110, 0.85);
 }
 
+.icon-explain {
+  position: absolute;
+  background: rgba(243, 98, 66, 0.6);
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
+  transition: 0.5s ease-in-out;
+  z-index: 2;
+  border-radius: 25px;
+  padding: 6px;
+  font-size: 103%;
+  top: 20px;
+  left: 10px;
+}
+
 .logocontain {
   position: absolute;
   right: 0;
@@ -100,7 +114,7 @@ button {
 .new-smell {
   padding: 10px;
   position: absolute;
-  left: -100em;
+  left: -101%;
   top: 0;
   width: 100%;
   height: 383px;
@@ -134,6 +148,7 @@ button {
   top: 50%;
   border-radius: 100%;
   margin: -35px 0 0 -35px;
+  transition: 0.5s ease-in-out;
 }
 
 .location-explain {
@@ -143,7 +158,6 @@ button {
   height: 25px;
   padding: 4px;
   border-radius: 25px;
-  z-index: 3;
   top: 50%;
   left: 50%;
   margin-top: -60px;
@@ -151,13 +165,16 @@ button {
   /* margin-right: 100%;
   margin-left: 100%; */
   background: rgba(243, 98, 66, 0);
-  color: #f3f3f4;
-  text-shadow: 1px 1px #303030;
+  color: rgba(243, 243, 244, 0);
+  text-shadow: 1px 1px rgba(48, 48, 48, 0);
+  transition: 0.5s ease-in-out;
 }
 
 .fade-in {
   transition: 0.5s ease-in-out;
   background: rgba(243, 98, 66, 0.6);
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
 }
 
 .fade-in-bullseye {

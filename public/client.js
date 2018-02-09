@@ -2,7 +2,7 @@ let map;
 let myPosition;
 
 function getSmells(callback) {
-  const url = "../smells";
+  const url = "/smells";
   $.getJSON(url, callback);
 }
 
@@ -60,8 +60,9 @@ function setNewMarker(data) {
         <p>${smellDescription}</p>
         <p>${smellCategory}</p>
         <p>${smellCreated}</p>
-        <button onclick="listenUpdate(${thisSmellId})"
-class="edit-smell">Edit Smell</button>
+        <button class="edit-button">Edit Smell</button>
+        <button onclick="listenEdit(${thisSmellId})"
+class="edit-smell">Edit Smell old</button>
         <button onclick="listenDelete(${thisSmellId})"
 class="delete-smell">Delete Smell</button>
         </div>`;
@@ -91,6 +92,13 @@ function displayMapData(response) {
     setNewMarker(response[i]);
   }
 }
+
+function listenNewEdit() {
+  $(".edit-button").on("click", event => {
+    event.preventDefault();
+    console.log(event.currentTarget);
+  });
+}
 //
 // function updateMapData(newDataforId) {
 //   let thisDataId = newDataforId.id;
@@ -119,7 +127,7 @@ function listenNewSmell() {
     };
     console.log(smellData);
     postSmell(smellData);
-    $(".new-smell").addClass("hidden");
+    toggleForm();
     document.getElementById("showform").disabled = false;
     // $(".location").addClass("hidden");
     toggleBullseye();
@@ -161,21 +169,22 @@ function listenNewSmell() {
 //   });
 // }
 //
-// function listenUpdate(thisSmellId) {
-//   console.log(thisSmellId);
-//   let thisSmell = findIndexArray(thisSmellId);
-//   console.log(thisSmell);
-//   const thisTitle = thisSmell.title;
-//   const thisDescription = thisSmell.description;
-//   const thisCategory = thisSmell.category;
-//   $(".new-smell").removeClass("hidden");
-//   $(".smell-title").val(thisTitle);
-//   $(".smell-description").val(thisDescription);
-//   document.forms["smellsubmit"][thisCategory].checked = true;
-//   document.getElementById("updatebutton").disabled = false;
-//   document.getElementById("createbutton").disabled = true;
-//   listenUpdateButton(thisSmell);
-// }
+function listenEdit(thisSmellId) {
+  console.log("edit requested");
+  console.log(thisSmellId);
+  // let thisSmell = findIndexArray(thisSmellId);
+  // console.log(thisSmell);
+  // const thisTitle = thisSmell.title;
+  // const thisDescription = thisSmell.description;
+  // const thisCategory = thisSmell.category;
+  // $(".new-smell").removeClass("hidden");
+  // $(".smell-title").val(thisTitle);
+  // $(".smell-description").val(thisDescription);
+  // document.forms["smellsubmit"][thisCategory].checked = true;
+  // document.getElementById("updatebutton").disabled = false;
+  // document.getElementById("createbutton").disabled = true;
+  // listenUpdateButton(thisSmell);
+}
 //
 // function listenDelete(thisSmellId) {
 //   console.log(thisSmellId);
@@ -222,6 +231,7 @@ function handleApp() {
   listenShowNewSmell();
   listenInfoX();
   listenNewSmell();
+  listenNewEdit();
 }
 
 $(handleApp);
