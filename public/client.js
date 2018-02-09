@@ -29,47 +29,6 @@ function getCurrentPositionSuccess(position) {
   getSmells(displayMapData);
 }
 
-function displayMapData(response) {
-  console.log(response);
-  for (var i = 0; i < response.length; i++) {
-    let thisSmellId = response[i].id;
-    let smellTitle = response[i].title;
-    let smellDescription = response[i].description;
-    let smellCategory = response[i].category;
-    let smellCreated = response[i].publishedAt;
-    let smellPosition = response[i].smellLocation;
-
-    let smellText = `<div id="content" class="smell-box">
-          <h2 class="smell-title">${smellTitle}</h2>
-          <p>${smellDescription}</p>
-          <p>${smellCategory}</p>
-          <p>${smellCreated}</p>
-          <button onclick="listenUpdate(${thisSmellId})"
-class="edit-smell">Edit Smell</button>
-          <button onclick="listenDelete(${thisSmellId})"
-class="delete-smell">Delete Smell</button>
-          </div>`;
-
-    const infowindow = new google.maps.InfoWindow({
-      content: smellText
-    });
-    const markerImage = "https://i.imgur.com/FVQb1CP.png";
-
-    const marker = new google.maps.Marker({
-      position: smellPosition,
-      map: map,
-      title: smellTitle,
-      icon: markerImage
-    });
-
-    marker.setMap(map);
-
-    marker.addListener("click", function() {
-      infowindow.open(map, marker);
-    });
-  }
-}
-
 function initMap() {
   console.log("called initMap");
   navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, error => {
@@ -79,13 +38,58 @@ function initMap() {
 
 function postSmell(newSmellData) {
   $.ajax({
-    url: "../smells",
+    url: "/smells",
     method: "POST",
-    data: newSmellData,
+    data: JSON.stringify(newSmellData),
     crossDomain: true,
-    contentType: "application/json"
+    contentType: "application/json",
+    success: setNewMarker
   });
-  initMap();
+}
+
+function setNewMarker(data) {
+  let thisSmellId = data.id;
+  let smellTitle = data.title;
+  let smellDescription = data.description;
+  let smellCategory = data.category;
+  let smellCreated = data.publishedAt;
+  let smellPosition = data.smellLocation;
+
+  let smellText = `<div id="content" class="smell-box">
+        <h2 class="smell-title">${smellTitle}</h2>
+        <p>${smellDescription}</p>
+        <p>${smellCategory}</p>
+        <p>${smellCreated}</p>
+        <button onclick="listenUpdate(${thisSmellId})"
+class="edit-smell">Edit Smell</button>
+        <button onclick="listenDelete(${thisSmellId})"
+class="delete-smell">Delete Smell</button>
+        </div>`;
+
+  const infowindow = new google.maps.InfoWindow({
+    content: smellText
+  });
+  const markerImage = "https://i.imgur.com/FVQb1CP.png";
+
+  const marker = new google.maps.Marker({
+    position: smellPosition,
+    map: map,
+    title: smellTitle,
+    icon: markerImage
+  });
+
+  marker.setMap(map);
+
+  marker.addListener("click", function() {
+    infowindow.open(map, marker);
+  });
+}
+
+function displayMapData(response) {
+  console.log(response);
+  for (var i = 0; i < response.length; i++) {
+    setNewMarker(response[i]);
+  }
 }
 //
 // function updateMapData(newDataforId) {
@@ -101,10 +105,11 @@ function listenNewSmell() {
     console.log("new smell submitted");
     // let thisDate = new Date();
     let mapCenter = map.getCenter();
-    let smellPosition = new google.maps.LatLng(
-      mapCenter.lat(),
-      mapCenter.lng()
-    );
+    let smellPosition = {
+      lat: mapCenter.lat(),
+      lng: mapCenter.lng()
+    };
+
     console.log(smellPosition);
     const smellData = {
       title: $(".smell-title").val(),
@@ -119,58 +124,57 @@ function listenNewSmell() {
     $(".location").addClass("hidden");
   });
 }
-//
-// function listenUpdateButton(updatedSmell) {
-//   $(".update-smell-button").on("click", event => {
-//     event.preventDefault();
-//     console.log("smell update submitted");
-//     let sameDate = updatedSmell.publishedAt;
-//     let sameLocation = updatedSmell.smellLocation;
-//     let sameId = updatedSmell.id;
-//     const updatedSmellData = {
-//       id: sameId,
-//       title: $(".smell-title").val(),
-//       description: $(".smell-description").val(),
-//       category: $("input[name=category]:checked", "#smellsubmit").val(),
-//       publishedAt: sameDate,
-//       smellLocation: sameLocation
-//     };
-//     updateMapData(updatedSmellData);
-//     initMap();
-//     $(".new-smell").addClass("hidden");
-//     document.getElementById("showform").disabled = false;
-//     $(".location").addClass("hidden");
-//   });
-// }
-//
-// function findInArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
-//
-// function findIndexArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
-//
-//
-// function listenUpdate(thisSmellId) {
-//   console.log(thisSmellId);
-//   let thisSmell = findIndexArray(thisSmellId);
-//   console.log(thisSmell);
-//   const thisTitle = thisSmell.title;
-//   const thisDescription = thisSmell.description;
-//   const thisCategory = thisSmell.category;
-//   $(".new-smell").removeClass("hidden");
-//   $(".smell-title").val(thisTitle);
-//   $(".smell-description").val(thisDescription);
-//   document.forms["smellsubmit"][thisCategory].checked = true;
-//   document.getElementById("updatebutton").disabled = false;
-//   document.getElementById("createbutton").disabled = true;
-//   listenUpdateButton(thisSmell);
-// }
+
+function listenUpdateButton(updatedSmell) {
+  $(".update-smell-button").on("click", event => {
+    event.preventDefault();
+    console.log("smell update submitted");
+    let sameDate = updatedSmell.publishedAt;
+    let sameLocation = updatedSmell.smellLocation;
+    let sameId = updatedSmell.id;
+    const updatedSmellData = {
+      id: sameId,
+      title: $(".smell-title").val(),
+      description: $(".smell-description").val(),
+      category: $("input[name=category]:checked", "#smellsubmit").val(),
+      publishedAt: sameDate,
+      smellLocation: sameLocation
+    };
+    updateMapData(updatedSmellData);
+    initMap();
+    $(".new-smell").addClass("hidden");
+    document.getElementById("showform").disabled = false;
+    $(".location").addClass("hidden");
+  });
+}
+
+function findInArray(someId) {
+  return MOCK_SMELLS.mySmells.find(element => {
+    return element.id == someId;
+  });
+}
+
+function findIndexArray(someId) {
+  return MOCK_SMELLS.mySmells.find(element => {
+    return element.id == someId;
+  });
+}
+
+function listenUpdate(thisSmellId) {
+  console.log(thisSmellId);
+  let thisSmell = findIndexArray(thisSmellId);
+  console.log(thisSmell);
+  const thisTitle = thisSmell.title;
+  const thisDescription = thisSmell.description;
+  const thisCategory = thisSmell.category;
+  $(".new-smell").removeClass("hidden");
+  $(".smell-title").val(thisTitle);
+  $(".smell-description").val(thisDescription);
+  document.forms["smellsubmit"][thisCategory].checked = true;
+  document.getElementById("updatebutton").disabled = false;
+  document.getElementById("createbutton").disabled = true;
+  listenUpdateButton(thisSmell);
+}
 //
 // function listenDelete(thisSmellId) {
 //   console.log(thisSmellId);
