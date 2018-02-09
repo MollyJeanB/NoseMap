@@ -11,39 +11,29 @@ body {
   height: 900px;
   position: relative;
   background: #242f3e;
+  border-top: 3px solid rgba(64, 84, 110, 0.85);
 }
 
-.location {
-  z-index: 1;
-  width: 220px;
-  height: 200px;
+.logocontain {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  margin: -100px 0 0 -110px;
-}
-
-.bullseye {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border: 25px solid rgba(243, 98, 66, 0.6);
-  left: 50%;
-  top: 50%;
+  right: 0;
+  top: 0;
+  height: 44px;
+  width: 44px;
+  margin: -10px 10px 20px 0;
   border-radius: 100%;
-  margin: -35px 0 0 -35px;
+  background: rgba(243, 98, 66, 0.6);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.location-explain {
-  width: 220px;
-  padding: 4px;
-  border-radius: 25px;
-  z-index: 3;
-  margin-top: 39px;
+.nose-logo {
   text-align: center;
-  background: rgba(243, 98, 66, 0.6);
-  color: #f3f3f4;
-  text-shadow: 1px 1px #303030;
 }
 
 #map {
@@ -57,23 +47,24 @@ body {
 
 .page-header {
   width: 100%;
+  position: relative;
   top: 0;
   height: 40px;
   background: #242f3e;
 }
 
-/* h1 {
-  font-family: "Biryani", sans-serif;
-  text-align: center;
-  font-size: 40px;
-  margin-bottom: 5px;
-  color: #fcca46;
-} */
+h1 {
+  font-style: italic;
+  font-size: 22px;
+  color: #242f3e;
+  margin-left: 20px;
+}
 
 .hidden {
   display: none;
 }
 
+h1,
 p,
 div,
 button {
@@ -94,7 +85,7 @@ button {
   z-index: 4;
   left: 0;
   right: 0;
-  top: -45px;
+  top: -55px;
 }
 
 .show-new-smell-form:hover:enabled,
@@ -106,18 +97,72 @@ button {
   color: #7b7d80;
 }
 
-/* .listenShowNewSmell:disabled:hover {
-  background-color: #f3f3f4;
-} */
-
 .new-smell {
   padding: 10px;
   position: absolute;
+  left: -100em;
   top: 0;
   width: 100%;
   height: 383px;
   background-color: rgba(64, 84, 110, 0.85);
   z-index: 2;
+  transition: 0.5s;
+}
+
+.slide-out {
+  transition: 0.5s;
+  left: 0;
+}
+
+/* .location {
+  z-index: 1;
+  width: 220px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -100px 0 0 -110px;
+} */
+
+.bullseye {
+  z-index: 2;
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border: 25px solid rgba(243, 98, 66, 0);
+  left: 50%;
+  top: 50%;
+  border-radius: 100%;
+  margin: -35px 0 0 -35px;
+}
+
+.location-explain {
+  z-index: 2;
+  position: absolute;
+  width: 220px;
+  height: 25px;
+  padding: 4px;
+  border-radius: 25px;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  margin-top: -60px;
+  margin-left: -110px;
+  /* margin-right: 100%;
+  margin-left: 100%; */
+  background: rgba(243, 98, 66, 0);
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
+}
+
+.fade-in {
+  transition: 0.5s ease-in-out;
+  background: rgba(243, 98, 66, 0.6);
+}
+
+.fade-in-bullseye {
+  transition: 0.5s ease-in-out;
+  border: 25px solid rgba(243, 98, 66, 0.6);
 }
 
 .content-container {
@@ -187,17 +232,22 @@ button {
 
 @media only screen and (min-width: 800px) {
   .new-smell {
-    left: 0;
+    /* left: 0; */
     height: 100%;
     width: 290px;
   }
 
   .mapcontain {
     height: 550px;
+    border-bottom: 3px solid rgba(64, 84, 110, 0.85);
   }
 
   .show-new-smell-form {
     top: 10px;
+  }
+
+  h1 {
+    color: #f3f3f4;
   }
 
   #map {

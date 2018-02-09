@@ -2,25 +2,30 @@
   "title": "Herbs and Spices",
   "description": "very calming, various kinds of tea and baked goods",
   "category": "food",
-  "smellLocation": { "lat": 45.5050628, "lng": -122.6280184 }
+  "smellLocation": { "lat": 45.5050628, "lng": -122.6280184 },
+  "publishedAt": "Thursday, February 8th 2018, 4:34:06 pm"
 }
 {
   "title": "Rain on Pines",
   "description": "the park after a storm",
   "category": "nature",
-  "smellLocation": { "lat": 45.52087156, "lng": -122.62561797 }
+  "smellLocation": { "lat": 45.52087156, "lng": -122.62561797 },
+  "publishedAt": "Tuesday, February 6th 2018, 2:38:06 pm"
 }
 {
   "title": "movie popcorn",
   "description": "strong buttery smell every time someone opens the door to the theater",
   "category": "food",
-  "smellLocation": { "lat": 45.535536, "lng": -122.620915 }
+  "smellLocation": { "lat": 45.535536, "lng": -122.620915 },
+  "publishedAt": "Monday, February 5th 2018, 1:20:05 pm"
+
 }
 {
   "title": "fresh cut grass",
   "description": "lawn clippings, wet mulch, and somehow a hint of citrus",
   "category": "nature",
-  "smellLocation": { "lat": 45.539459, "lng": -122.597548 }
+  "smellLocation": { "lat": 45.539459, "lng": -122.597548 },
+    "publishedAt": "Thursday, February 8th 2018, 4:34:06 pm"
 }
 {
   "title": "mild b.o. and stale tobacco",
@@ -32,29 +37,34 @@
   "title": "future beer!",
   "description": "delicious sweet cereal smell of malt and hops boiling for beer",
   "category": "food",
-  "smellLocation": { "lat": 45.549438, "lng": 122.675318 }
+  "smellLocation": { "lat": 45.549438, "lng": -122.675318 },
+    "publishedAt": "Saturday, February 3rd 2018, 9:30:05 am"
 }
 {
   "title": "Books",
   "description": "wood pulp and a smidge of mildew at the Hollywood Library",
   "category": "other",
-  "smellLocation": { "lat": 45.5376723, "lng": -122.6211201 }
+  "smellLocation": { "lat": 45.5376723, "lng": -122.6211201 },
+    "publishedAt": "Thursday, February 1st 2018, 10:30:05 am"
 }
 {
   "title": "Axe body spray",
   "description": "a pubescent, spicy blast wafting on the breeze",
   "category": "body",
-  "smellLocation": { "lat": 45.521248, "lng": -122.604690 }
+  "smellLocation": { "lat": 45.521248, "lng": -122.604690 },
+  "publishedAt": "Friday, February 2nd 2018, 10:30:05 am"
 }
 {
   "title": "Trucks and more trucks",
   "description": "lots of action on the highway today",
   "category": "exhaust",
-  "smellLocation": { "lat": 45.529095, "lng": -122.602930 }
+  "smellLocation": { "lat": 45.529095, "lng": -122.602930 },
+  "publishedAt": "Saturday, February 3rd 2018, 9:30:05 am"
 }
 {
   "title": "Yeast rolls",
   "description": "someone in my neighborhood is baking today",
   "category": "food",
-  "smellLocation": { "lat": 45.524217, "lng": -122.616802 }
+  "smellLocation": { "lat": 45.524217, "lng": -122.616802 },
+  "publishedAt": "Monday, February 5th 2018, 1:20:05 pm"
 }

@@ -12,11 +12,12 @@
   </head>
   <body>
     <header role="banner" class="page-header">
-      <!-- <h1>NoseMap</h1> -->
+      <h1>Map your olfactory environment</h1>
+      <div class="logocontain"><img class="nose-logo" src="https://i.imgur.com/FVQb1CP.png"></div>
     </header>
     <main role="main" class="content-container">
         <button class="show-new-smell-form" id="showform">Add New Smell</button>
-    <div class="new-smell hidden">
+    <div class="new-smell">
       <form class="smell-form" id="smellsubmit">
         <label for="title" class="text-field-title">Smell Title</label>
         <input type="text" id="title" class="smell-title" maxlength="30" required>
@@ -64,7 +65,7 @@
       </form>
     </div>
     <div class="mapcontain">
-      <div class="location hidden">
+      <div class="location">
         <div class="location-explain">Drag map to set smell location</div>
         <div class="bullseye"></div>
       </div>
