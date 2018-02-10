@@ -19,6 +19,7 @@ app.use(express.static("public"));
 app.get("/smells", (req, res) => {
   Smell.find()
     .then(smells => {
+      console.log("line 22", smells);
       res.json(smells.map(smell => smell.serialize()));
     })
     .catch(err => {
@@ -29,7 +30,10 @@ app.get("/smells", (req, res) => {
 
 app.get("/smells/:id", (req, res) => {
   Smell.findById(req.params.id)
-    .then(smell => res.json(smell.serialize()))
+    .then(smell => {
+      console.log("33", smell.serialize());
+      res.json(smell.serialize());
+    })
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: "something went horribly awry" });
@@ -37,7 +41,7 @@ app.get("/smells/:id", (req, res) => {
 });
 
 app.post("/smells", jsonParser, (req, res) => {
-  const requiredFields = ["title", "description", "category", "smellLocation"];
+  const requiredFields = ["title", "description", "category"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -46,6 +50,7 @@ app.post("/smells", jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
+  console.log("52", req.body.id);
   if (req.body.id) {
     const updatedSmell = {
       title: req.body.title,
@@ -54,11 +59,14 @@ app.post("/smells", jsonParser, (req, res) => {
     };
 
     Smell.findByIdAndUpdate(
-      req.params.id,
+      { _id: req.body.id },
       { $set: updatedSmell },
       { new: true }
     )
-      .then(updatedSmell => res.status(204).end())
+      .then(updatedSmell => {
+        res.send(updatedSmell);
+        // res.status(204).end())
+      })
       .catch(err => res.status(500).json({ message: "Something went wrong" }));
   } else {
     Smell.create({
@@ -93,25 +101,25 @@ app.delete("/:id", (req, res) => {
   });
 });
 
-app.put("/smells/:id", (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    res.status(400).json({
-      error: "Request path id and request body id values must match"
-    });
-  }
-
-  const updated = {};
-  const updateableFields = ["title", "description", "category"];
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      updated[field] = req.body[field];
-    }
-  });
-
-  Smell.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-    .then(updatedSmell => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Something went wrong" }));
-});
+// app.put("/smells/:id", (req, res) => {
+//   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+//     res.status(400).json({
+//       error: "Request path id and request body id values must match"
+//     });
+//   }
+//
+//   const updated = {};
+//   const updateableFields = ["title", "description", "category"];
+//   updateableFields.forEach(field => {
+//     if (field in req.body) {
+//       updated[field] = req.body[field];
+//     }
+//   });
+//
+//   Smell.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+//     .then(updatedSmell => res.status(204).end())
+//     .catch(err => res.status(500).json({ message: "Something went wrong" }));
+// });
 
 //errors if invalid enpoint accessed
 app.use("*", function(req, res) {
