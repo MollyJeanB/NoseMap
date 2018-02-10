@@ -46,18 +46,33 @@ app.post("/smells", jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
+  if (req.body.id) {
+    const updatedSmell = {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category
+    };
 
-  Smell.create({
-    title: req.body.title,
-    description: req.body.description,
-    category: req.body.category,
-    smellLocation: req.body.smellLocation
-  })
-    .then(newSmell => res.status(201).json(newSmell.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "Something is altogether wrong" });
-    });
+    Smell.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedSmell },
+      { new: true }
+    )
+      .then(updatedSmell => res.status(204).end())
+      .catch(err => res.status(500).json({ message: "Something went wrong" }));
+  } else {
+    Smell.create({
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      smellLocation: req.body.smellLocation
+    })
+      .then(newSmell => res.status(201).json(newSmell.serialize()))
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({ error: "Something is altogether wrong" });
+      });
+  }
 });
 
 app.delete("/smells/:id", (req, res) => {

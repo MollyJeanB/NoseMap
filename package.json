@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "mocha --exit",
-    "start": "node server.js"
+    "start": "node --inspect server.js"
   },
   "author": "",
   "license": "ISC"

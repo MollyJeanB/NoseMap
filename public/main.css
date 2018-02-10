@@ -24,8 +24,20 @@ body {
   border-radius: 25px;
   padding: 6px;
   font-size: 103%;
+  display: block;
+  height: 30px;
+  width: 300px;
+  text-align: center;
   top: 20px;
-  left: 10px;
+  left: 50%;
+  margin-left: -150px;
+}
+
+.icon-disappear {
+  transition: 0.5s ease-in-out;
+  background: rgba(243, 98, 66, 0);
+  text-shadow: 1px 1px rgba(243, 98, 66, 0);
+  color: rgba(243, 98, 66, 0);
 }
 
 .logocontain {
@@ -100,6 +112,7 @@ button {
   left: 0;
   right: 0;
   top: -55px;
+  transition: 0.5s ease-in-out;
 }
 
 .show-new-smell-form:hover:enabled,
@@ -261,6 +274,11 @@ button {
 
   .show-new-smell-form {
     top: 10px;
+  }
+
+  .icon-explain {
+    left: 10px;
+    margin-left: 10px;
   }
 
   h1 {

@@ -60,8 +60,7 @@ function setNewMarker(data) {
         <p>${smellDescription}</p>
         <p>${smellCategory}</p>
         <p>${smellCreated}</p>
-        <button class="edit-button">Edit Smell</button>
-        <button onclick="listenEdit(${thisSmellId})"
+        <button onclick="listenEdit('${thisSmellId}')"
 class="edit-smell">Edit Smell old</button>
         <button onclick="listenDelete(${thisSmellId})"
 class="delete-smell">Delete Smell</button>
@@ -93,12 +92,6 @@ function displayMapData(response) {
   }
 }
 
-function listenNewEdit() {
-  $(".edit-button").on("click", event => {
-    event.preventDefault();
-    console.log(event.currentTarget);
-  });
-}
 //
 // function updateMapData(newDataforId) {
 //   let thisDataId = newDataforId.id;
@@ -120,6 +113,7 @@ function listenNewSmell() {
 
     console.log(smellPosition);
     const smellData = {
+      id: $(".id-input").val(),
       title: $(".smell-title").val(),
       description: $(".smell-description").val(),
       category: $("input[name=category]:checked", "#smellsubmit").val(),
@@ -127,10 +121,9 @@ function listenNewSmell() {
     };
     console.log(smellData);
     postSmell(smellData);
-    toggleForm();
+    hideForm();
+    hideBullseye();
     document.getElementById("showform").disabled = false;
-    // $(".location").addClass("hidden");
-    toggleBullseye();
   });
 }
 
@@ -172,18 +165,27 @@ function listenNewSmell() {
 function listenEdit(thisSmellId) {
   console.log("edit requested");
   console.log(thisSmellId);
-  // let thisSmell = findIndexArray(thisSmellId);
-  // console.log(thisSmell);
-  // const thisTitle = thisSmell.title;
-  // const thisDescription = thisSmell.description;
-  // const thisCategory = thisSmell.category;
-  // $(".new-smell").removeClass("hidden");
-  // $(".smell-title").val(thisTitle);
-  // $(".smell-description").val(thisDescription);
-  // document.forms["smellsubmit"][thisCategory].checked = true;
-  // document.getElementById("updatebutton").disabled = false;
-  // document.getElementById("createbutton").disabled = true;
-  // listenUpdateButton(thisSmell);
+  document.getElementById("showform").disabled = true;
+  getSmellbyId(thisSmellId);
+}
+
+function getSmellbyId(id) {
+  const url = `/smells/${id}`;
+  $.getJSON(url, formRepop);
+}
+
+function formRepop(response) {
+  const thisTitle = response.title;
+  const thisDescription = response.description;
+  const thisCategory = response.category;
+  const thisId = response.id;
+  showForm();
+  $(".smell-title").val(thisTitle);
+  $(".smell-description").val(thisDescription);
+  $(".id-input").val(thisId);
+  document.forms["smellsubmit"][thisCategory].checked = true;
+  document.getElementById("updatebutton").disabled = false;
+  document.getElementById("createbutton").disabled = true;
 }
 //
 // function listenDelete(thisSmellId) {
@@ -197,32 +199,41 @@ function listenEdit(thisSmellId) {
 function listenShowNewSmell() {
   $(".show-new-smell-form").on("click", event => {
     console.log("new smell form requested");
-    toggleForm();
+    showForm();
+    showBullseye();
     map.addListener("dragend", event => {
       console.log(event);
     });
     document.getElementById("smellsubmit").reset();
     document.getElementById("showform").disabled = true;
-    // $(".location").removeClass("hidden");
-    toggleBullseye();
   });
 }
 
-function toggleForm() {
-  $(".new-smell").toggleClass("slide-out");
+function showForm() {
+  $(".new-smell").addClass("slide-out");
+  $(".icon-explain").addClass("icon-disappear");
 }
 
-function toggleBullseye() {
-  $(".bullseye").toggleClass("fade-in-bullseye");
-  $(".location-explain").toggleClass("fade-in");
+function hideForm() {
+  $(".new-smell").removeClass("slide-out");
+  $(".icon-explain").removeClass("icon-disappear");
+}
+
+function showBullseye() {
+  $(".bullseye").addClass("fade-in-bullseye");
+  $(".location-explain").addClass("fade-in");
+}
+
+function hideBullseye() {
+  $(".bullseye").removeClass("fade-in-bullseye");
+  $(".location-explain").removeClass("fade-in");
 }
 
 function listenInfoX() {
   $(".close").on("click", event => {
-    toggleForm();
+    hideForm();
+    hideBullseye();
     document.getElementById("showform").disabled = false;
-    // $(".location").addClass("hidden");
-    toggleBullseye();
   });
 }
 
@@ -231,7 +242,6 @@ function handleApp() {
   listenShowNewSmell();
   listenInfoX();
   listenNewSmell();
-  listenNewEdit();
 }
 
 $(handleApp);
