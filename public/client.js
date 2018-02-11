@@ -1,12 +1,17 @@
+//global variable for map (via google maps Javascript API)
 let map;
+//global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
 
-function getSmells(callback) {
-  const url = "/smells";
-  $.getJSON(url, callback);
+//geolocate user's location. If successful, call initSmellMap to initialize the map
+function initMap() {
+  navigator.geolocation.getCurrentPosition(initSmellMap, error => {
+    console.log("Error", error);
+  });
 }
 
-function getCurrentPositionSuccess(position) {
+//display map
+function initSmellMap(position) {
   myPosition = {
     // lat: position.coords.latitude,
     // lng: position.coords.longitude
@@ -25,85 +30,42 @@ function getCurrentPositionSuccess(position) {
       position: google.maps.ControlPosition.RIGHT_BOTTOM
     }
   });
-
+  //call get function to get data from API and display on the map
   getSmells(displayMapData);
 }
 
-function initMap() {
-  console.log("called initMap");
-  navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, error => {
-    console.log("Error", error);
-  });
+//get all data from API
+function getSmells(callback) {
+  const url = "/smells";
+  $.getJSON(url, callback);
 }
 
-function postSmell(newSmellData) {
-  console.log(newSmellData);
-  if (newSmellData.id) {
-    $.ajax({
-      url: "/smells",
-      method: "POST",
-      data: JSON.stringify(newSmellData),
-      crossDomain: true,
-      contentType: "application/json",
-      success: response => {
-        console.log(response, "line 48 response");
-        updateSmellWindow(response);
-      }
-    });
-  } else {
-    $.ajax({
-      url: "/smells",
-      method: "POST",
-      data: JSON.stringify(newSmellData),
-      crossDomain: true,
-      contentType: "application/json",
-      success: setNewMarker
-    });
+//iterate through response data and calls setNewMarker to place marker for each data object
+function displayMapData(response) {
+  console.log(response);
+  for (var i = 0; i < response.length; i++) {
+    setNewMarker(response[i]);
   }
 }
 
-function updateSmellWindow(data) {
-  let thisSmellId = data._id;
-  let smellTitle = data.title;
-  let smellDescription = data.description;
-  let smellCategory = data.category;
-  let smellCreated = data.publishedAt;
-  let smellPosition = data.smellLocation;
-
-  let smellText = `
-        <h2 class="smell-title">${smellTitle}</h2>
-        <p>${smellDescription}</p>
-        <p>${smellCategory}</p>
-        <p>${smellCreated}</p>
-        <button onclick="listenEdit('${thisSmellId}')"
-class="edit-smell">Edit Smell</button>
-        <button onclick="listenDelete(${thisSmellId})"
-class="delete-smell">Delete Smell</button>
-        `;
-  // document.getElementById("content-" + thisSmellId).html(smellText);
-  // const addText = $("#content-" + thisSmellId);
-  document.getElementById("content-" + thisSmellId).innerHTML = smellText;
-  console.log(data, thisSmellId);
-  console.log(document.getElementById("content-" + thisSmellId));
-}
-
+//sets clickable markers and infowindows with title, description, category, date created, and location
 function setNewMarker(data) {
   console.log("marker data sent", data);
-  let thisSmellId = data.id;
+  let smellId = data.id;
   let smellTitle = data.title;
   let smellDescription = data.description;
   let smellCategory = data.category;
   let smellCreated = data.publishedAt;
   let smellPosition = data.smellLocation;
 
-  let smellText = `<div id="content-${thisSmellId}" class="smell-box">
+  let smellText = `<div id="content-${smellId}" class="smell-box">
         <h2 class="smell-title">${smellTitle}</h2>
         <p>${smellDescription}</p>
         <p>${smellCategory}</p>
         <p>${smellCreated}</p>
-        <button onclick="listenEdit('${thisSmellId}')"
+        <button onclick="listenEdit('${smellId}')"
 class="edit-smell">Edit Smell</button>
-        <button onclick="listenDelete(${thisSmellId})"
+        <button onclick="listenDelete('${smellId}')"
 class="delete-smell">Delete Smell</button>
         </div>`;
 
@@ -113,7 +75,7 @@ class="delete-smell">Delete Smell</button>
   const markerImage = "https://i.imgur.com/FVQb1CP.png";
 
   const marker = new google.maps.Marker({
-    id: thisSmellId,
+    id: smellId,
     position: smellPosition,
     map: map,
     title: smellTitle,
@@ -127,21 +89,7 @@ class="delete-smell">Delete Smell</button>
   });
 }
 
-function displayMapData(response) {
-  console.log(response);
-  for (var i = 0; i < response.length; i++) {
-    setNewMarker(response[i]);
-  }
-}
-
-//
-// function updateMapData(newDataforId) {
-//   let thisDataId = newDataforId.id;
-//   let thisDataIndex = findIndexArray(thisDataId);
-//   MOCK_SMELLS.mySmells.splice(thisDataIndex, 1);
-//   MOCK_SMELLS.mySmells.push(newDataforId);
-// }
-//
+//listen for when smell form is submitted and sends passes data to postSmell
 function listenNewSmell() {
   $(".smell-form").on("submit", event => {
     event.preventDefault();
@@ -169,116 +117,94 @@ function listenNewSmell() {
   });
 }
 
-// function listenUpdateButton(updatedSmell) {
-//   $(".update-smell-button").on("click", event => {
-//     event.preventDefault();
-//     console.log("smell update submitted");
-//     let sameDate = updatedSmell.publishedAt;
-//     let sameLocation = updatedSmell.smellLocation;
-//     let sameId = updatedSmell.id;
-//     const updatedSmellData = {
-//       id: sameId,
-//       title: $(".smell-title").val(),
-//       description: $(".smell-description").val(),
-//       category: $("input[name=category]:checked", "#smellsubmit").val(),
-//       publishedAt: sameDate,
-//       smellLocation: sameLocation
-//     };
-//     updateMapData(updatedSmellData);
-//     initMap();
-//     $(".new-smell").addClass("hidden");
-//     document.getElementById("showform").disabled = false;
-//     $(".location").addClass("hidden");
-//   });
-// }
-//
-// function findInArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
-//
-// function findIndexArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
-//
-function listenEdit(thisSmellId) {
-  console.log("edit requested");
-  console.log(thisSmellId);
-  document.getElementById("showform").disabled = true;
-  getSmellbyId(thisSmellId);
+//makes POST request to add or update data in the database
+function postSmell(newSmellData) {
+  console.log(newSmellData);
+  if (newSmellData.id) {
+    $.ajax({
+      url: "/smells",
+      method: "POST",
+      data: JSON.stringify(newSmellData),
+      crossDomain: true,
+      contentType: "application/json",
+      success: response => {
+        updateSmellWindow(response);
+      }
+    });
+  } else {
+    $.ajax({
+      url: "/smells",
+      method: "POST",
+      data: JSON.stringify(newSmellData),
+      crossDomain: true,
+      contentType: "application/json",
+      success: setNewMarker
+    });
+  }
 }
 
+//listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
+function listenEdit(smellId) {
+  console.log("edit requested", smellId);
+  document.getElementById("showform").disabled = true;
+  getSmellbyId(smellId);
+}
+
+//get smell data with specific ID from database
 function getSmellbyId(id) {
   const url = `/smells/${id}`;
   $.getJSON(url, formRepop);
 }
 
+//repopulates smell form with data for that smell
 function formRepop(response) {
-  const thisTitle = response.title;
-  const thisDescription = response.description;
-  const thisCategory = response.category;
-  const thisId = response.id;
+  const smellTitle = response.title;
+  const smellDescription = response.description;
+  const smellCategory = response.category;
+  const smellId = response.id;
   showForm();
-  $(".smell-title").val(thisTitle);
-  $(".smell-description").val(thisDescription);
-  $(".id-input").val(thisId);
-  document.forms["smellsubmit"][thisCategory].checked = true;
-  // document.getElementById("updatebutton").disabled = false;
-  // document.getElementById("createbutton").disabled = true;
+  $(".smell-title").val(smellTitle);
+  $(".smell-description").val(smellDescription);
+  $(".id-input").val(smellId);
+  document.forms["smellsubmit"][smellCategory].checked = true;
 }
-//
-// function listenDelete(thisSmellId) {
-//   console.log(thisSmellId);
-//   let thisSmellIndex = findIndexArray(thisSmellId);
-//   console.log(thisSmellIndex);
-//   MOCK_SMELLS.mySmells.splice(thisSmellIndex, 1);
-//   initMap();
-// }
-//
-function listenShowNewSmell() {
-  $(".show-new-smell-form").on("click", event => {
-    console.log("new smell form requested");
-    showForm();
-    showBullseye();
-    map.addListener("dragend", event => {
-      console.log(event);
-    });
-    document.getElementById("smellsubmit").reset();
-    document.getElementById("showform").disabled = true;
+
+//update infowindow with updated smell data
+function updateSmellWindow(data) {
+  let smellId = data._id;
+  let smellTitle = data.title;
+  let smellDescription = data.description;
+  let smellCategory = data.category;
+  let smellCreated = data.publishedAt;
+  let smellPosition = data.smellLocation;
+
+  let smellText = `
+        <h2 class="smell-title">${smellTitle}</h2>
+        <p>${smellDescription}</p>
+        <p>${smellCategory}</p>
+        <p>${smellCreated}</p>
+        <button onclick="listenEdit('${smellId}')"
+class="edit-smell">Edit Smell</button>
+        <button onclick="listenDelete('${smellId}')"
+class="delete-smell">Delete Smell</button>
+        `;
+  document.getElementById("content-" + smellId).innerHTML = smellText;
+}
+
+// listen for when user clicks "Delete Smell" and makes DELETE REQUEST
+function listenDelete(smellId) {
+  console.log("delete requested", smellId);
+  $.ajax({
+    url: `/smells/${smellId}`,
+    method: "DELETE",
+    // data: JSON.stringify(newSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: initMap
   });
 }
 
-function showForm() {
-  $(".new-smell").addClass("slide-out");
-  $(".icon-explain").addClass("icon-disappear");
-}
-
-function hideForm() {
-  $(".new-smell").removeClass("slide-out");
-  $(".icon-explain").removeClass("icon-disappear");
-}
-
-function showBullseye() {
-  $(".bullseye").addClass("fade-in-bullseye");
-  $(".location-explain").addClass("fade-in");
-}
-
-function hideBullseye() {
-  $(".bullseye").removeClass("fade-in-bullseye");
-  $(".location-explain").removeClass("fade-in");
-}
-
-function listenInfoX() {
-  $(".close").on("click", event => {
-    hideForm();
-    hideBullseye();
-    document.getElementById("showform").disabled = false;
-  });
-}
-
+//callback function for when the page loads
 function handleApp() {
   initMap();
   listenShowNewSmell();
@@ -286,4 +212,5 @@ function handleApp() {
   listenNewSmell();
 }
 
+//when page loads, call handleApp
 $(handleApp);

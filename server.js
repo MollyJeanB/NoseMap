@@ -31,7 +31,6 @@ app.get("/smells", (req, res) => {
 app.get("/smells/:id", (req, res) => {
   Smell.findById(req.params.id)
     .then(smell => {
-      console.log("33", smell.serialize());
       res.json(smell.serialize());
     })
     .catch(err => {
@@ -50,7 +49,6 @@ app.post("/smells", jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  console.log("52", req.body.id);
   if (req.body.id) {
     const updatedSmell = {
       title: req.body.title,
