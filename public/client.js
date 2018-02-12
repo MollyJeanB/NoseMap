@@ -50,7 +50,6 @@ function displayMapData(response) {
 
 //sets clickable markers and infowindows with title, description, category, date created, and location
 function setNewMarker(data) {
-  console.log("marker data sent", data);
   let smellId = data.id;
   let smellTitle = data.title;
   let smellDescription = data.description;
@@ -110,7 +109,11 @@ function listenNewSmell() {
       smellLocation: smellPosition
     };
     console.log("128 data sent for update", smellData);
-    postSmell(smellData);
+    if (smellData.id) {
+      putSmell(smellData);
+    } else {
+      postSmell(smellData);
+    }
     hideForm();
     hideBullseye();
     document.getElementById("showform").disabled = false;
@@ -120,27 +123,14 @@ function listenNewSmell() {
 //makes POST request to add or update data in the database
 function postSmell(newSmellData) {
   console.log(newSmellData);
-  if (newSmellData.id) {
-    $.ajax({
-      url: "/smells",
-      method: "POST",
-      data: JSON.stringify(newSmellData),
-      crossDomain: true,
-      contentType: "application/json",
-      success: response => {
-        updateSmellWindow(response);
-      }
-    });
-  } else {
-    $.ajax({
-      url: "/smells",
-      method: "POST",
-      data: JSON.stringify(newSmellData),
-      crossDomain: true,
-      contentType: "application/json",
-      success: setNewMarker
-    });
-  }
+  $.ajax({
+    url: "/smells",
+    method: "POST",
+    data: JSON.stringify(newSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: setNewMarker
+  });
 }
 
 //listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
@@ -154,6 +144,21 @@ function listenEdit(smellId) {
 function getSmellbyId(id) {
   const url = `/smells/${id}`;
   $.getJSON(url, formRepop);
+}
+
+function putSmell(updatedSmellData) {
+  console.log(updatedSmellData);
+  const id = updatedSmellData.id;
+  $.ajax({
+    url: `/smells/${id}`,
+    method: "PUT",
+    data: JSON.stringify(updatedSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: response => {
+      updateSmellWindow(response);
+    }
+  });
 }
 
 //repopulates smell form with data for that smell
