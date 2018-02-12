@@ -1,47 +1,17 @@
+//global variable for map (via google maps Javascript API)
 let map;
+//global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
-let smellId = 3;
-// let popup, Popup;
 
-let MOCK_SMELLS = {
-  mySmells: [
-    {
-      id: 1,
-      title: "poopy garbage",
-      description: "diaper and yard waste smells from dumpster",
-      category: "waste",
-      publishedAt: "Wed Jan 31 2018 09:26:10 GMT-0800 (PST)",
-      smellLocation: {
-        lat: 45.5376723,
-        lng: -122.6211201
-      }
-    },
-    {
-      id: 2,
-      title: "herbs and spices",
-      description: "very calming, various kinds of tea and baked goods",
-      category: "food",
-      publishedAt: "Fri Feb 02 2018 09:26:10 GMT-0800 (PST)",
-      smellLocation: {
-        lat: 45.5050628,
-        lng: -122.6280184
-      }
-    },
-    {
-      id: 3,
-      title: "rain on pines",
-      description: "the park after a storm",
-      category: "nature",
-      publishedAt: "Sun Feb 04 2018 08:26:10 GMT-0800 (PST)",
-      smellLocation: {
-        lat: 45.52087156,
-        lng: -122.62561797
-      }
-    }
-  ]
-};
+//geolocate user's location. If successful, call initSmellMap to initialize the map
+function initMap() {
+  navigator.geolocation.getCurrentPosition(initSmellMap, error => {
+    console.log("Error", error);
+  });
+}
 
-function getCurrentPositionSuccess(position) {
+//display map
+function initSmellMap(position) {
   myPosition = {
     // lat: position.coords.latitude,
     // lng: position.coords.longitude
@@ -52,180 +22,200 @@ function getCurrentPositionSuccess(position) {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
     center: myPosition,
-    styles: mapStyle
+    styles: mapStyle,
+    fullscreenControl: false,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.RIGHT_BOTTOM
+    }
   });
-
-  displayMapData(MOCK_SMELLS);
-  listenNewSmell();
+  //call get function to get data from API and display on the map
+  getSmells(displayMapData);
 }
 
-function displayMapData(data) {
-  for (var index in data.mySmells) {
-    let thisSmellId = data.mySmells[index].id;
-    let smellTitle = data.mySmells[index].title;
-    let smellDescription = data.mySmells[index].description;
-    let smellCategory = data.mySmells[index].category;
-    let smellCreated = data.mySmells[index].publishedAt;
-    let smellPosition = data.mySmells[index].smellLocation;
+//get all data from API
+function getSmells(callback) {
+  const url = "/smells";
+  $.getJSON(url, callback);
+}
 
-    let smellText = `<div id="content" class="smell-box">
-          <h2 class="smell-title">${smellTitle}</h2>
-          <p>${smellDescription}</p>
-          <p>${smellCategory}</p>
-          <p>${smellCreated}</p>
-          <button onclick="listenUpdate(${thisSmellId})"
-class="edit-smell">Edit Smell</button>
-          <button onclick="listenDelete(${thisSmellId})"
-class="delete-smell">Delete Smell</button>
-          </div>`;
-
-    const infowindow = new google.maps.InfoWindow({
-      content: smellText
-    });
-    const markerImage = "https://i.imgur.com/FVQb1CP.png";
-
-    const marker = new google.maps.Marker({
-      position: smellPosition,
-      map: map,
-      title: smellTitle,
-      icon: markerImage
-    });
-
-    marker.setMap(map);
-
-    marker.addListener("click", function() {
-      infowindow.open(map, marker);
-    });
+//iterate through response data and calls setNewMarker to place marker for each data object
+function displayMapData(response) {
+  console.log(response);
+  for (var i = 0; i < response.length; i++) {
+    setNewMarker(response[i]);
   }
 }
 
-function initMap() {
-  console.log("called initMap");
-  navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, error => {
-    console.log("Error", error);
+//sets clickable markers and infowindows with title, description, category, date created, and location
+function setNewMarker(data) {
+  let smellId = data.id;
+  let smellTitle = data.title;
+  let smellDescription = data.description;
+  let smellCategory = data.category;
+  let smellCreated = data.publishedAt;
+  let smellPosition = data.smellLocation;
+
+  let smellText = `<div id="content-${smellId}" class="smell-box">
+        <h2 class="smell-title">${smellTitle}</h2>
+        <p>${smellDescription}</p>
+        <p>${smellCategory}</p>
+        <p>${smellCreated}</p>
+        <button onclick="listenEdit('${smellId}')"
+class="edit-smell">Edit Smell</button>
+        <button onclick="listenDelete('${smellId}')"
+class="delete-smell">Delete Smell</button>
+        </div>`;
+
+  const infowindow = new google.maps.InfoWindow({
+    content: smellText
+  });
+  const markerImage = "https://i.imgur.com/FVQb1CP.png";
+
+  const marker = new google.maps.Marker({
+    id: smellId,
+    position: smellPosition,
+    map: map,
+    title: smellTitle,
+    icon: markerImage
+  });
+
+  marker.setMap(map);
+
+  marker.addListener("click", function() {
+    infowindow.open(map, marker);
   });
 }
 
-function addDataToMap(newSmellData) {
-  MOCK_SMELLS.mySmells.push(newSmellData);
-}
-
-// function updateMapData(newDataforId) {
-//   let thisDataId = newDataforId.id;
-//   let thisDataIndex = findIndexArray(thisDataId);
-//   MOCK_SMELLS.mySmells.splice(thisDataIndex, 1);
-//   MOCK_SMELLS.mySmells.push(newDataforId);
-// }
-
+//listen for when smell form is submitted and sends passes data to postSmell
 function listenNewSmell() {
-  $(".smell-form").submit(event => {
+  $(".smell-form").on("submit", event => {
     event.preventDefault();
     console.log("new smell submitted");
-    let thisDate = new Date();
-    let smellPosition = map.getCenter();
+
+    let mapCenter = map.getCenter();
+    let smellPosition = {
+      lat: mapCenter.lat(),
+      lng: mapCenter.lng()
+    };
+
     console.log(smellPosition);
     const smellData = {
-      id: smellId++,
+      id: $(".id-input").val(),
       title: $(".smell-title").val(),
       description: $(".smell-description").val(),
       category: $("input[name=category]:checked", "#smellsubmit").val(),
-      publishedAt: thisDate,
       smellLocation: smellPosition
     };
-    console.log(smellData);
-    addDataToMap(smellData);
-    initMap();
-    $(".new-smell").addClass("hidden");
+    console.log("128 data sent for update", smellData);
+    if (smellData.id) {
+      putSmell(smellData);
+    } else {
+      postSmell(smellData);
+    }
+    hideForm();
+    hideBullseye();
     document.getElementById("showform").disabled = false;
-    $(".location").addClass("hidden");
   });
 }
 
-// function listenUpdateButton(updatedSmell) {
-//   $(".update-smell-button").on(click, event => {
-//     event.preventDefault();
-//     console.log("smell update submitted");
-//     let sameDate = updatedSmell.publishedAt;
-//     let sameLocation = updatedSmell.smellLocation;
-//     let sameId = updatedSmell.id;
-//     const updatedSmellData = {
-//       id: sameId,
-//       title: $(".smell-title").val(),
-//       description: $(".smell-description").val(),
-//       category: $("input[name=category]:checked", "#smellsubmit").val(),
-//       publishedAt: sameDate,
-//       smellLocation: sameLocation
-//     };
-//     updateMapData(updatedSmellData);
-//     initMap();
-//     $(".new-smell").addClass("hidden");
-//     document.getElementById("showform").disabled = false;
-//     $(".location").addClass("hidden");
-//   });
-// }
-
-// function findInArray(someId) {
-//   return MOCK_SMELLS.mySmells.find(element => {
-//     return element.id == someId;
-//   });
-// }
-
-function findIndexArray(someId) {
-  return MOCK_SMELLS.mySmells.find(element => {
-    return element.id == someId;
+//makes POST request to add or update data in the database
+function postSmell(newSmellData) {
+  console.log(newSmellData);
+  $.ajax({
+    url: "/smells",
+    method: "POST",
+    data: JSON.stringify(newSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: setNewMarker
   });
 }
 
-//this function is not yet working as desired
-function listenUpdate(thisSmellId) {
-  console.log(thisSmellId);
-  let thisSmell = findIndexArray(thisSmellId);
-  console.log(thisSmell);
-  const thisTitle = thisSmell.title;
-  const thisDescription = thisSmell.description;
-  const thisCategory = thisSmell.category;
-  $(".new-smell").removeClass("hidden");
-  $(".smell-title").val(thisTitle);
-  $(".smell-description").val(thisDescription);
-  document.forms["smellsubmit"][thisCategory].checked = true;
-  document.getElementById("updatebutton").disabled = false;
-  document.getElementById("createbutton").disabled = true;
-  listenUpdateButton(thisSmell);
+//listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
+function listenEdit(smellId) {
+  console.log("edit requested", smellId);
+  document.getElementById("showform").disabled = true;
+  getSmellbyId(smellId);
 }
 
-function listenDelete(thisSmellId) {
-  console.log(thisSmellId);
-  let thisSmellIndex = findIndexArray(thisSmellId);
-  console.log(thisSmellIndex);
-  MOCK_SMELLS.mySmells.splice(thisSmellIndex, 1);
-  initMap();
+//get smell data with specific ID from database
+function getSmellbyId(id) {
+  const url = `/smells/${id}`;
+  $.getJSON(url, formRepop);
 }
 
-function listenShowNewSmell() {
-  $(".show-new-smell-form").on("click", event => {
-    $(".new-smell").removeClass("hidden");
-    map.addListener("dragend", event => {
-      console.log(event);
-    });
-    document.getElementById("smellsubmit").reset();
-    document.getElementById("showform").disabled = true;
-    $(".location").removeClass("hidden");
-    document.getElementById("updatebutton").disabled = true;
+function putSmell(updatedSmellData) {
+  console.log(updatedSmellData);
+  const id = updatedSmellData.id;
+  $.ajax({
+    url: `/smells/${id}`,
+    method: "PUT",
+    data: JSON.stringify(updatedSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: response => {
+      updateSmellWindow(response);
+    }
   });
 }
 
-function listenInfoX() {
-  $(".close").on("click", event => {
-    $(".new-smell").addClass("hidden");
-    document.getElementById("showform").disabled = false;
-    $(".location").addClass("hidden");
+//repopulates smell form with data for that smell
+function formRepop(response) {
+  const smellTitle = response.title;
+  const smellDescription = response.description;
+  const smellCategory = response.category;
+  const smellId = response.id;
+  showForm();
+  $(".smell-title").val(smellTitle);
+  $(".smell-description").val(smellDescription);
+  $(".id-input").val(smellId);
+  document.forms["smellsubmit"][smellCategory].checked = true;
+}
+
+//update infowindow with updated smell data
+function updateSmellWindow(data) {
+  let smellId = data._id;
+  let smellTitle = data.title;
+  let smellDescription = data.description;
+  let smellCategory = data.category;
+  let smellCreated = data.publishedAt;
+  let smellPosition = data.smellLocation;
+
+  let smellText = `
+        <h2 class="smell-title">${smellTitle}</h2>
+        <p>${smellDescription}</p>
+        <p>${smellCategory}</p>
+        <p>${smellCreated}</p>
+        <button onclick="listenEdit('${smellId}')"
+class="edit-smell">Edit Smell</button>
+        <button onclick="listenDelete('${smellId}')"
+class="delete-smell">Delete Smell</button>
+        `;
+  document.getElementById("content-" + smellId).innerHTML = smellText;
+}
+
+// listen for when user clicks "Delete Smell" and makes DELETE REQUEST
+function listenDelete(smellId) {
+  console.log("delete requested", smellId);
+  $.ajax({
+    url: `/smells/${smellId}`,
+    method: "DELETE",
+    // data: JSON.stringify(newSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: initMap
   });
 }
 
+//callback function for when the page loads
 function handleApp() {
   initMap();
   listenShowNewSmell();
   listenInfoX();
+  listenNewSmell();
 }
 
+//when page loads, call handleApp
 $(handleApp);

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoseMap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
-       <link href="https://fonts.googleapis.com/css?family=Biryani:900|Quattrocento+Sans" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Biryani:600,700|Quattrocento+Sans:400,400i,700" rel="stylesheet">
+       <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FVQb1CP.png"/>
   </head>
   <body>
-    <header class="page-header">
-      <h1>NoseMap</h1>
-      <button class="show-new-smell-form" id="showform">Add New Smell</button>
+    <header role="banner" class="page-header">
+      <h1>Map your olfactory environment</h1>
+      <div class="logocontain"><img class="nose-logo" src="https://i.imgur.com/FVQb1CP.png"></div>
     </header>
-    <main class="content-container">
-    <div class="new-smell hidden">
+    <main role="main" class="content-container">
+        <button class="show-new-smell-form" id="showform">Add New Smell</button>
+        <div class="icon-explain">Click the nose icons to see smell info</div>
+    <div class="new-smell">
       <form class="smell-form" id="smellsubmit">
         <label for="title" class="text-field-title">Smell Title</label>
         <input type="text" id="title" class="smell-title" maxlength="30" required>
         <label for="description" maxlength="200" class="text-field-title">Description</label>
         <textarea wrap="hard" id="description" class="smell-description" required></textarea>
-        <!-- <label for="intensity" class="text-field-title">Intensity</label>
-        <div class="slidecontainer">
-          <input type="range" min="1" max="10" value="5" class="intensity-slider" id="intensity">
-        </div> -->
         <fieldset id="smell-category" class="smell-category-box">
-          <legend class="category-title">Category</legend>
+          <legend class="text-field-title">Category</legend>
           <div class="radio-category first">
             <input type="radio" name="category" id="food" value="food" required>
             <label for="food">Food & Drink</label>
@@ -51,15 +51,18 @@
             <label for="other">Other</label>
           </div>
         </fieldset>
-        <button type="submit" class="create-smell-button" id="createbutton">Create Smell</button>
-        <button class="update-smell-button" id="updatebutton">Update Smell</button>
+        <input type="text" class="id-input hidden">
+        <input type="text" class="date-input hidden">
+        <input type="text" class="latitude hidden">
+        <input type="text" class="longitude hidden">
+        <button type="submit" class="create-smell-button" id="createbutton">Enter Smell</button>
         <button type="button" class="close" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
       </form>
     </div>
     <div class="mapcontain">
-      <div class="location hidden">
+      <div class="location">
         <div class="location-explain">Drag map to set smell location</div>
         <div class="bullseye"></div>
       </div>
@@ -68,6 +71,7 @@
   </main>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script src="client.js"></script>
+<script src="form-nav.js"></script>
 <script src="mapstyle.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480&callback=initMap">
 </script>
