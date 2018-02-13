@@ -79,7 +79,7 @@ body {
   background: #242f3e;
 }
 
-h1 {
+h2 {
   font-style: italic;
   font-size: 22px;
   color: #242f3e;
@@ -90,7 +90,7 @@ h1 {
   display: none;
 }
 
-h1,
+h2,
 p,
 div,
 button {
@@ -281,7 +281,7 @@ button {
     margin-left: 10px;
   }
 
-  h1 {
+  h2 {
     color: #f3f3f4;
   }
 
