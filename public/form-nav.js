@@ -44,3 +44,10 @@ function listenInfoX() {
     document.getElementById("showform").disabled = false;
   });
 }
+
+//show login form when sign-up button is clicked on landing page
+function showLoginForm() {
+  $(".login-button").on("click", event => {
+    $(".login-form").addClass("drop-in");
+  });
+}

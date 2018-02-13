@@ -2,6 +2,8 @@
 let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
+let demoId = 10;
+let isDemo = false;
 
 //geolocate user's location. If successful, call initSmellMap to initialize the map
 function initMap() {
@@ -13,11 +15,15 @@ function initMap() {
 //display map
 function initSmellMap(position) {
   myPosition = {
-    // lat: position.coords.latitude,
-    // lng: position.coords.longitude
-    lat: 45.5300958,
-    lng: -122.6169967
+    lat: position.coords.latitude,
+    lng: position.coords.longitude
   };
+  if (isDemo) {
+    myPosition = {
+      lat: 45.5300958,
+      lng: -122.6169967
+    };
+  }
   console.log(myPosition);
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
@@ -36,8 +42,12 @@ function initSmellMap(position) {
 
 //get all data from API
 function getSmells(callback) {
-  const url = "/smells";
-  $.getJSON(url, callback);
+  if (isDemo) {
+    displayMapData(MOCK_SMELLS.mySmells);
+  } else {
+    const url = "/smells";
+    $.getJSON(url, callback);
+  }
 }
 
 //iterate through response data and calls setNewMarker to place marker for each data object
@@ -123,14 +133,17 @@ function listenNewSmell() {
 //makes POST request to add or update data in the database
 function postSmell(newSmellData) {
   console.log(newSmellData);
-  $.ajax({
-    url: "/smells",
-    method: "POST",
-    data: JSON.stringify(newSmellData),
-    crossDomain: true,
-    contentType: "application/json",
-    success: setNewMarker
-  });
+  if (isDemo) {
+  } else {
+    $.ajax({
+      url: "/smells",
+      method: "POST",
+      data: JSON.stringify(newSmellData),
+      crossDomain: true,
+      contentType: "application/json",
+      success: setNewMarker
+    });
+  }
 }
 
 //listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
@@ -209,12 +222,23 @@ function listenDelete(smellId) {
   });
 }
 
+function listenShowMap() {
+  $(".demo-button").on("click", event => {
+    isDemo = true;
+    console.log("demo data requested");
+    $("#landing").addClass("hidden");
+    $("#main-content").removeClass("hidden");
+    initMap();
+  });
+}
+
 //callback function for when the page loads
 function handleApp() {
-  initMap();
+  listenShowMap();
   listenShowNewSmell();
   listenInfoX();
   listenNewSmell();
+  showLoginForm();
 }
 
 //when page loads, call handleApp
