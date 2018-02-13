@@ -12,7 +12,9 @@ h1 {
 
 h2,
 button,
-main {
+main,
+footer,
+label {
   font-family: "Quattrocento Sans", sans-serif;
 }
 
@@ -34,6 +36,7 @@ h2 {
   padding-top: 50px;
   padding-bottom: 70px;
   margin: 0 auto;
+  position: relative;
   /* border: 1px solid white; */
 }
 
@@ -41,10 +44,11 @@ main {
   background: rgba(243, 243, 244, 0.5);
   width: 100%;
   height: 100%;
+  margin-bottom: -13px;
 }
 
 .demo-button,
-.login {
+.login-button {
   width: 220px;
   padding: 4px;
   margin: 10px auto 10px auto;
@@ -57,7 +61,7 @@ main {
 }
 
 .demo-button:hover,
-.login:hover {
+.login-button:hover {
   background-color: #cdd1d6;
 }
 
@@ -65,5 +69,49 @@ main {
   width: 90%;
   padding: 20px;
   margin: 0 auto;
-  font-size: 103%;
+  font-size: 105%;
+}
+
+.asterisk {
+  font-size: 95%;
+}
+
+.cred {
+  font-size: 98%;
+  text-align: center;
+  padding-top: 30px;
+  margin-bottom: 5px;
+}
+
+.github-icon {
+  width: 32px;
+  margin: 0 auto;
+  display: block;
+}
+
+footer {
+  width: 100%;
+  height: 100px;
+  background: rgba(243, 243, 244, 0.75);
+  margin-top: 0;
+}
+
+.login-form {
+  position: absolute;
+  width: 316px;
+  background: rgba(243, 243, 244, 0.9);
+  top: -100px;
+  transition: 0.5s;
+}
+
+.drop-in {
+  transition: 0.5s;
+  top: 100px;
+}
+
+label {
+  display: block;
+}
+
+@media only screen and (min-width: 800px) {
 }
