@@ -40,7 +40,8 @@ let MOCK_SMELLS = {
       description:
         "a little bit of nostalgic stank on the max train going over the bridge",
       category: "body",
-      smellLocation: { lat: 45.527762, lng: -122.668854 }
+      smellLocation: { lat: 45.527762, lng: -122.668854 },
+      publishedAt: "Thursday, February 8th 2018, 4:34:06 pm"
     },
     {
       id: 6,

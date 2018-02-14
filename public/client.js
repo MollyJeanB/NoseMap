@@ -2,7 +2,7 @@
 let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
-let demoId = 10;
+let demoId = 11;
 let isDemo = false;
 
 //geolocate user's location. If successful, call initSmellMap to initialize the map
@@ -14,17 +14,18 @@ function initMap() {
 
 //display map
 function initSmellMap(position) {
-  myPosition = {
-    lat: position.coords.latitude,
-    lng: position.coords.longitude
-  };
   if (isDemo) {
+    //if map accessed through demo account, hardcode center of map to Portland
     myPosition = {
       lat: 45.5300958,
       lng: -122.6169967
     };
-  }
-  console.log(myPosition);
+    //if authenticated user, center map on their location
+  } else
+    myPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
     center: myPosition,
@@ -40,10 +41,11 @@ function initSmellMap(position) {
   getSmells(displayMapData);
 }
 
-//get all data from API
 function getSmells(callback) {
+  //if demo account, get data from sample data array
   if (isDemo) {
     displayMapData(MOCK_SMELLS.mySmells);
+    //if authenticated user, get all data from API
   } else {
     const url = "/smells";
     $.getJSON(url, callback);
@@ -52,7 +54,6 @@ function getSmells(callback) {
 
 //iterate through response data and calls setNewMarker to place marker for each data object
 function displayMapData(response) {
-  console.log(response);
   for (var i = 0; i < response.length; i++) {
     setNewMarker(response[i]);
   }
@@ -68,7 +69,7 @@ function setNewMarker(data) {
   let smellPosition = data.smellLocation;
 
   let smellText = `<div id="content-${smellId}" class="smell-box">
-        <h2 class="smell-title">${smellTitle}</h2>
+        <h3 class="smell-title">${smellTitle}</h3>
         <p>${smellDescription}</p>
         <p>${smellCategory}</p>
         <p>${smellCreated}</p>
@@ -98,11 +99,10 @@ class="delete-smell">Delete Smell</button>
   });
 }
 
-//listen for when smell form is submitted and sends passes data to postSmell
+//listen for when smell form is submitted
 function listenNewSmell() {
   $(".smell-form").on("submit", event => {
     event.preventDefault();
-    console.log("new smell submitted");
 
     let mapCenter = map.getCenter();
     let smellPosition = {
@@ -110,7 +110,6 @@ function listenNewSmell() {
       lng: mapCenter.lng()
     };
 
-    console.log(smellPosition);
     const smellData = {
       id: $(".id-input").val(),
       title: $(".smell-title").val(),
@@ -118,11 +117,36 @@ function listenNewSmell() {
       category: $("input[name=category]:checked", "#smellsubmit").val(),
       smellLocation: smellPosition
     };
-    console.log("128 data sent for update", smellData);
-    if (smellData.id) {
-      putSmell(smellData);
+
+    if (isDemo) {
+      //if demo account AND the data is being updated
+      if (smellData.id) {
+        smellData.publishedAt = moment(new Date()).format(
+          "dddd, MMMM Do YYYY, h:mm:ss a"
+        );
+        updateSmellWindow(smellData);
+        updateDataInArray(smellData);
+        //if demo account and the data is new
+      } else {
+        const smellData = {
+          id: demoId++,
+          title: $(".smell-title").val(),
+          description: $(".smell-description").val(),
+          category: $("input[name=category]:checked", "#smellsubmit").val(),
+          publishedAt: moment(new Date()).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          ),
+          smellLocation: smellPosition
+        };
+        setNewMarker(smellData);
+        MOCK_SMELLS.mySmells.push(smellData);
+      }
     } else {
-      postSmell(smellData);
+      if (smellData.id) {
+        putSmell(smellData);
+      } else {
+        postSmell(smellData);
+      }
     }
     hideForm();
     hideBullseye();
@@ -132,25 +156,25 @@ function listenNewSmell() {
 
 //makes POST request to add or update data in the database
 function postSmell(newSmellData) {
-  console.log(newSmellData);
-  if (isDemo) {
-  } else {
-    $.ajax({
-      url: "/smells",
-      method: "POST",
-      data: JSON.stringify(newSmellData),
-      crossDomain: true,
-      contentType: "application/json",
-      success: setNewMarker
-    });
-  }
+  $.ajax({
+    url: "/smells",
+    method: "POST",
+    data: JSON.stringify(newSmellData),
+    crossDomain: true,
+    contentType: "application/json",
+    success: setNewMarker
+  });
 }
 
 //listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
 function listenEdit(smellId) {
-  console.log("edit requested", smellId);
   document.getElementById("showform").disabled = true;
-  getSmellbyId(smellId);
+  if (isDemo) {
+    let currentSmell = findIndexArray(smellId);
+    formRepop(currentSmell);
+  } else {
+    getSmellbyId(smellId);
+  }
 }
 
 //get smell data with specific ID from database
@@ -160,7 +184,6 @@ function getSmellbyId(id) {
 }
 
 function putSmell(updatedSmellData) {
-  console.log(updatedSmellData);
   const id = updatedSmellData.id;
   $.ajax({
     url: `/smells/${id}`,
@@ -187,9 +210,26 @@ function formRepop(response) {
   document.forms["smellsubmit"][smellCategory].checked = true;
 }
 
+function findIndexArray(someId) {
+  return MOCK_SMELLS.mySmells.find(element => {
+    return element.id === parseInt(someId);
+  });
+}
+
+function updateDataInArray(updatedSmellData) {
+  let dataId = updatedSmellData.id;
+  let dataIndex = findIndexArray(dataId);
+  dataIndex = updatedSmellData;
+}
+
 //update infowindow with updated smell data
 function updateSmellWindow(data) {
-  let smellId = data._id;
+  let smellId;
+  if (isDemo) {
+    smellId = data.id;
+  } else {
+    smellId = data._id;
+  }
   let smellTitle = data.title;
   let smellDescription = data.description;
   let smellCategory = data.category;
@@ -197,7 +237,7 @@ function updateSmellWindow(data) {
   let smellPosition = data.smellLocation;
 
   let smellText = `
-        <h2 class="smell-title">${smellTitle}</h2>
+        <h3 class="smell-title">${smellTitle}</h3>
         <p>${smellDescription}</p>
         <p>${smellCategory}</p>
         <p>${smellCreated}</p>
@@ -211,21 +251,23 @@ class="delete-smell">Delete Smell</button>
 
 // listen for when user clicks "Delete Smell" and makes DELETE REQUEST
 function listenDelete(smellId) {
-  console.log("delete requested", smellId);
-  $.ajax({
-    url: `/smells/${smellId}`,
-    method: "DELETE",
-    // data: JSON.stringify(newSmellData),
-    crossDomain: true,
-    contentType: "application/json",
-    success: initMap
-  });
+  if (isDemo) {
+    MOCK_SMELLS.mySmells.splice(parseInt(smellId) - 1, 1);
+    initMap();
+  } else {
+    $.ajax({
+      url: `/smells/${smellId}`,
+      method: "DELETE",
+      crossDomain: true,
+      contentType: "application/json",
+      success: initMap
+    });
+  }
 }
 
 function listenShowMap() {
   $(".demo-button").on("click", event => {
     isDemo = true;
-    console.log("demo data requested");
     $("#landing").addClass("hidden");
     $("#main-content").removeClass("hidden");
     initMap();

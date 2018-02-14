@@ -5,16 +5,35 @@ const jsonParser = bodyParser.json();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const localStrategy = require("./auth/index").localStrategy;
+const jwtStrategy = require("./auth/index").jwtStrategy;
+const passport = require("passport");
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Smell } = require("./models");
+const userRouter = require("./users/router").router;
+const authRouter = require("./auth/router").router;
 
 const app = express();
 
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use("/users", userRouter);
+app.use("/auth", authRouter);
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+const jwtAuth = passport.authenticate("jwt", { session: false });
+
+// A protected endpoint which needs a valid JWT to access it
+app.get("/protected", jwtAuth, (req, res) => {
+  return res.json({
+    data: "rosebud"
+  });
+});
 
 app.get("/smells", (req, res) => {
   Smell.find()
