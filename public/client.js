@@ -5,6 +5,13 @@ let myPosition;
 let demoId = 11;
 let isDemo = false;
 
+function showMap() {
+  $("#landing").addClass("hidden");
+  $("#main-content").removeClass("hidden");
+  $(".contain").removeClass("background");
+  initMap();
+}
+
 //geolocate user's location. If successful, call initSmellMap to initialize the map
 function initMap() {
   navigator.geolocation.getCurrentPosition(initSmellMap, error => {
@@ -71,7 +78,7 @@ function setNewMarker(data) {
   let smellText = `<div id="content-${smellId}" class="smell-box">
         <h3 class="smell-title">${smellTitle}</h3>
         <p>${smellDescription}</p>
-        <p>${smellCategory}</p>
+        <p class="smelltext-category"><i>${smellCategory}</i></p>
         <p>${smellCreated}</p>
         <button onclick="listenEdit('${smellId}')"
 class="edit-smell">Edit Smell</button>
@@ -82,7 +89,7 @@ class="delete-smell">Delete Smell</button>
   const infowindow = new google.maps.InfoWindow({
     content: smellText
   });
-  const markerImage = "https://i.imgur.com/FVQb1CP.png";
+  const markerImage = "/images/littlenose.png";
 
   const marker = new google.maps.Marker({
     id: smellId,
@@ -239,7 +246,7 @@ function updateSmellWindow(data) {
   let smellText = `
         <h3 class="smell-title">${smellTitle}</h3>
         <p>${smellDescription}</p>
-        <p>${smellCategory}</p>
+        <p class="smelltext-category"><i>${smellCategory}</i></p>
         <p>${smellCreated}</p>
         <button onclick="listenEdit('${smellId}')"
 class="edit-smell">Edit Smell</button>
@@ -265,22 +272,59 @@ function listenDelete(smellId) {
   }
 }
 
-function listenShowMap() {
+function listenMapStartDemo() {
   $(".demo-button").on("click", event => {
     isDemo = true;
-    $("#landing").addClass("hidden");
-    $("#main-content").removeClass("hidden");
-    initMap();
+    showMap();
   });
+}
+
+function listenLogin() {
+  $(".login-form").on("submit", event => {
+    event.preventDefault();
+    let userCreds = {
+      username: $(".username").val(),
+      password: $(".password").val()
+    };
+    login(userCreds);
+  });
+}
+
+function login(userCreds) {
+  $.ajax({
+    url: "auth/login",
+    method: "POST",
+    data: JSON.stringify(userCreds),
+    crossDomain: true,
+    contentType: "application/json",
+    success: addTokenToLocalStorage
+  });
+}
+
+function addTokenToLocalStorage(response) {
+  localStorage.setItem("TOKEN", response.authToken);
 }
 
 //callback function for when the page loads
 function handleApp() {
-  listenShowMap();
+  $.ajaxSetup({
+    dataType: "json",
+    contentType: "application/json",
+    headers: {
+      Authorization: "JWT " + localStorage.getItem("TOKEN")
+    }
+  });
+
+  listenMapStartDemo();
   listenShowNewSmell();
   listenInfoX();
+  listenSignupX();
+  listenLoginX();
   listenNewSmell();
-  showLoginForm();
+  listenShowSignup();
+  listenShowLogin();
+  listenShowLoginFromSignup();
+  listenLogin();
 }
 
 //when page loads, call handleApp

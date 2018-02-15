@@ -6,30 +6,52 @@
     <title>NoseMap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
-           <link rel="stylesheet" type="text/css" href="background.css">
-
-<link href="https://fonts.googleapis.com/css?family=Francois+One|Quattrocento+Sans:400,400i,700" rel="stylesheet">
-       <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FVQb1CP.png"/>
+       <link rel="stylesheet" type="text/css" href="background.css">
+       <link href="https://fonts.googleapis.com/css?family=Francois+One|Quattrocento+Sans:400,400i,700" rel="stylesheet">
+       <link rel="shortcut icon" type="image/png" href="/images/littlenose.png"/>
   </head>
-  <body>
+  <body class="contain background">
     <section id="landing">
+      <div class="forms-header-contain">
       <header class="header-container">
-        <h1>Nose</h1>
-        <img src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/emoji-one/104/nose_1f443.png" class="big-nose">
-        <h1>Maps</h1>
+        <h1 class="head-nose">Nose</h1>
+        <img src="/images/bignose.png" class="big-nose">
+        <h1 class="head-map">Maps</h1>
         <h2>An olfactory geography project</h2>
-        <button class="demo-button">Explore Demo Account*</button>
-        <button class="login-button">Sign Up / Log In</button>
-        <div class="login-form">
-          <form>
-            <label>Username</label>
-            <input type="text">
-            <label>Password</label>
-            <input type="text">
-            <button type="submit">Log In</button>
-          </form>
-        </div>
+        <button class="demo-button standard">Explore Demo Account*</button>
+        <button class="show-signup-button standard">Sign Up</button>
       </header>
+      <button class="show-login standard">Log In</button>
+      <div class="login-form-contain">
+        <form class="login-form">
+        <label class="login-label first-label">Username</label>
+        <input class="username su top" type="text">
+        <label class="login-label">Password</label>
+        <input type="password" class="password su top">
+        <button type="submit" class="standard login-button">Log In</button>
+        </form>
+        <button type="button" class="close-login" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="signup-form-contain">
+        <button class="show-login-from-signup">Already have an account?</button>
+        <form class="signup-form">
+          <label class="su-l">First Name</label>
+          <input class="firstname su" type="text">
+          <label class="su-l">Last Name</label>
+          <input class="lastname su" type="text">
+          <label class="su-l">Username</label>
+          <input class="username-new su" type="text">
+          <label class="su-l">Password</label>
+          <input type="password" class="password-new su">
+          <button type="submit" class="standard signup-button">Sign Up</button>
+        </form>
+        <button type="button" class="close-su" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
       <main>
         <div class="explain-box">
           <p>
@@ -56,35 +78,31 @@
     <div class="new-smell">
       <form class="smell-form" id="smellsubmit">
         <label for="title" class="text-field-title">Smell Title</label>
-        <input type="text" id="title" class="smell-title" maxlength="30" required>
+        <input type="text" id="title" class="smell-title" maxlength="30" placeholder="e.g. Cinnamon Buns & Coffee" required>
         <label for="description" maxlength="200" class="text-field-title">Description</label>
-        <textarea wrap="hard" id="description" class="smell-description" required></textarea>
+        <textarea wrap="hard" id="description" class="smell-description" placeholder="e.g. Bakery smells of butter, cinnamon, and a fresh pot of coffee. Reminds me of Aunt Kate's house on Sunday mornings." required></textarea>
         <fieldset id="smell-category" class="smell-category-box">
           <legend class="text-field-title">Category</legend>
-          <div class="radio-category first">
-            <input type="radio" name="category" id="food" value="food" required>
-            <label for="food">Food & Drink</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="waste" value="waste" required>
-            <label for="waste">Waste</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="nature" value="nature" required>
-            <label for="nature">Nature & Environment</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="exhaust" value="exhaust" required>
-            <label for="exhaust">Exhaust & Industrial</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="body" value="body" required>
-            <label for="body">Body Odor</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="other" value="other" required>
-            <label for="other">Other</label>
-          </div>
+          <label for="Food" class="first radio-category">
+            <input type="radio" value="Food" name="category" id="Food" required>
+            <span>Food & Drink</span>
+          </label>
+          <label for="Waste" class="radio-category">
+            <input type="radio" value="Waste" name="category" id="Waste" required>
+            <span>Waste & Industrial</span>
+          </label>
+          <label for="Body" class="radio-category">
+            <input type="radio" value="Body" name="category" id="Body" required>
+            <span>Body Odor</span>
+          </label>
+          <label for="Nature" class="radio-category">
+            <input type="radio" value="Nature" name="category" id="Nature" required>
+            <span>Nature & Environment</span>
+          </label>
+          <label for="Other" class="radio-category">
+            <input type="radio" value="Other" name="category" id="Other" required>
+            <span>Other</span>
+          </label>
         </fieldset>
         <input type="text" class="id-input hidden">
         <input type="text" class="date-input hidden">

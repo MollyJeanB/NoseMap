@@ -45,9 +45,39 @@ function listenInfoX() {
   });
 }
 
+function listenSignupX() {
+  $(".close-su").on("click", event => {
+    $(".signup-form-contain").removeClass("drop-in");
+  });
+}
+
+function listenLoginX() {
+  $(".close-login").on("click", event => {
+    $(".login-form-contain").removeClass("slide-out-right");
+  });
+}
+
+function showLogin() {
+  $(".login-form-contain").addClass("slide-out-right");
+  $(".signup-form-contain").removeClass("drop-in");
+}
+
+function listenShowLogin() {
+  $(".show-login").on("click", event => {
+    showLogin();
+  });
+}
+
+function listenShowLoginFromSignup() {
+  $(".show-login-from-signup").on("click", event => {
+    showLogin();
+  });
+}
+
 //show login form when sign-up button is clicked on landing page
-function showLoginForm() {
-  $(".login-button").on("click", event => {
-    $(".login-form").addClass("drop-in");
+function listenShowSignup() {
+  $(".show-signup-button").on("click", event => {
+    $(".signup-form-contain").addClass("drop-in");
+    $(".login-form-contain").removeClass("slide-out-right");
   });
 }

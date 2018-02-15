@@ -8,7 +8,7 @@ body {
 
 .mapcontain {
   width: 100%;
-  height: 900px;
+  height: 950px;
   position: relative;
   background: #242f3e;
   border-top: 3px solid rgba(64, 84, 110, 0.85);
@@ -135,7 +135,7 @@ button {
   left: -101%;
   top: 0;
   width: 100%;
-  height: 383px;
+  height: 408px;
   background-color: rgba(64, 84, 110, 0.85);
   z-index: 2;
   transition: 0.5s;
@@ -227,10 +227,6 @@ button {
   border: 2px solid #d59562;
 }
 
-/* .category-title {
-  margin: 3px auto 3px 3px;
-} */
-
 .text-field-title {
   display: block;
   margin: 18px 3px 3px 3px;
@@ -239,13 +235,15 @@ button {
 .smell-title {
   width: 267px;
   margin-left: 3px;
+  font-size: 16px;
 }
 
 .smell-description {
   width: 267px;
-  height: 50px;
+  height: 60px;
   margin-left: 3px;
   margin-bottom: 13px;
+  font-size: 14px;
 }
 
 .close {
@@ -265,6 +263,61 @@ button {
   font-size: 103%;
 }
 
+.smelltext-category {
+  color: rgb(64, 84, 110);
+  font-size: 103%;
+}
+
+[type="radio"] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* One radio button per line */
+.radio-category {
+  display: block;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+[type="radio"] + span {
+  display: block;
+}
+
+/* the basic, unchecked style */
+[type="radio"] + span:before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.25em;
+  border-radius: 1em;
+  border: 0.1em solid #fff;
+  box-shadow: 0 0 0 0.1em #303030;
+  margin-right: 0.75em;
+  transition: 0.5s ease all;
+}
+
+/* the checked style using the :checked pseudo class */
+[type="radio"]:checked + span:before {
+  background: rgba(243, 98, 66, 0.8);
+  box-shadow: 0 0 0 0.2em #303030;
+}
+
+/* never forget focus styling */
+[type="radio"]:focus + span:after {
+  content: "\0020\2190";
+  font-size: 1em;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+
 @media only screen and (min-width: 800px) {
   .new-smell {
     /* left: 0; */
@@ -273,7 +326,7 @@ button {
   }
 
   .mapcontain {
-    height: 550px;
+    height: 95vh;
     border-bottom: 3px solid rgba(64, 84, 110, 0.85);
   }
 
@@ -303,7 +356,7 @@ button {
   font-family: "Francois One", sans-serif;
   color: #f3f3f4;
   text-shadow: 2px 2px rgba(64, 84, 110, 0.85);
-  font-size: 60px;
+  font-size: 58px;
   display: inline-block;
 }
 
@@ -317,38 +370,113 @@ button {
 
 #landing h2 {
   font-style: italic;
-  font-size: 21px;
+  font-size: 20px;
   color: #f3f3f4;
   margin-top: -25px;
 }
 
-#landing .big-nose {
+.big-nose {
   display: inline-block;
   height: 55px;
   padding-top: 5px;
 }
 
 #landing .header-container {
-  width: 316px;
-  padding-top: 50px;
-  padding-bottom: 70px;
+  width: 320px;
+  padding: 50px 5px 70px 5px;
   margin: 0 auto;
+}
+
+.forms-header-contain {
   position: relative;
-  /* border: 1px solid white; */
 }
 
-#landing main {
-  background: rgba(243, 243, 244, 0.5);
-  width: 100%;
-  height: 100%;
-  margin-bottom: -13px;
+.login-form-contain {
+  position: absolute;
+  width: 260px;
+  height: 178px;
+  background: rgba(243, 243, 244, 0.95);
+  border-bottom-left-radius: 25px;
+  border-bottom: 2px solid rgb(64, 84, 110);
+  border-left: 2px solid rgb(64, 84, 110);
+  right: -265px;
+  top: 0;
+  transition: 0.5s;
 }
 
-#landing .demo-button,
-#landing .login-button {
+.slide-out-right {
+  right: 0;
+  transition: 0.5s;
+}
+
+.login-button {
+  margin: 14px auto 10px auto;
+  width: 80px;
+}
+
+.login-label {
+  margin-left: 30px;
+}
+
+.first-label {
+  margin-top: 15px;
+}
+
+.close-login {
+  border: none;
+  background-color: rgba(191, 191, 193, 0);
+  font-size: 220%;
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  color: #303030;
+}
+
+.signup-form-contain {
+  position: absolute;
+  width: 325px;
+  height: 323px;
+  background: rgba(243, 243, 244, 0.95);
+  top: -360px;
+  transition: 0.5s;
+  border-radius: 25px;
+  border: 2px solid rgb(64, 84, 110);
+  margin: 0 auto 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.drop-in {
+  transition: 0.5s;
+  top: 90px;
+}
+
+.show-login-from-signup {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  display: block;
+  margin: 15px auto 10px auto;
+  font-size: 103%;
+}
+
+.show-login-from-signup:hover {
+  color: rgb(64, 84, 110);
+}
+
+.signup-button {
+  margin: 14px auto 10px auto;
+  width: 80px;
+}
+
+.demo-button,
+.show-signup-button {
   width: 220px;
-  padding: 4px;
   margin: 10px auto 10px auto;
+}
+
+.standard {
+  padding: 4px;
   display: block;
   border-radius: 25px;
   color: #303030;
@@ -357,9 +485,52 @@ button {
   border: 2px solid #d59562;
 }
 
-#landing .demo-button:hover,
-#landing .login-button:hover {
+.standard:hover {
   background-color: #cdd1d6;
+}
+
+.show-login {
+  width: 100px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px 10px 0 0;
+}
+
+.su {
+  display: block;
+  margin: 0 auto 10px auto;
+  height: 28px;
+  width: 260px;
+  border-bottom: 2px solid #d59562;
+  border-right: 2px solid #d59562;
+  border-top: 2px solid gray;
+  border-left: 2px solid gray;
+}
+
+.top {
+  width: 200px;
+}
+
+.su-l {
+  margin-left: 30px;
+}
+
+.close-su {
+  border: none;
+  background-color: rgba(191, 191, 193, 0);
+  font-size: 220%;
+  position: absolute;
+  right: 8px;
+  top: 0;
+  color: #303030;
+}
+
+#landing main {
+  background: rgba(243, 243, 244, 0.5);
+  width: 100%;
+  height: 100%;
+  margin-bottom: -13px;
 }
 
 #landing .explain-box {
@@ -391,19 +562,6 @@ button {
   height: 100px;
   background: rgba(243, 243, 244, 0.75);
   margin-top: 0;
-}
-
-#landing .login-form {
-  position: absolute;
-  width: 316px;
-  background: rgba(243, 243, 244, 0.9);
-  top: -100px;
-  transition: 0.5s;
-}
-
-#landing .drop-in {
-  transition: 0.5s;
-  top: 100px;
 }
 
 #landing label {
