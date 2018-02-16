@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": "mocha --exit",
-    "start": "node --inspect server.js"
+    "start": "nodemon --inspect server.js"
   },
   "author": "",
   "license": "ISC"

@@ -300,7 +300,7 @@ function createUser(newUserCreds) {
     password: newUserCreds.password
   };
   $.ajax({
-    url: "smells/users",
+    url: "/users",
     method: "POST",
     data: JSON.stringify(newUserCreds),
     crossDomain: true,
@@ -327,12 +327,13 @@ function login(userCreds) {
     data: JSON.stringify(userCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: addTokenToLocalStorage
+    success: loginSuccess
   });
 }
 
-function addTokenToLocalStorage(response) {
+function loginSuccess(response) {
   localStorage.setItem("TOKEN", response.authToken);
+  showMap();
 }
 
 //callback function for when the page loads

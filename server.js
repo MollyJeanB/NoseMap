@@ -46,8 +46,8 @@ app.get("/protected", jwtAuth, (req, res) => {
   });
 });
 
-app.get("/smells", (req, res) => {
-  Smell.find()
+app.get("/smells", jwtAuth, (req, res) => {
+  Smell.find({ user: req.user.id })
     .then(smells => {
       res.json(smells.map(smell => smell.serialize()));
     })
@@ -68,7 +68,8 @@ app.get("/smells/:id", (req, res) => {
     });
 });
 
-app.post("/smells", jsonParser, (req, res) => {
+app.post("/smells", jsonParser, jwtAuth, (req, res) => {
+  console.log(req.user);
   const requiredFields = ["title", "description", "category"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -83,7 +84,8 @@ app.post("/smells", jsonParser, (req, res) => {
     title: req.body.title,
     description: req.body.description,
     category: req.body.category,
-    smellLocation: req.body.smellLocation
+    smellLocation: req.body.smellLocation,
+    user: req.user.id
   })
     .then(newSmell => res.status(201).json(newSmell.serialize()))
     .catch(err => {
