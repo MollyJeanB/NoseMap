@@ -190,6 +190,7 @@ function getSmellbyId(id) {
   $.getJSON(url, formRepop);
 }
 
+//makes put reqest with updated data
 function putSmell(updatedSmellData) {
   const id = updatedSmellData.id;
   $.ajax({
