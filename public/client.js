@@ -2,7 +2,8 @@
 let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
-let demoId = 11;
+//id to increment for demo data array. Registered users interact with the REST API and save their data to the database, while demo account users see how the app behaves with an array of pre-loaded data. They may add, update, and delete data from the array, but their changes will not be saved when the page reloads
+let demoId = 19;
 let isDemo = false;
 
 function showMap() {
@@ -12,7 +13,7 @@ function showMap() {
   initMap();
 }
 
-//geolocate user's location. If successful, call initSmellMap to initialize the map
+//geolocate user's location via browser. If successful, call initSmellMap to initialize the map
 function initMap() {
   navigator.geolocation.getCurrentPosition(initSmellMap, error => {
     console.log("Error", error);
@@ -280,6 +281,34 @@ function listenMapStartDemo() {
   });
 }
 
+function listenSignup() {
+  $(".signup-form").on("submit", event => {
+    event.preventDefault();
+    let newUserCreds = {
+      firstName: $(".firstname").val(),
+      lastName: $(".lastname").val(),
+      username: $(".username-new").val(),
+      password: $(".password-new").val()
+    };
+    createUser(newUserCreds);
+  });
+}
+
+function createUser(newUserCreds) {
+  let userCreds = {
+    username: newUserCreds.username,
+    password: newUserCreds.password
+  };
+  $.ajax({
+    url: "smells/users",
+    method: "POST",
+    data: JSON.stringify(newUserCreds),
+    crossDomain: true,
+    contentType: "application/json",
+    success: login(userCreds)
+  });
+}
+
 function listenLogin() {
   $(".login-form").on("submit", event => {
     event.preventDefault();
@@ -326,6 +355,8 @@ function handleApp() {
   listenShowLogin();
   listenShowLoginFromSignup();
   listenLogin();
+  listenSignup();
+  listenRecenter();
 }
 
 //when page loads, call handleApp

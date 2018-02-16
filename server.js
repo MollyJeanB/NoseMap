@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const express = require("express");
@@ -12,7 +13,7 @@ mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Smell } = require("./models");
-const userRouter = require("./users/router").router;
+const usersRouter = require("./users/router").router;
 const authRouter = require("./auth/router").router;
 
 const app = express();
@@ -20,8 +21,18 @@ const app = express();
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(express.static("public"));
-app.use("/users", userRouter);
+app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+  if (req.method === "OPTIONS") {
+    return res.send(204);
+  }
+  next();
+});
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
@@ -79,7 +90,6 @@ app.post("/smells", jsonParser, (req, res) => {
       console.error(err);
       res.status(500).json({ error: "Something is altogether wrong" });
     });
-  // }
 });
 
 app.delete("/smells/:id", (req, res) => {

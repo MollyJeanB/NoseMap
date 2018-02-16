@@ -23,7 +23,7 @@ let MOCK_SMELLS = {
       description:
         "strong buttery smell every time someone opens the door to the theater",
       category: "Food",
-      smellLocation: { lat: 45.535536, lng: -122.620915 },
+      smellLocation: { lat: 45.531377, lng: -122.650705 },
       publishedAt: "Monday, February 5th 2018, 1:20:05 pm"
     },
     {
@@ -55,9 +55,9 @@ let MOCK_SMELLS = {
     {
       id: 7,
       title: "Books",
-      description: "wood pulp and a smidge of mildew at the Hollywood Library",
+      description: "wood pulp and a smidge of mildew at the Belmont Library",
       category: "Other",
-      smellLocation: { lat: 45.5376723, lng: -122.6211201 },
+      smellLocation: { lat: 45.515218, lng: -122.622668 },
       publishedAt: "Thursday, February 1st 2018, 10:30:05 am"
     },
     {
@@ -83,6 +83,72 @@ let MOCK_SMELLS = {
       category: "Food",
       smellLocation: { lat: 45.524217, lng: -122.616802 },
       publishedAt: "Monday, February 5th 2018, 1:20:05 pm"
+    },
+    {
+      id: 11,
+      title: "Roses and Mud",
+      description: "Rose petals and the muddy smell of sprinklers",
+      category: "Nature",
+      smellLocation: { lat: 45.508411, lng: -122.649719 },
+      publishedAt: "Monday, June 11 2018, 2:20:05 pm"
+    },
+    {
+      id: 12,
+      title: "Goose Poop",
+      description: "The mealy, wet smel of an ornery flock of geese",
+      category: "Other",
+      smellLocation: { lat: 45.516651, lng: -122.672276 },
+      publishedAt: "Monday, February 5th 2018, 1:20:05 pm"
+    },
+    {
+      id: 13,
+      title: "Cinnamon and fry oil",
+      description: "what the entrance to heaven must smell like",
+      category: "Food",
+      smellLocation: { lat: 45.548216, lng: -122.613986 },
+      publishedAt: "Sunday, February 4th 2018, 9:20:05 am"
+    },
+    {
+      id: 14,
+      title: "Ferns and fir trees",
+      description:
+        "Ah, I love the way the way the forest smells in the morning",
+      category: "Nature",
+      smellLocation: { lat: 45.533608, lng: -122.723179 },
+      publishedAt: "Thursday, February 1st 2018, 8:30:05 am"
+    },
+    {
+      id: 15,
+      title: "new shoe smell",
+      description: "fresh kicks! Reminds of back-to-school season",
+      category: "Other",
+      smellLocation: { lat: 45.541786, lng: -122.661121 },
+      publishedAt: "Tuesday, August 28th 2018, 11:30:05 am"
+    },
+    {
+      id: 16,
+      title: "Bradford pear :(",
+      description: "the deadly springtime smell of semen trees in bloom",
+      category: "Nature",
+      smellLocation: { lat: 45.550562, lng: -122.63336 },
+      publishedAt: "Tuesday, April 10th 2018, 2:30:05 pm"
+    },
+    {
+      id: 17,
+      title: "Incense",
+      description: "That serious smell of the high holy days",
+      category: "Other",
+      smellLocation: { lat: 45.542154, lng: -122.629321 },
+      publishedAt: "Friday, March 30th 2018, 11:30:05 am"
+    },
+    {
+      id: 18,
+      title: "Fresh fish, chili, and coriander",
+      description:
+        "Delectable marketplace. Remembering travels in Vietnam and Laos",
+      category: "Food",
+      smellLocation: { lat: 45.501982, lng: -122.577601 },
+      publishedAt: "Thursday, March 29th 2018, 6:30:05 pm"
     }
   ]
 };
