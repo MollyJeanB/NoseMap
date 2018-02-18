@@ -112,23 +112,24 @@ router.post("/", jsonParser, (req, res) => {
       return User.hashPassword(password);
     })
     .then(hash => {
-      return User.create({
+      //removed return
+      User.create({
         username,
         password: hash,
         firstName,
         lastName
-      });
-    })
-    .then(user => {
-      return res.status(201).json(user.serialize());
-    })
-    .catch(err => {
-      // Forward validation errors on to the client, otherwise give a 500
-      // error because something unexpected has happened
-      if (err.reason === "ValidationError") {
-        return res.status(err.code).json(err);
-      }
-      res.status(500).json({ code: 500, message: "Internal server error" });
+      })
+        .then(user => {
+          return res.status(201).json(user.serialize());
+        })
+        .catch(err => {
+          // Forward validation errors on to the client, otherwise give a 500
+          // error because something unexpected has happened
+          if (err.reason === "ValidationError") {
+            return res.status(err.code).json(err);
+          }
+          res.status(500).json({ code: 500, message: "Internal server error" });
+        });
     });
 });
 
@@ -137,7 +138,7 @@ router.post("/", jsonParser, (req, res) => {
 // if we're creating users. keep in mind, you can also
 // verify this in the Mongo shell.
 router.get("/", (req, res) => {
-  return User.find()
+  User.find()
     .then(users => res.json(users.map(user => user.serialize())))
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });

@@ -242,7 +242,9 @@ function updateSmellWindow(data) {
   let smellTitle = data.title;
   let smellDescription = data.description;
   let smellCategory = data.category;
-  let smellCreated = data.publishedAt;
+  let smellCreated = moment(data.publishedAt).format(
+    "dddd, MMMM Do YYYY, h:mm:ss a"
+  );
   let smellPosition = data.smellLocation;
 
   let smellText = `
@@ -321,6 +323,7 @@ function listenLogin() {
 }
 
 function login(userCreds) {
+  console.log(userCreds);
   $.ajax({
     url: "auth/login",
     method: "POST",
@@ -332,6 +335,7 @@ function login(userCreds) {
 }
 
 function loginSuccess(response) {
+  console.log("token added to storage");
   localStorage.setItem("TOKEN", response.authToken);
   showMap();
 }
