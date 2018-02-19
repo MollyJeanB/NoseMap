@@ -569,6 +569,7 @@ button {
   margin-top: 0;
 }
 
-#landing label {
-  display: block;
+.passwarn {
+  font-size: 80%;
+  color: red;
 }

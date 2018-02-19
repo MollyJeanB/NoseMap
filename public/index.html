@@ -26,9 +26,9 @@
       <div class="login-form-contain" aria-live="assertive">
         <form class="login-form">
         <label for="login-username" class="login-label first-label">Username</label>
-        <input id="login-username" class="username su top" type="text" required>
+        <input id="login-username" class="username su top" type="text" required placeholder="required">
         <label for="login-password" class="login-label">Password</label>
-        <input id="login-password" type="password" class="password su top" required>
+        <input id="login-password" type="password" class="password su top" required placeholder="required">
         <button type="submit" class="standard login-button">Log In</button>
         </form>
         <button type="button" class="close-login" aria-label="Close">
@@ -39,13 +39,13 @@
         <button class="show-login-from-signup">Already have an account?</button>
         <form class="signup-form" id="new-signup-form">
           <label for="signup-firstname" class="su-l">First Name</label>
-          <input id="signup-firstname" class="firstname su" type="text" required>
+          <input id="signup-firstname" class="firstname su" type="text" required placeholder="required">
           <label for="signup-lastname" class="su-l">Last Name</label>
-          <input id="signup-lastname" class="lastname su" type="text" required>
-          <label for="signup-username" class="su-l">Username</label>
-          <input id="signup-username" class="username-new su" type="text" required>
-          <label for="signup-password" class="su-l">Password</label>
-          <input id="signup-password" type="password" class="password-new su" required>
+          <input id="signup-lastname" class="lastname su" type="text" required placeholder="required">
+          <label for="signup-username" class="su-l">Username</label><span class="userwarn"></span>
+          <input id="signup-username" class="username-new su" type="text" required placeholder="required">
+          <label for="signup-password" class="su-l">Password</label><span class="passwarn"></span>
+          <input id="signup-password" type="password" class="password-new su" required placeholder="must be at least 7 characters">
           <button type="submit" class="standard signup-button">Sign Up</button>
         </form>
         <button type="button" class="close-su" aria-label="Close">
@@ -113,6 +113,10 @@
         <button type="button" class="close" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
+     <div class="success-box hidden">
+       <p>Success!</p>
+       <button>Log In to your new account.</button>
+     </div>
       </form>
     </div>
     <div class="mapcontain">
@@ -128,6 +132,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="client.js"></script>
 <script src="form-nav.js"></script>
+<script src="map-interface.js"></script>
 <script src="mapstyle.js"></script>
 <script src="demodata.js"></script>
 <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480">

@@ -91,6 +91,7 @@ function listenShowSignup() {
   $(".show-signup-button").on("click", event => {
     $(".signup-form-contain").addClass("drop-in");
     $(".login-form-contain").removeClass("slide-out-right");
-    document.getElementById("new-signup-form").reset();
+    // document.getElementById("new-signup-form").reset();
+    // $(".passwarn").html("");
   });
 }
