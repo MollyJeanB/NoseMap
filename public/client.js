@@ -19,6 +19,7 @@ function listenSignup() {
 
 function createUser(newUserCreds) {
   let userCreds = {
+    firstName: newUserCreds.firstName,
     username: newUserCreds.username,
     password: newUserCreds.password
   };
@@ -28,7 +29,25 @@ function createUser(newUserCreds) {
     data: JSON.stringify(newUserCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: login(userCreds)
+    success: showSuccessBox(userCreds)
+  });
+}
+
+function showSuccessBox(userCreds) {
+  let userGreeting = userCreds.firstName;
+  $(".new-user-text").html(userGreeting);
+  $(".success-box").removeClass("hidden");
+  listenFirstLogin(userCreds);
+}
+
+function listenFirstLogin(newUserCreds) {
+  let userCreds = {
+    username: newUserCreds.username,
+    password: newUserCreds.password
+  };
+  $(".login-new-user").on("click", event => {
+    event.preventDefault();
+    login(userCreds);
   });
 }
 

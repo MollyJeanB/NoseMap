@@ -420,10 +420,6 @@ button {
   margin-left: 30px;
 }
 
-.first-label {
-  margin-top: 15px;
-}
-
 .close-login {
   border: none;
   background-color: rgba(191, 191, 193, 0);
@@ -572,4 +568,43 @@ button {
 .passwarn {
   font-size: 80%;
   color: red;
+}
+
+.success-box {
+  position: fixed;
+  z-index: 3;
+  width: 325px;
+  height: 323px;
+  background: rgb(243, 243, 244);
+  top: 90px;
+  transition: 0.5s;
+  border-radius: 25px;
+  border: 2px solid rgb(64, 84, 110);
+  margin: 0 auto 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.welcome-user {
+  font-size: 140%;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.login-new-user {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  display: block;
+  margin: 15px auto 10px auto;
+  font-size: 103%;
+}
+
+.login-new-user:hover {
+  color: rgb(64, 84, 110);
+}
+
+.first-label {
+  margin-top: 15px;
+  display: block;
 }
