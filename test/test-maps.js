@@ -10,6 +10,7 @@ chai.should();
 should = chai.should();
 
 const { Smell } = require("../models");
+const { User } = require("../users");
 const { closeServer, runServer, app } = require("../server");
 const { TEST_DATABASE_URL } = require("../config");
 

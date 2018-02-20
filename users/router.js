@@ -101,7 +101,9 @@ router.post("/", jsonParser, (req, res) => {
     .then(count => {
       if (count > 0) {
         // There is an existing user with the same username
+
         return Promise.reject({
+          //this is not working!!!!!! tell Koes what happens
           code: 422,
           reason: "ValidationError",
           message: "Username already taken",

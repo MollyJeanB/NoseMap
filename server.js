@@ -47,6 +47,9 @@ app.get("/protected", jwtAuth, (req, res) => {
 });
 
 app.get("/smells", jwtAuth, (req, res) => {
+  console.log(req.user);
+  debugger;
+
   Smell.find({ user: req.user.id })
     .then(smells => {
       res.json(smells.map(smell => smell.serialize()));

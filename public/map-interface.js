@@ -8,11 +8,16 @@ let myPosition;
 let demoId = 19;
 let isDemo = false;
 
-function showMap() {
-  $("#landing").addClass("hidden");
-  $("#main-content").removeClass("hidden");
-  $(".contain").removeClass("background");
-  initMap();
+function showMap(loggedIn) {
+  if (!loggedIn) {
+    $("#landing").removeClass("hidden");
+    $("#main-content").addClass("hidden");
+  } else {
+    $("#landing").addClass("hidden");
+    $("#main-content").removeClass("hidden");
+    $(".contain").removeClass("background");
+    initMap();
+  }
 }
 
 //geolocate user's location via browser. If successful, call initSmellMap to initialize the map
@@ -262,7 +267,7 @@ class="delete-smell">Delete Smell</button>
   document.getElementById("content-" + smellId).innerHTML = smellText;
 }
 
-// listen for when user clicks "Delete Smell" and makes DELETE REQUEST
+// listen for when user clicks "Delete Smell" and makes DELETE request
 function listenDelete(smellId) {
   if (isDemo) {
     MOCK_SMELLS.mySmells.splice(parseInt(smellId) - 1, 1);
@@ -281,6 +286,6 @@ function listenDelete(smellId) {
 function listenMapStartDemo() {
   $(".demo-button").on("click", event => {
     isDemo = true;
-    showMap();
+    showMap(true);
   });
 }

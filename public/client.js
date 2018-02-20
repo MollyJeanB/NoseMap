@@ -96,14 +96,18 @@ function loginFailMessage() {
   $(".loginwarn").html("Login failed. Please try again.");
 }
 
+function showUserMap() {
+  newToken();
+  showMap(true);
+}
+
 function loginSuccess(response) {
   console.log("token added to storage");
   localStorage.setItem("TOKEN", response.authToken);
-  showMap();
+  showUserMap();
 }
 
-//callback function for when the page loads
-function handleApp() {
+function newToken() {
   $.ajaxSetup({
     dataType: "json",
     contentType: "application/json",
@@ -111,7 +115,14 @@ function handleApp() {
       Authorization: "JWT " + localStorage.getItem("TOKEN")
     }
   });
+}
 
+function isLoggedIn() {
+  return localStorage.getItem("TOKEN");
+}
+
+//callback function for when the page loads
+function handleApp() {
   listenMapStartDemo();
   listenShowNewSmell();
   listenInfoX();
@@ -124,6 +135,12 @@ function handleApp() {
   listenLogin();
   listenSignup();
   listenRecenter();
+
+  if (isLoggedIn()) {
+    showUserMap();
+  } else {
+    showMap();
+  }
 }
 
 //when page loads, call handleApp
