@@ -1,3 +1,5 @@
+"use strict";
+
 //listen for when "Add New Smell" is clicked display form and location bullseye
 function listenShowNewSmell() {
   $(".show-new-smell-form").on("click", event => {

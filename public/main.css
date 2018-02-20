@@ -396,7 +396,7 @@ button {
   position: fixed;
   z-index: 2;
   width: 260px;
-  height: 178px;
+  height: 195px;
   background: rgba(243, 243, 244, 0.95);
   border-bottom-left-radius: 25px;
   border-bottom: 2px solid rgb(64, 84, 110);
@@ -565,7 +565,8 @@ button {
   margin-top: 0;
 }
 
-.passwarn {
+.passwarn,
+.userwarn {
   font-size: 80%;
   color: red;
 }
@@ -605,6 +606,13 @@ button {
 }
 
 .first-label {
-  margin-top: 15px;
+  margin-top: 30px;
   display: block;
+}
+
+.loginwarn {
+  color: red;
+  position: fixed;
+  margin-top: -20px;
+  margin-left: 25px;
 }

@@ -1,3 +1,5 @@
+"use strict";
+
 //global variable for map (via google maps Javascript API)
 let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)

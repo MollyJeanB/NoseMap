@@ -1,3 +1,9 @@
+"use strict";
+
+function hasWhiteSpace(string) {
+  return string.indexOf(" ") >= 0;
+}
+
 function listenSignup() {
   $(".signup-form").on("submit", event => {
     event.preventDefault();
@@ -5,6 +11,10 @@ function listenSignup() {
     let username = $(".username-new").val();
     if (password.length < 7) {
       $(".passwarn").html(" Must be at least 7 characters");
+    } else if (hasWhiteSpace(password) === true) {
+      $(".passwarn").html(" Cannot contain spaces");
+    } else if (hasWhiteSpace(username) === true) {
+      $(".userwarn").html(" Cannot contain spaces");
     } else {
       let newUserCreds = {
         firstName: $(".firstname").val(),
@@ -29,8 +39,14 @@ function createUser(newUserCreds) {
     data: JSON.stringify(newUserCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: showSuccessBox(userCreds)
+    success: showSuccessBox(userCreds),
+    //not working as expected. duplicate users can be created, but then they error on login. May have something to do with when user gets created vs. when success gets called again
+    error: userDuplicate
   });
+}
+
+function userDuplicate() {
+  $(".userwarn").html(" Username already taken");
 }
 
 function showSuccessBox(userCreds) {
@@ -38,6 +54,7 @@ function showSuccessBox(userCreds) {
   $(".new-user-text").html(userGreeting);
   $(".success-box").removeClass("hidden");
   listenFirstLogin(userCreds);
+  //disable login button in corner herre
 }
 
 function listenFirstLogin(newUserCreds) {
@@ -70,8 +87,13 @@ function login(userCreds) {
     data: JSON.stringify(userCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: loginSuccess
+    success: loginSuccess,
+    error: loginFailMessage
   });
+}
+
+function loginFailMessage() {
+  $(".loginwarn").html("Login failed. Please try again.");
 }
 
 function loginSuccess(response) {
