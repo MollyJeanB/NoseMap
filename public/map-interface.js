@@ -12,6 +12,7 @@ function showMap(loggedIn) {
   if (!loggedIn) {
     $("#landing").removeClass("hidden");
     $("#main-content").addClass("hidden");
+    $(".contain").addClass("background");
   } else {
     $("#landing").addClass("hidden");
     $("#main-content").removeClass("hidden");

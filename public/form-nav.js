@@ -50,7 +50,8 @@ function listenInfoX() {
 //re-iniate map when user clicks logo in top corner
 function listenRecenter() {
   $(".nose-logo").on("click", event => {
-    initMap();
+    localStorage.removeItem("TOKEN");
+    showMap();
   });
 }
 
