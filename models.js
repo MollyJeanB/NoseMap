@@ -13,7 +13,8 @@ const smellSchema = mongoose.Schema({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
-  publishedAt: { type: Date, default: Date.now }
+  publishedAt: { type: Date, default: Date.now },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 });
 
 smellSchema.methods.serialize = function() {
@@ -25,7 +26,8 @@ smellSchema.methods.serialize = function() {
     smellLocation: this.smellLocation,
     publishedAt: moment(this.publishedAt).format(
       "dddd, MMMM Do YYYY, h:mm:ss a"
-    )
+    ),
+    user: this.user
   };
 };
 

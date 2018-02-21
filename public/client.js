@@ -1,220 +1,147 @@
-//global variable for map (via google maps Javascript API)
-let map;
-//global variable for user's geolocated position (or hardcoded position for demo data)
-let myPosition;
+"use strict";
 
-//geolocate user's location. If successful, call initSmellMap to initialize the map
-function initMap() {
-  navigator.geolocation.getCurrentPosition(initSmellMap, error => {
-    console.log("Error", error);
-  });
+function hasWhiteSpace(string) {
+  return string.indexOf(" ") >= 0;
 }
 
-//display map
-function initSmellMap(position) {
-  myPosition = {
-    // lat: position.coords.latitude,
-    // lng: position.coords.longitude
-    lat: 45.5300958,
-    lng: -122.6169967
-  };
-  console.log(myPosition);
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
-    center: myPosition,
-    styles: mapStyle,
-    fullscreenControl: false,
-    mapTypeControl: true,
-    mapTypeControlOptions: {
-      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      position: google.maps.ControlPosition.RIGHT_BOTTOM
-    }
-  });
-  //call get function to get data from API and display on the map
-  getSmells(displayMapData);
-}
-
-//get all data from API
-function getSmells(callback) {
-  const url = "/smells";
-  $.getJSON(url, callback);
-}
-
-//iterate through response data and calls setNewMarker to place marker for each data object
-function displayMapData(response) {
-  console.log(response);
-  for (var i = 0; i < response.length; i++) {
-    setNewMarker(response[i]);
-  }
-}
-
-//sets clickable markers and infowindows with title, description, category, date created, and location
-function setNewMarker(data) {
-  let smellId = data.id;
-  let smellTitle = data.title;
-  let smellDescription = data.description;
-  let smellCategory = data.category;
-  let smellCreated = data.publishedAt;
-  let smellPosition = data.smellLocation;
-
-  let smellText = `<div id="content-${smellId}" class="smell-box">
-        <h2 class="smell-title">${smellTitle}</h2>
-        <p>${smellDescription}</p>
-        <p>${smellCategory}</p>
-        <p>${smellCreated}</p>
-        <button onclick="listenEdit('${smellId}')"
-class="edit-smell">Edit Smell</button>
-        <button onclick="listenDelete('${smellId}')"
-class="delete-smell">Delete Smell</button>
-        </div>`;
-
-  const infowindow = new google.maps.InfoWindow({
-    content: smellText
-  });
-  const markerImage = "https://i.imgur.com/FVQb1CP.png";
-
-  const marker = new google.maps.Marker({
-    id: smellId,
-    position: smellPosition,
-    map: map,
-    title: smellTitle,
-    icon: markerImage
-  });
-
-  marker.setMap(map);
-
-  marker.addListener("click", function() {
-    infowindow.open(map, marker);
-  });
-}
-
-//listen for when smell form is submitted and sends passes data to postSmell
-function listenNewSmell() {
-  $(".smell-form").on("submit", event => {
+function listenSignup() {
+  $(".signup-form").on("submit", event => {
     event.preventDefault();
-    console.log("new smell submitted");
-
-    let mapCenter = map.getCenter();
-    let smellPosition = {
-      lat: mapCenter.lat(),
-      lng: mapCenter.lng()
-    };
-
-    console.log(smellPosition);
-    const smellData = {
-      id: $(".id-input").val(),
-      title: $(".smell-title").val(),
-      description: $(".smell-description").val(),
-      category: $("input[name=category]:checked", "#smellsubmit").val(),
-      smellLocation: smellPosition
-    };
-    console.log("128 data sent for update", smellData);
-    if (smellData.id) {
-      putSmell(smellData);
+    let password = $(".password-new").val();
+    let username = $(".username-new").val();
+    if (password.length < 7) {
+      $(".passwarn").html(" Must be at least 7 characters");
+    } else if (hasWhiteSpace(password) === true) {
+      $(".passwarn").html(" Cannot contain spaces");
+    } else if (hasWhiteSpace(username) === true) {
+      $(".userwarn").html(" Cannot contain spaces");
     } else {
-      postSmell(smellData);
+      let newUserCreds = {
+        firstName: $(".firstname").val(),
+        lastName: $(".lastname").val(),
+        username: username,
+        password: password
+      };
+      createUser(newUserCreds);
     }
-    hideForm();
-    hideBullseye();
-    document.getElementById("showform").disabled = false;
   });
 }
 
-//makes POST request to add or update data in the database
-function postSmell(newSmellData) {
-  console.log(newSmellData);
+function createUser(newUserCreds) {
+  let userCreds = {
+    firstName: newUserCreds.firstName,
+    username: newUserCreds.username,
+    password: newUserCreds.password
+  };
   $.ajax({
-    url: "/smells",
+    url: "/users",
     method: "POST",
-    data: JSON.stringify(newSmellData),
+    data: JSON.stringify(newUserCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: setNewMarker
+    success: () => {
+      showSuccessBox(userCreds);
+    },
+    error: userDuplicate
   });
 }
 
-//listens for when "Edit Smell" is clicked and calls getSmellbyId to get data for that smell
-function listenEdit(smellId) {
-  console.log("edit requested", smellId);
-  document.getElementById("showform").disabled = true;
-  getSmellbyId(smellId);
+function userDuplicate() {
+  $(".userwarn").html(" Username already taken");
 }
 
-//get smell data with specific ID from database
-function getSmellbyId(id) {
-  const url = `/smells/${id}`;
-  $.getJSON(url, formRepop);
+function showSuccessBox(userCreds) {
+  let userGreeting = userCreds.firstName;
+  $(".new-user-text").html(userGreeting);
+  $(".success-box").removeClass("hidden");
+  listenFirstLogin(userCreds);
+  //disable login button in corner herre
 }
 
-function putSmell(updatedSmellData) {
-  console.log(updatedSmellData);
-  const id = updatedSmellData.id;
+function listenFirstLogin(newUserCreds) {
+  let userCreds = {
+    username: newUserCreds.username,
+    password: newUserCreds.password
+  };
+  $(".login-new-user").on("click", event => {
+    event.preventDefault();
+    login(userCreds);
+  });
+}
+
+function listenLogin() {
+  $(".login-form").on("submit", event => {
+    event.preventDefault();
+    let userCreds = {
+      username: $(".username").val(),
+      password: $(".password").val()
+    };
+    login(userCreds);
+  });
+}
+
+function login(userCreds) {
+  console.log(userCreds);
   $.ajax({
-    url: `/smells/${id}`,
-    method: "PUT",
-    data: JSON.stringify(updatedSmellData),
+    url: "auth/login",
+    method: "POST",
+    data: JSON.stringify(userCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: response => {
-      updateSmellWindow(response);
+    success: loginSuccess,
+    error: loginFailMessage
+  });
+}
+
+function loginFailMessage() {
+  $(".loginwarn").html("Login failed. Please try again.");
+}
+
+function showUserMap() {
+  newToken();
+  showMap(true);
+}
+
+function loginSuccess(response) {
+  console.log("token added to storage");
+  localStorage.setItem("TOKEN", response.authToken);
+  showUserMap();
+}
+
+function newToken() {
+  $.ajaxSetup({
+    dataType: "json",
+    contentType: "application/json",
+    headers: {
+      Authorization: "JWT " + localStorage.getItem("TOKEN")
     }
   });
 }
 
-//repopulates smell form with data for that smell
-function formRepop(response) {
-  const smellTitle = response.title;
-  const smellDescription = response.description;
-  const smellCategory = response.category;
-  const smellId = response.id;
-  showForm();
-  $(".smell-title").val(smellTitle);
-  $(".smell-description").val(smellDescription);
-  $(".id-input").val(smellId);
-  document.forms["smellsubmit"][smellCategory].checked = true;
-}
-
-//update infowindow with updated smell data
-function updateSmellWindow(data) {
-  let smellId = data._id;
-  let smellTitle = data.title;
-  let smellDescription = data.description;
-  let smellCategory = data.category;
-  let smellCreated = data.publishedAt;
-  let smellPosition = data.smellLocation;
-
-  let smellText = `
-        <h2 class="smell-title">${smellTitle}</h2>
-        <p>${smellDescription}</p>
-        <p>${smellCategory}</p>
-        <p>${smellCreated}</p>
-        <button onclick="listenEdit('${smellId}')"
-class="edit-smell">Edit Smell</button>
-        <button onclick="listenDelete('${smellId}')"
-class="delete-smell">Delete Smell</button>
-        `;
-  document.getElementById("content-" + smellId).innerHTML = smellText;
-}
-
-// listen for when user clicks "Delete Smell" and makes DELETE REQUEST
-function listenDelete(smellId) {
-  console.log("delete requested", smellId);
-  $.ajax({
-    url: `/smells/${smellId}`,
-    method: "DELETE",
-    // data: JSON.stringify(newSmellData),
-    crossDomain: true,
-    contentType: "application/json",
-    success: initMap
-  });
+function isLoggedIn() {
+  return localStorage.getItem("TOKEN");
 }
 
 //callback function for when the page loads
 function handleApp() {
-  initMap();
+  listenMapStartDemo();
   listenShowNewSmell();
   listenInfoX();
+  listenSignupX();
+  listenLoginX();
   listenNewSmell();
+  listenShowSignup();
+  listenShowLogin();
+  listenShowLoginFromSignup();
+  listenLogin();
+  listenSignup();
+  listenRecenter();
+
+  if (isLoggedIn()) {
+    showUserMap();
+  } else {
+    showMap();
+  }
 }
 
 //when page loads, call handleApp

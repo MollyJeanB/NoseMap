@@ -3,17 +3,80 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An olfactory geography project that lets your map the smells in your environment.">
     <title>NoseMap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
        <link rel="stylesheet" type="text/css" href="main.css">
-
-<link href="https://fonts.googleapis.com/css?family=Biryani:600,700|Quattrocento+Sans:400,400i,700" rel="stylesheet">
-       <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FVQb1CP.png"/>
+       <link rel="stylesheet" type="text/css" href="background.css">
+       <link href="https://fonts.googleapis.com/css?family=Francois+One|Quattrocento+Sans:400,400i,700" rel="stylesheet">
+       <link rel="shortcut icon" type="image/png" href="/images/littlenose.png"/>
   </head>
-  <body>
+  <body class="contain background">
+    <section role="region" id="landing" class="hidden">
+      <div class="forms-header-contain">
+      <header role="banner" class="header-container">
+        <h1 class="head-nose">Nose</h1>
+        <img src="/images/bignose.png" alt="Nose Logo" class="big-nose">
+        <h1 class="head-map">Maps</h1>
+        <h2>An olfactory geography project</h2>
+        <button class="demo-button standard">Explore Demo Account*</button>
+        <button class="show-signup-button standard">Sign Up</button>
+      </header>
+      <button class="show-login standard">Log In</button>
+      <div class="login-form-contain" aria-live="assertive">
+        <form class="login-form">
+          <div class="loginwarn"></div>
+        <label for="login-username" class="login-label first-label">Username</label>
+        <input id="login-username" class="username su top" type="text" required placeholder="required">
+        <label for="login-password" class="login-label">Password</label>
+        <input id="login-password" type="password" class="password su top" required placeholder="required">
+        <button type="submit" class="standard login-button">Log In</button>
+        </form>
+        <button type="button" class="close-login" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="signup-form-contain">
+        <button class="show-login-from-signup">Already have an account?</button>
+        <form class="signup-form" id="new-signup-form">
+          <label for="signup-firstname" class="su-l">First Name</label>
+          <input id="signup-firstname" class="firstname su" type="text" required placeholder="required">
+          <label for="signup-lastname" class="su-l">Last Name</label>
+          <input id="signup-lastname" class="lastname su" type="text" required placeholder="required">
+          <label for="signup-username" class="su-l">Username</label><span class="userwarn"></span>
+          <input id="signup-username" class="username-new su" type="text" required placeholder="required">
+          <label for="signup-password" class="su-l">Password</label><span class="passwarn"></span>
+          <input id="signup-password" type="password" class="password-new su" required placeholder="must be at least 7 characters">
+          <button type="submit" class="standard signup-button">Sign Up</button>
+          <div class="success-box hidden">
+            <p class="welcome-user">Welcome, <span class="new-user-text"></span>!</p>
+            <button class="login-new-user">Go to account.</button>
+          </div>
+        </form>
+        <button type="button" class="close-su" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+      <div class="landing-text-container">
+        <div class="explain-box">
+          <p>
+            Scent is perhaps the most memorable of senses and yet the most challenging to record. You can’t snap a picture  of the way garlic smells in the roasting pan or film the scent of star jasmine on a summer night. But you can describe a smell, contextualize it, and map its location.
+          </p>
+          <p>
+            Inspired by artist Kate McLean’s graphic smell maps of cities around the world, NoseMaps makes you the cartographer of your olfactory environment. With a simple map interface, you can pinpoint and save smells in order to increase your awareness of your surroundings and highlight moments of remembrance and delight.
+          </p>
+          <p class="asterisk">*The demo account displays a NoseMap of Portland, Oregon populated with smells from around the city.</p>
+        </div>
+      </div>
+      <footer role="contentinfo">
+        <p class="cred"> Built by Molly Jean Bennett</p><a href="https://github.com/MollyJeanB/NoseMap" target="blank"> <img src="images/GitHub-Mark-32px.png" alt="github icon" class="github-icon"></a>
+      </footer>
+    </section>
+    <section id="main-content" class="hidden" role="region" aria-live="assertive">
     <header role="banner" class="page-header">
-      <h1>Map your olfactory environment</h1>
-      <div class="logocontain"><img class="nose-logo" src="https://i.imgur.com/FVQb1CP.png"></div>
+      <h2>Map your olfactory environment</h2>
+      <div class="logocontain"><img class="nose-logo" aria-label="Click to recenter map" src="/images/littlenose.png"></div>
     </header>
     <main role="main" class="content-container">
         <button class="show-new-smell-form" id="showform">Add New Smell</button>
@@ -21,35 +84,31 @@
     <div class="new-smell">
       <form class="smell-form" id="smellsubmit">
         <label for="title" class="text-field-title">Smell Title</label>
-        <input type="text" id="title" class="smell-title" maxlength="30" required>
+        <input type="text" id="title" class="smell-title" maxlength="30" placeholder="e.g. Cinnamon Buns & Coffee" required>
         <label for="description" maxlength="200" class="text-field-title">Description</label>
-        <textarea wrap="hard" id="description" class="smell-description" required></textarea>
+        <textarea wrap="hard" id="description" class="smell-description" placeholder="e.g. Bakery smells of butter, cinnamon, and a fresh pot of coffee. Reminds me of Aunt Kate's house on Sunday mornings." required></textarea>
         <fieldset id="smell-category" class="smell-category-box">
           <legend class="text-field-title">Category</legend>
-          <div class="radio-category first">
-            <input type="radio" name="category" id="food" value="food" required>
-            <label for="food">Food & Drink</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="waste" value="waste" required>
-            <label for="waste">Waste</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="nature" value="nature" required>
-            <label for="nature">Nature & Environment</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="exhaust" value="exhaust" required>
-            <label for="exhaust">Exhaust & Industrial</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="body" value="body" required>
-            <label for="body">Body Odor</label>
-          </div>
-          <div class="radio-category">
-            <input type="radio" name="category" id="other" value="other" required>
-            <label for="other">Other</label>
-          </div>
+          <label for="Food" class="first radio-category">
+            <input type="radio" value="Food" name="category" id="Food" required>
+            <span>Food & Drink</span>
+          </label>
+          <label for="Waste" class="radio-category">
+            <input type="radio" value="Waste" name="category" id="Waste" required>
+            <span>Waste & Industrial</span>
+          </label>
+          <label for="Body" class="radio-category">
+            <input type="radio" value="Body" name="category" id="Body" required>
+            <span>Body Odor</span>
+          </label>
+          <label for="Nature" class="radio-category">
+            <input type="radio" value="Nature" name="category" id="Nature" required>
+            <span>Nature & Environment</span>
+          </label>
+          <label for="Other" class="radio-category">
+            <input type="radio" value="Other" name="category" id="Other" required>
+            <span>Other</span>
+          </label>
         </fieldset>
         <input type="text" class="id-input hidden">
         <input type="text" class="date-input hidden">
@@ -63,17 +122,21 @@
     </div>
     <div class="mapcontain">
       <div class="location">
-        <div class="location-explain">Drag map to set smell location</div>
+        <div class="location-explain" aria-label="New smells are recorded at the center of the map, which geolocates to your current position.">Drag map to set smell location</div>
         <div class="bullseye"></div>
       </div>
       <div id="map"></div>
     </div>
   </main>
+</section>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="client.js"></script>
 <script src="form-nav.js"></script>
+<script src="map-interface.js"></script>
 <script src="mapstyle.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480&callback=initMap">
+<script src="demodata.js"></script>
+<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-qroBADRgOiRjyggsElD5qEOWZiQB480">
 </script>
   </body>
 </html>
