@@ -132,6 +132,9 @@ router.post("/", jsonParser, (req, res) => {
           }
           res.status(500).json({ code: 500, message: "Internal server error" });
         });
+    })
+    .catch(err => {
+      res.status(422).json(err);
     });
 });
 

@@ -39,8 +39,9 @@ function createUser(newUserCreds) {
     data: JSON.stringify(newUserCreds),
     crossDomain: true,
     contentType: "application/json",
-    success: showSuccessBox(userCreds),
-    //not working as expected. duplicate users can be created, but then they error on login. May have something to do with when user gets created vs. when success gets called again
+    success: () => {
+      showSuccessBox(userCreds);
+    },
     error: userDuplicate
   });
 }

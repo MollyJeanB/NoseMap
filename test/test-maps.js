@@ -4,6 +4,27 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const faker = require("faker");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const username = "bbaggins";
+const firstName = "Bilbo";
+const lastName = "bbagins";
+const { JWT_SECRET } = require("../config");
+const token = jwt.sign(
+  {
+    user: {
+      username,
+      firstName,
+      lastName
+    }
+  },
+  JWT_SECRET,
+  {
+    algorithm: "HS256",
+    subject: username,
+    expiresIn: "7d"
+  }
+);
+const decoded = jwt.decode(token);
 
 chai.should();
 
@@ -35,6 +56,7 @@ function seedSmellData() {
       description: faker.lorem.sentence(),
       category: "body",
       smellLocation: { lat: 45.535536, lng: -122.620915 }
+      // user: "124567"
     });
   }
   return Smell.insertMany(seedData);
@@ -63,6 +85,7 @@ describe("smell API resource", function() {
       return chai
         .request(app)
         .get("/smells")
+        .set("Authorization", "JWT " + token)
         .then(_res => {
           res = _res;
           res.should.have.status(200);
@@ -79,6 +102,7 @@ describe("smell API resource", function() {
       return chai
         .request(app)
         .get("/smells")
+        .set("Authorization", "JWT " + token)
         .then(function(res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -117,6 +141,7 @@ describe("smell API resource", function() {
       return chai
         .request(app)
         .post("/smells")
+        .set("Authorization", "JWT " + token)
         .send(newSmell)
         .then(function(res) {
           res.should.have.status(201);
