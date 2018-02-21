@@ -48,10 +48,21 @@ function listenInfoX() {
 }
 
 //re-iniate map when user clicks logo in top corner
-function listenRecenter() {
-  $(".nose-logo").on("click", event => {
+function listenLogout() {
+  $(".logout-button").on("click", event => {
     localStorage.removeItem("TOKEN");
-    showMap();
+    $(".success-box").addClass("hidden");
+    document.getElementById("new-signup-form").reset();
+    document.getElementById("login-form").reset();
+    $(".signup-form-contain").removeClass("drop-in");
+    $(".login-form-contain").removeClass("slide-out-right");
+    $(".passwarn").html("");
+    $(".userwarn").html("");
+    $(".loginwarn").html("");
+    document.getElementById("show-login-button").disabled = false;
+    isDemo = false;
+    initMap();
+    showMapOrLanding();
   });
 }
 
@@ -94,7 +105,5 @@ function listenShowSignup() {
   $(".show-signup-button").on("click", event => {
     $(".signup-form-contain").addClass("drop-in");
     $(".login-form-contain").removeClass("slide-out-right");
-    // document.getElementById("new-signup-form").reset();
-    // $(".passwarn").html("");
   });
 }

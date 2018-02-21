@@ -55,7 +55,7 @@ function showSuccessBox(userCreds) {
   $(".new-user-text").html(userGreeting);
   $(".success-box").removeClass("hidden");
   listenFirstLogin(userCreds);
-  //disable login button in corner herre
+  document.getElementById("show-login-button").disabled = true;
 }
 
 function listenFirstLogin(newUserCreds) {
@@ -99,7 +99,7 @@ function loginFailMessage() {
 
 function showUserMap() {
   newToken();
-  showMap(true);
+  showMapOrLanding(true);
 }
 
 function loginSuccess(response) {
@@ -135,12 +135,12 @@ function handleApp() {
   listenShowLoginFromSignup();
   listenLogin();
   listenSignup();
-  listenRecenter();
+  listenLogout();
 
   if (isLoggedIn()) {
     showUserMap();
   } else {
-    showMap();
+    showMapOrLanding();
   }
 }
 

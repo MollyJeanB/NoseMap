@@ -8,7 +8,7 @@ let myPosition;
 let demoId = 19;
 let isDemo = false;
 
-function showMap(loggedIn) {
+function showMapOrLanding(loggedIn) {
   if (!loggedIn) {
     $("#landing").removeClass("hidden");
     $("#main-content").addClass("hidden");
@@ -242,17 +242,19 @@ function updateDataInArray(updatedSmellData) {
 //update infowindow with updated smell data
 function updateSmellWindow(data) {
   let smellId;
+  let smellCreated;
   if (isDemo) {
     smellId = data.id;
+    smellCreated = moment(new Date()).format("dddd, MMMM Do YYYY, h:mm:ss a");
   } else {
     smellId = data._id;
+    smellCreated = moment(data.publishedAt).format(
+      "dddd, MMMM Do YYYY, h:mm:ss a"
+    );
   }
   let smellTitle = data.title;
   let smellDescription = data.description;
   let smellCategory = data.category;
-  let smellCreated = moment(data.publishedAt).format(
-    "dddd, MMMM Do YYYY, h:mm:ss a"
-  );
   let smellPosition = data.smellLocation;
 
   let smellText = `
@@ -287,6 +289,6 @@ function listenDelete(smellId) {
 function listenMapStartDemo() {
   $(".demo-button").on("click", event => {
     isDemo = true;
-    showMap(true);
+    showMapOrLanding(true);
   });
 }

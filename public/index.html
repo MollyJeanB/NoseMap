@@ -22,9 +22,9 @@
         <button class="demo-button standard">Explore Demo Account*</button>
         <button class="show-signup-button standard">Sign Up</button>
       </header>
-      <button class="show-login standard">Log In</button>
+      <button class="show-login standard" id="show-login-button">Log In</button>
       <div class="login-form-contain" aria-live="assertive">
-        <form class="login-form">
+        <form class="login-form" id="login-form">
           <div class="loginwarn"></div>
         <label for="login-username" class="login-label first-label">Username</label>
         <input id="login-username" class="username su top" type="text" required placeholder="required">
@@ -76,7 +76,7 @@
     <section id="main-content" class="hidden" role="region" aria-live="assertive">
     <header role="banner" class="page-header">
       <h2>Map your olfactory environment</h2>
-      <div class="logocontain"><img class="nose-logo" aria-label="Click to recenter map" src="/images/littlenose.png"></div>
+      <button class="logout-button">Log Out<img class="nose-logo" src="/images/littlenose.png"></button>
     </header>
     <main role="main" class="content-container">
         <button class="show-new-smell-form" id="showform">Add New Smell</button>

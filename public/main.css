@@ -40,14 +40,14 @@ body {
   color: rgba(243, 98, 66, 0);
 }
 
-.logocontain {
+.logout-button {
   position: absolute;
   right: 0;
   top: 0;
   height: 44px;
-  width: 44px;
-  margin: -10px 10px 20px 0;
-  border-radius: 100%;
+  width: 72px;
+  margin: -12px 8px 20px 0;
+  border-radius: 10px;
   background: rgba(243, 98, 66, 0.6);
   display: -webkit-box;
   display: -moz-box;
@@ -56,6 +56,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px;
+  color: #f3f3f4;
+  text-shadow: 1px 1px #303030;
+}
+
+.logout-button:hover {
+  background: #c57264;
 }
 
 .nose-logo {
@@ -114,8 +121,7 @@ button {
   border: 2px solid #d59562;
   position: absolute;
   z-index: 4;
-  left: 0;
-  right: 0;
+  left: 10px;
   top: -55px;
   transition: 0.5s ease-in-out;
 }
@@ -125,7 +131,8 @@ button {
   background-color: #cdd1d6;
 }
 
-.show-new-smell-form:disabled {
+.show-new-smell-form:disabled,
+.show-login:disabled {
   color: #7b7d80;
 }
 
@@ -145,16 +152,6 @@ button {
   transition: 0.5s;
   left: 0;
 }
-
-/* .location {
-  z-index: 1;
-  width: 220px;
-  height: 200px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin: -100px 0 0 -110px;
-} */
 
 .bullseye {
   z-index: 2;
@@ -180,8 +177,6 @@ button {
   left: 50%;
   margin-top: -60px;
   margin-left: -110px;
-  /* margin-right: 100%;
-  margin-left: 100%; */
   background: rgba(243, 98, 66, 0);
   color: rgba(243, 243, 244, 0);
   text-shadow: 1px 1px rgba(48, 48, 48, 0);
@@ -316,38 +311,6 @@ button {
   font-size: 1em;
   line-height: 1;
   vertical-align: -0.125em;
-}
-
-@media only screen and (min-width: 800px) {
-  .new-smell {
-    /* left: 0; */
-    height: 100%;
-    width: 290px;
-  }
-
-  .mapcontain {
-    height: 95vh;
-    border-bottom: 3px solid rgba(64, 84, 110, 0.85);
-  }
-
-  .show-new-smell-form {
-    top: 10px;
-  }
-
-  .icon-explain {
-    left: 10px;
-    margin-left: 10px;
-  }
-
-  h2 {
-    color: #f3f3f4;
-  }
-
-  #map {
-    height: 100%;
-    bottom: 0;
-    left: 0;
-  }
 }
 
 /* landing.css */
@@ -615,4 +578,46 @@ button {
   position: fixed;
   margin-top: -20px;
   margin-left: 25px;
+}
+button {
+  outline: none;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 800px) {
+  .new-smell {
+    /* left: 0; */
+    height: 100%;
+    width: 290px;
+  }
+
+  .mapcontain {
+    height: 95vh;
+    border-bottom: 3px solid rgba(64, 84, 110, 0.85);
+  }
+
+  .show-new-smell-form {
+    top: 10px;
+    left: 0;
+    right: 0;
+  }
+
+  .icon-explain {
+    left: 10px;
+    margin-left: 10px;
+  }
+
+  h2 {
+    color: #f3f3f4;
+  }
+
+  #map {
+    height: 100%;
+    bottom: 0;
+    left: 0;
+  }
+
+  #landing .explain-box {
+    width: 80%;
+  }
 }
