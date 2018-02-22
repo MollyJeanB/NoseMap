@@ -316,7 +316,7 @@ button {
   font-family: "Francois One", sans-serif;
   color: #f3f3f4;
   text-shadow: 2px 2px rgba(64, 84, 110, 0.85);
-  font-size: 50px;
+  font-size: 45px;
   display: inline-block;
 }
 
@@ -330,7 +330,7 @@ button {
 
 #landing h2 {
   font-style: italic;
-  font-size: 17px;
+  font-size: 16px;
   color: #f3f3f4;
   margin-top: -25px;
 }
@@ -342,7 +342,7 @@ button {
 }
 
 #landing .header-container {
-  width: 280px;
+  width: 260px;
   padding: 50px 5px 70px 5px;
   margin: 0 auto;
 }
@@ -357,7 +357,7 @@ button {
   z-index: 2;
   width: 260px;
   height: 195px;
-  background: rgba(243, 243, 244, 0.95);
+  background: rgb(243, 243, 244);
   border-bottom-left-radius: 25px;
   border-bottom: 2px solid rgb(64, 84, 110);
   border-left: 2px solid rgb(64, 84, 110);
@@ -395,7 +395,7 @@ button {
   z-index: 2;
   width: 325px;
   height: 323px;
-  background: rgba(243, 243, 244, 0.95);
+  background: rgba(243, 243, 244, 0.9);
   top: -360px;
   transition: 0.5s;
   border-radius: 25px;
@@ -485,13 +485,19 @@ button {
   color: #303030;
 }
 
+.lower-half {
+  opacity: 0.99;
+  z-index: 1;
+  position: absolute;
+}
+
 .landing-text-container {
   background: rgba(243, 243, 244, 0.5);
   width: 100%;
   height: 100%;
   margin-bottom: -13px;
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 
 #landing .explain-box {
@@ -619,10 +625,12 @@ button {
 
   .signup-form-contain {
     position: fixed;
+    background: rgba(243, 243, 244, 0.95);
   }
 
   .login-form-contain {
     position: fixed;
+    background: rgba(243, 243, 244, 0.95);
   }
 
   #landing h1 {
