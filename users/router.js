@@ -36,18 +36,11 @@ router.post("/", jsonParser, (req, res) => {
     });
   }
 
-  // If the username and password aren't trimmed we give an error.  Users might
-  // expect that these will work without trimming (i.e. they want the password
-  // "foobar ", including the space at the end).  We need to reject such values
-  // explicitly so the users know what's happening, rather than silently
-  // trimming them and expecting the user to understand.
-  // We'll silently trim the other fields, because they aren't credentials used
-  // to log in, so it's less of a problem.
   const explicityTrimmedFields = ["username", "password"];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
-
+  //error if username or password submitted with whitespace
   if (nonTrimmedField) {
     return res.status(422).json({
       code: 422,
@@ -56,7 +49,7 @@ router.post("/", jsonParser, (req, res) => {
       location: nonTrimmedField
     });
   }
-
+  //min and max number of characters of username and password
   const sizedFields = {
     username: {
       min: 1
@@ -89,8 +82,7 @@ router.post("/", jsonParser, (req, res) => {
   }
 
   let { username, password, firstName = "", lastName = "" } = req.body;
-  // Username and password come in pre-trimmed, otherwise we throw an error
-  // before this
+  //trim whitespace from firstname and lastname
   firstName = firstName.trim();
   lastName = lastName.trim();
 
@@ -98,6 +90,7 @@ router.post("/", jsonParser, (req, res) => {
     .count()
     .then(count => {
       if (count > 0) {
+        //error if username already taken
         return Promise.reject({
           code: 422,
           reason: "ValidationError",
@@ -109,7 +102,6 @@ router.post("/", jsonParser, (req, res) => {
       return User.hashPassword(password);
     })
     .then(hash => {
-      //removed return
       User.create({
         username,
         password: hash,
@@ -120,8 +112,6 @@ router.post("/", jsonParser, (req, res) => {
           return res.status(201).json(user.serialize());
         })
         .catch(err => {
-          // Forward validation errors on to the client, otherwise give a 500
-          // error because something unexpected has happened
           if (err.reason === "ValidationError") {
             return res.status(err.code).json(err);
           }

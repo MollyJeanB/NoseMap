@@ -21,57 +21,62 @@ function getSmells(callback) {
 function listenNewSmell() {
   $(".smell-form").on("submit", event => {
     event.preventDefault();
-    //record position of the smell as the center of the map
-    let mapCenter = map.getCenter();
-    let smellPosition = {
-      lat: mapCenter.lat(),
-      lng: mapCenter.lng()
-    };
-
-    const smellData = {
-      id: $(".id-input").val(),
-      title: $(".smell-title").val(),
-      description: $(".smell-description").val(),
-      category: $("input[name=category]:checked", "#smellsubmit").val(),
-      smellLocation: smellPosition
-    };
-
-    if (isDemo) {
-      //if demo account AND the data is being updated
-      if (smellData.id) {
-        smellData.publishedAt = moment(new Date()).format(
-          "dddd, MMMM Do YYYY, h:mm:ss a"
-        );
-        updateSmellWindow(smellData);
-        updateDataInArray(smellData);
-        //if demo account and the data is new
-      } else {
-        const smellData = {
-          id: demoId++,
-          title: $(".smell-title").val(),
-          description: $(".smell-description").val(),
-          category: $("input[name=category]:checked", "#smellsubmit").val(),
-          publishedAt: moment(new Date()).format(
-            "dddd, MMMM Do YYYY, h:mm:ss a"
-          ),
-          smellLocation: smellPosition
-        };
-        setNewMarker(smellData);
-        MOCK_SMELLS.mySmells.push(smellData);
-      }
+    //check if title input is white space and warn if so
+    if ($.trim($(".smell-title").val()) == "") {
+      alert("Title is blank");
     } else {
-      //if user account and the data already has an id, make PUT request to update
-      if (smellData.id) {
-        putSmell(smellData);
-        //if user account and the data is new, make POST request to create
+      //record position of the smell as the center of the map
+      let mapCenter = map.getCenter();
+      let smellPosition = {
+        lat: mapCenter.lat(),
+        lng: mapCenter.lng()
+      };
+
+      const smellData = {
+        id: $(".id-input").val(),
+        title: $(".smell-title").val(),
+        description: $(".smell-description").val(),
+        category: $("input[name=category]:checked", "#smellsubmit").val(),
+        smellLocation: smellPosition
+      };
+
+      if (isDemo) {
+        //if demo account AND the data is being updated
+        if (smellData.id) {
+          smellData.publishedAt = moment(new Date()).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          );
+          updateSmellWindow(smellData);
+          updateDataInArray(smellData);
+          //if demo account and the data is new
+        } else {
+          const smellData = {
+            id: demoId++,
+            title: $(".smell-title").val(),
+            description: $(".smell-description").val(),
+            category: $("input[name=category]:checked", "#smellsubmit").val(),
+            publishedAt: moment(new Date()).format(
+              "dddd, MMMM Do YYYY, h:mm:ss a"
+            ),
+            smellLocation: smellPosition
+          };
+          setNewMarker(smellData);
+          MOCK_SMELLS.mySmells.push(smellData);
+        }
       } else {
-        postSmell(smellData);
+        //if user account and the data already has an id, make PUT request to update
+        if (smellData.id) {
+          putSmell(smellData);
+          //if user account and the data is new, make POST request to create
+        } else {
+          postSmell(smellData);
+        }
       }
+      //after request is submitted, hide the form, the map center bullseye, and re-enable the button to create more data
+      hideForm();
+      hideBullseye();
+      document.getElementById("showform").disabled = false;
     }
-    //after request is submitted, hide the form, the map center bullseye, and re-enable the button to create more data
-    hideForm();
-    hideBullseye();
-    document.getElementById("showform").disabled = false;
   });
 }
 

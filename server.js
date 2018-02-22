@@ -22,6 +22,8 @@ const app = express();
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+
+//routers for authentication and smells data
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/smells", smellsRouter);
