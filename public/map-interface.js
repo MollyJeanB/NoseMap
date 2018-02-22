@@ -21,7 +21,9 @@ function initMap() {
     //if authenticated user, center map on their location
   } else {
     navigator.geolocation.getCurrentPosition(initSmellMap, error => {
-      console.log("Error", error);
+      alert(
+        "Browser does not support geolocation. To access demo account, click log out"
+      );
     });
   }
 }
