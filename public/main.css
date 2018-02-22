@@ -264,6 +264,16 @@ button {
   font-size: 103%;
 }
 
+.edit-smell,
+.delete-smell {
+  margin-bottom: 5px;
+}
+
+.edit-smell:focus,
+.delete-smell:focus {
+  background: rgba(243, 98, 66, 0.6);
+}
+
 [type="radio"] {
   border: 0;
   clip: rect(0 0 0 0);
@@ -587,7 +597,7 @@ button {
 
 .loginwarn {
   color: red;
-  position: fixed;
+  position: absolute;
   margin-top: -20px;
   margin-left: 25px;
 }
@@ -637,6 +647,10 @@ button {
   }
 
   .login-form-contain {
+    position: fixed;
+  }
+
+  .loginwarn {
     position: fixed;
   }
 

@@ -6,10 +6,10 @@
 let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
-
+//global variable to close previous infowindows when a new one is opened
 let prev_infowindow = false;
 
-//geolocate user's location via browser. If successful, call initSmellMap to initialize the map
+//get location
 function initMap() {
   if (isDemo) {
     //if map accessed through demo account, hardcode center of map to Portland
@@ -21,8 +21,9 @@ function initMap() {
     //if authenticated user, center map on their location
   } else {
     navigator.geolocation.getCurrentPosition(initSmellMap, error => {
+      //if browser does not support geolocation, alert the user
       alert(
-        "Browser does not support geolocation. To access demo account, click log out"
+        "Browser does not support geolocation. To access demo account, log out"
       );
     });
   }

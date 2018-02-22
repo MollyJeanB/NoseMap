@@ -153,7 +153,6 @@ function updateDataInArray(updatedSmellData) {
   let dataPosition = parseInt(dataId) - 1;
   let dataToUpdate = findIndexArray(dataId);
   MOCK_SMELLS.mySmells.splice(dataPosition, 1, updatedSmellData);
-  console.log("data updated in array", dataToUpdate);
 }
 
 //update infowindow with updated smell data
