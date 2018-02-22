@@ -154,7 +154,7 @@ button {
 }
 
 .bullseye {
-  z-index: 2;
+  z-index: 0;
   position: absolute;
   width: 70px;
   height: 70px;
@@ -167,7 +167,7 @@ button {
 }
 
 .location-explain {
-  z-index: 2;
+  z-index: 0;
   position: absolute;
   width: 220px;
   height: 25px;
@@ -188,11 +188,13 @@ button {
   background: rgba(243, 98, 66, 0.6);
   color: #f3f3f4;
   text-shadow: 1px 1px #303030;
+  z-index: 2;
 }
 
 .fade-in-bullseye {
   transition: 0.5s ease-in-out;
   border: 25px solid rgba(243, 98, 66, 0.6);
+  z-index: 2;
 }
 
 .content-container {
@@ -246,7 +248,6 @@ button {
   background-color: rgba(191, 191, 193, 0);
   font-size: 200%;
   position: absolute;
-  /* color: #d75c37; */
   right: 0;
   top: 0;
   color: #f3f3f4;
@@ -274,7 +275,6 @@ button {
   width: 1px;
 }
 
-/* One radio button per line */
 .radio-category {
   display: block;
   cursor: pointer;
@@ -285,7 +285,6 @@ button {
   display: block;
 }
 
-/* the basic, unchecked style */
 [type="radio"] + span:before {
   content: "";
   display: inline-block;
@@ -586,7 +585,6 @@ button {
 
 @media only screen and (min-width: 800px) {
   .new-smell {
-    /* left: 0; */
     height: 100%;
     width: 290px;
   }

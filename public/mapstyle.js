@@ -1,3 +1,7 @@
+"use strict";
+
+//this file contains map styling data from the Google Maps Javascript API
+
 let mapStyle = [
   {
     elementType: "geometry",

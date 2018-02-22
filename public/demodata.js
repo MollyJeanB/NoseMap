@@ -1,5 +1,7 @@
 "use strict";
 
+//this file contains data for the demo account
+
 let MOCK_SMELLS = {
   mySmells: [
     {

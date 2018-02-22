@@ -63,8 +63,6 @@ router.post("/", jsonParser, (req, res) => {
     },
     password: {
       min: 7,
-      // bcrypt truncates after 72 characters, so let's not give the illusion
-      // of security by storing extra (unused) info
       max: 72
     }
   };
@@ -100,10 +98,7 @@ router.post("/", jsonParser, (req, res) => {
     .count()
     .then(count => {
       if (count > 0) {
-        // There is an existing user with the same username
-
         return Promise.reject({
-          //this is not working!!!!!! tell Koes what happens
           code: 422,
           reason: "ValidationError",
           message: "Username already taken",
@@ -136,16 +131,6 @@ router.post("/", jsonParser, (req, res) => {
     .catch(err => {
       res.status(422).json(err);
     });
-});
-
-// Never expose all your users like below in a prod application
-// we're just doing this so we have a quick way to see
-// if we're creating users. keep in mind, you can also
-// verify this in the Mongo shell.
-router.get("/", (req, res) => {
-  User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
-    .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 module.exports = { router };

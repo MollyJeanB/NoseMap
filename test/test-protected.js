@@ -74,7 +74,7 @@ describe("Protected endpoint", function() {
       return chai
         .request(app)
         .get("/protected")
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `JWT ${token}`)
         .then(() => expect.fail(null, null, "Request should not succeed"))
         .catch(err => {
           if (err instanceof chai.AssertionError) {

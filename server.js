@@ -13,6 +13,7 @@ mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Smell } = require("./models");
+const smellsRouter = require("./smellsRouter").router;
 const usersRouter = require("./users/router").router;
 const authRouter = require("./auth/router").router;
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/smells", smellsRouter);
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -45,96 +47,6 @@ app.get("/protected", jwtAuth, (req, res) => {
   });
 });
 
-app.get("/smells", jwtAuth, (req, res) => {
-  console.log(req.user);
-  debugger;
-
-  Smell.find({ user: req.user.id })
-    .then(smells => {
-      res.json(smells.map(smell => smell.serialize()));
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "something is quite amiss" });
-    });
-});
-
-app.get("/smells/:id", (req, res) => {
-  Smell.findById(req.params.id)
-    .then(smell => {
-      res.json(smell.serialize());
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "something went horribly awry" });
-    });
-});
-
-app.post("/smells", jsonParser, jwtAuth, (req, res) => {
-  console.log(req.user);
-  const requiredFields = ["title", "description", "category"];
-  for (let i = 0; i < requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`;
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
-
-  Smell.create({
-    title: req.body.title,
-    description: req.body.description,
-    category: req.body.category,
-    smellLocation: req.body.smellLocation,
-    user: req.user.id
-  })
-    .then(newSmell => res.status(201).json(newSmell.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "Something is altogether wrong" });
-    });
-});
-
-app.delete("/smells/:id", (req, res) => {
-  Smell.findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.status(204).json({ message: "success" });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "something went terribly wrong" });
-    });
-});
-
-app.delete("/:id", (req, res) => {
-  Smell.findByIdAndRemove(req.params.id).then(() => {
-    console.log(`Deleted blog post with id \`${req.params.id}\``);
-    res.status(204).end();
-  });
-});
-
-app.put("/smells/:id", (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    res.status(400).json({
-      error: "Request path id and request body id values must match"
-    });
-  }
-
-  const updatedSmell = {
-    title: req.body.title,
-    description: req.body.description,
-    category: req.body.category
-  };
-
-  Smell.findByIdAndUpdate(
-    { _id: req.body.id },
-    { $set: updatedSmell },
-    { new: true }
-  ).then(updatedSmell => {
-    res.send(updatedSmell);
-  });
-});
 //errors if invalid enpoint accessed
 app.use("*", function(req, res) {
   res.status(404).json({ message: "Not Found" });
