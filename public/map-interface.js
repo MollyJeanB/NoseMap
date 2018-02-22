@@ -11,25 +11,31 @@ let prev_infowindow = false;
 
 //geolocate user's location via browser. If successful, call initSmellMap to initialize the map
 function initMap() {
-  navigator.geolocation.getCurrentPosition(initSmellMap, error => {
-    console.log("Error", error);
-  });
-}
-
-//display map
-function initSmellMap(position) {
   if (isDemo) {
     //if map accessed through demo account, hardcode center of map to Portland
     myPosition = {
       lat: 45.5300958,
       lng: -122.6169967
     };
+    initSmellMap(myPosition);
     //if authenticated user, center map on their location
+  } else {
+    navigator.geolocation.getCurrentPosition(initSmellMap, error => {
+      console.log("Error", error);
+    });
+  }
+}
+
+//display map
+function initSmellMap(position) {
+  if (isDemo) {
+    let position = myPosition;
   } else
     myPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
+
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
     center: myPosition,
