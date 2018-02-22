@@ -316,7 +316,7 @@ button {
   font-family: "Francois One", sans-serif;
   color: #f3f3f4;
   text-shadow: 2px 2px rgba(64, 84, 110, 0.85);
-  font-size: 45px;
+  font-size: 38px;
   display: inline-block;
 }
 
@@ -333,23 +333,33 @@ button {
   font-size: 16px;
   color: #f3f3f4;
   margin-top: -25px;
+  text-align: center;
+  width: 318px;
+  margin-left: -9px;
 }
 
 .big-nose {
   display: inline-block;
-  height: 53px;
+  height: 45px;
   padding-top: 5px;
 }
 
 #landing .header-container {
-  width: 260px;
+  width: 320px;
   padding: 50px 5px 70px 5px;
   margin: 0 auto;
 }
 
-.forms-header-contain {
-  position: relative;
-  overflow: hidden;
+.title-container {
+  width: 320px;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-form-contain {
@@ -361,9 +371,9 @@ button {
   border-bottom-left-radius: 25px;
   border-bottom: 2px solid rgb(64, 84, 110);
   border-left: 2px solid rgb(64, 84, 110);
-  right: -265px;
   top: 0;
   transition: 0.5s;
+  right: -100%;
 }
 
 .slide-out-right {
@@ -641,7 +651,7 @@ button {
     font-size: 20px;
   }
 
-  #landing .header-container {
-    width: 320px;
+  .big-nose {
+    height: 53px;
   }
 }
