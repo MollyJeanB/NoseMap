@@ -10,7 +10,7 @@ function getSmells(callback) {
   //if demo account, get data from sample data array
   if (isDemo) {
     displayMapData(MOCK_SMELLS.mySmells);
-    //if authenticated user, get all data from API
+    //if authenticated user, get all their data from API
   } else {
     const url = "/smells";
     $.getJSON(url, callback);
@@ -96,7 +96,7 @@ function postSmell(newSmellData) {
 function listenEdit(smellId) {
   document.getElementById("showform").disabled = true;
   if (isDemo) {
-    //if demo, find the correct smell object in the array call formRepop
+    //if demo, find the correct smell object in the array and pass to formRepop
     let currentSmell = findIndexArray(smellId);
     formRepop(currentSmell);
   } else {
@@ -108,7 +108,7 @@ function listenEdit(smellId) {
 function findIndexArray(someId) {
   return MOCK_SMELLS.mySmells.find(element => {
     //return object with id (parsed to integer)
-    return element.id === parseInt(someId);
+    return element.id == someId;
   });
 }
 
@@ -150,8 +150,10 @@ function formRepop(response) {
 //if demo, update data in array
 function updateDataInArray(updatedSmellData) {
   let dataId = updatedSmellData.id;
-  let dataIndex = findIndexArray(dataId);
-  dataIndex = updatedSmellData;
+  let dataPosition = parseInt(dataId) - 1;
+  let dataToUpdate = findIndexArray(dataId);
+  MOCK_SMELLS.mySmells.splice(dataPosition, 1, updatedSmellData);
+  console.log("data updated in array", dataToUpdate);
 }
 
 //update infowindow with updated smell data
@@ -187,6 +189,8 @@ class="delete-smell">Delete Smell</button>
 
 // listen for when user clicks "Delete Smell" and makes DELETE request
 function listenDelete(smellId) {
+  hideForm();
+  hideBullseye();
   if (isDemo) {
     //if demo, remove data object from array
     MOCK_SMELLS.mySmells.splice(parseInt(smellId) - 1, 1);

@@ -298,13 +298,11 @@ button {
   transition: 0.5s ease all;
 }
 
-/* the checked style using the :checked pseudo class */
 [type="radio"]:checked + span:before {
   background: rgba(243, 98, 66, 0.8);
   box-shadow: 0 0 0 0.2em #303030;
 }
 
-/* never forget focus styling */
 [type="radio"]:focus + span:after {
   content: "\0020\2190";
   font-size: 1em;
@@ -312,13 +310,13 @@ button {
   vertical-align: -0.125em;
 }
 
-/* landing.css */
+/******* landing.css *******/
 
 #landing h1 {
   font-family: "Francois One", sans-serif;
   color: #f3f3f4;
   text-shadow: 2px 2px rgba(64, 84, 110, 0.85);
-  font-size: 58px;
+  font-size: 55px;
   display: inline-block;
 }
 
@@ -332,19 +330,19 @@ button {
 
 #landing h2 {
   font-style: italic;
-  font-size: 20px;
+  font-size: 19px;
   color: #f3f3f4;
   margin-top: -25px;
 }
 
 .big-nose {
   display: inline-block;
-  height: 55px;
+  height: 53px;
   padding-top: 5px;
 }
 
 #landing .header-container {
-  width: 320px;
+  width: 310px;
   padding: 50px 5px 70px 5px;
   margin: 0 auto;
 }
@@ -366,6 +364,10 @@ button {
   right: -265px;
   top: 0;
   transition: 0.5s;
+}
+
+.login-form-contain:focus {
+  position: static;
 }
 
 .slide-out-right {
@@ -405,6 +407,10 @@ button {
   margin: 0 auto 0 auto;
   left: 0;
   right: 0;
+}
+
+.signup-form-contain:focus {
+  position: static;
 }
 
 .drop-in {

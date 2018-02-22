@@ -7,6 +7,8 @@ let map;
 //global variable for user's geolocated position (or hardcoded position for demo data)
 let myPosition;
 
+let prev_infowindow = false;
+
 //geolocate user's location via browser. If successful, call initSmellMap to initialize the map
 function initMap() {
   navigator.geolocation.getCurrentPosition(initSmellMap, error => {
@@ -70,7 +72,7 @@ class="edit-smell">Edit Smell</button>
 class="delete-smell">Delete Smell</button>
         </div>`;
 
-  const infowindow = new google.maps.InfoWindow({
+  let infowindow = new google.maps.InfoWindow({
     content: smellText
   });
   const markerImage = "/images/littlenose.png";
@@ -86,6 +88,10 @@ class="delete-smell">Delete Smell</button>
   marker.setMap(map);
 
   marker.addListener("click", function() {
+    if (prev_infowindow) {
+      prev_infowindow.close();
+    }
+    prev_infowindow = infowindow;
     infowindow.open(map, marker);
   });
 }

@@ -4,6 +4,7 @@
 //listen for when "Add New Smell" is clicked display form and location bullseye
 function listenShowNewSmell() {
   $(".show-new-smell-form").on("click", event => {
+    // infowindow.close();
     showForm();
     showBullseye();
     //reset smell form
