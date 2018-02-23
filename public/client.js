@@ -13,7 +13,7 @@ function listenMapStartDemo() {
 }
 
 function showMapOrLanding(loggedIn) {
-  //if not loggedIn, show landing oage
+  //if not loggedIn, show landing page
   if (!loggedIn) {
     $("#landing").removeClass("hidden");
     $("#main-content").addClass("hidden");

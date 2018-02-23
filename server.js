@@ -56,7 +56,7 @@ app.use("*", function(req, res) {
 
 let server;
 
-// connect to database, then starts the server
+// connect to database, then start the server
 function runServer(databaseUrl, port = PORT) {
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
