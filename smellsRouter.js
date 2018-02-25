@@ -81,12 +81,6 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
-  Smell.findByIdAndRemove(req.params.id).then(() => {
-    res.status(204).end();
-  });
-});
-
 //update data
 router.put("/:id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
