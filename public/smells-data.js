@@ -107,7 +107,7 @@ function listenEdit(smellId) {
 
 function findIndexArray(someId) {
   return MOCK_SMELLS.mySmells.find(element => {
-    //return object with id (parsed to integer)
+    //return object with that id
     return element.id == someId;
   });
 }
