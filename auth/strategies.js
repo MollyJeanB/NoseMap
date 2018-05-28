@@ -8,7 +8,6 @@ const { User } = require("../users/models");
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
   let user;
-  console.log(arguments);
   User.findOne({ username: username })
     .then(_user => {
       user = _user;
